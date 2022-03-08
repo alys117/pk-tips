@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+ 
+	<head>
+		<meta charset="utf-8" />
+		<title>11</title>
+		<style type="text/css">
+			body {
+				margin: 0;
+				padding: 0;
+				transform-origin: 0px 0px 0px;
+				background: red;
+				/*height: 1600px;*/
+			}
+			#App1 {
+				position: absolute;
+				transform: scale(0.4);
+				transform-origin: 0 0;
+			}
+		</style>
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.js"></script>
+	</head>
+ 
+	<body>
+		<!-- <div class="App"> -->
+		<iframe id="App1" src="http://localhost:8075/webroot/decision/view/form?viewlet=screen9.frm" frameborder="0" width="3840px" height="2160px"></iframe>
+		<!-- </div> -->
+	</body>
+	<script type="text/javascript">
+		// 一开始加载就适应屏幕的宽高
+		$(function() {
+			//offsetWidth： 获取body元素对象的宽度，即offsetWidth=width+padding+border availWidth：返回当前屏幕宽度
+			var scale = document.body.clientWidth / window.screen.availWidth;
+			$(document.body).css("-webkit-transform", "scale(" + scale + ")");
+		});
+		$(window).resize(function() {
+			var scale = document.body.clientWidth / window.screen.availWidth;
+			$(document.body).css("-webkit-transform", "scale(" + scale + ")");
+		});
+	</script>
+ 
+</html>
