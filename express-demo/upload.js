@@ -1,65 +1,59 @@
-const path = require('path')
-const express = require('express')
-const app = express()
-const bodyParser = require('body-parser')
-app.use(bodyParser.urlencoded({ extended: false }));
+var express = require('express')
+var path = require('path')
+var app = express()
+var bodyParser = require('body-parser')
+var fs = require('fs')
+var multer = require('multer')
+var upload = multer({ dest: path.join(__dirname, 'tmp/uploads') });
+// 创建 application/x-www-form-urlencoded 编码解析
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
 app.use(bodyParser.json());
-// app.use(bodyParser.json({
-//   verify: function (req, res, buf, encoding) {
-//       req.rawBody = buf;
-//   }
-// }));
-app.use(bodyParser.text());
 app.use(express.static(path.join(__dirname, 'public')))
-// express接收form-data，主要是用来文件上传
-const multer =require('multer')
 
-const upload = multer({dest:__dirname+'/static/upload'}) // 设置上传的目录文件夹
-const cpUpload = upload.fields([{ name: 'avatar', maxCount: 2 }, { name: 'gallery', maxCount: 8 }])
-app.use(cpUpload)
+app.post('/file_upload', upload.single('myfile'), function (req, res) {
+  let file = req.file;
+  console.log(file.originalname,file.filename)
+  console.log(req.body.username)
+  // fieldname: 上传文件标签在表单中的name
+  let filename = path.join(__dirname, 'tmp/uploads/') + file.filename;
+  // 判断上传的图片格式
+  // mimetype：该文件的Mime type
+  if (file.mimetype == "image/jpeg") {
+      filename += ".jpg";
+  }
+  if (file.mimetype == "image/png") {
+      filename += ".png";
+  }
+  if (file.mimetype == "image/gif") {
+      filename += ".gif";
+  }
+  fs.renameSync(file.path, filename);
+  console.log(req.file);
+  // 响应
+  res.json("上传成功");
+})
+// curl -X POST -d "aaa=bbb" "http://localhost:8081/process_post/aa/77?first_name=ke&last_name=pan"
 
-// var storage = multer.diskStorage({
-//   // 文件存储的位置
-//   destination: function (req, file, cb) {
-//     cb(null, __dirname+'/static/upload');
-//   },
-//   // 文件重命名
-//   filename: function (req, file, cb) {
-//     console.log(file)
-//     let timeStamp = new Date().getTime()
-//     cb(null, timeStamp + '.' + file.originalname.split(".")[1]);
-//   }
-// })
-// var upload = multer({ storage: storage })
-// app.use(upload.any())
+app.post('/process_post/:subflag1/:subflag2', urlencodedParser, function (req, res) {
+  // 输出 JSON 格式
+  res.writeHead(200,{'Content-Type':'application/json;charset=utf-8'});//设置response编码为utf-8
+  var response = {
+    a:'hello',
+    ...req.body,
+    first_name: req.body.first_name,
+    last_name: req.body.last_name
+  }
+  console.log('req.body',req.body);
+  console.log('req.params',req.params);
+  console.log('req.query',req.query);
 
-
-// curl -X POST -d "bodydatakey=bodydatavalue" "http://localhost:8083/process_post/aa/77?first_name=ke&last_name=pan"
-app.post('/process_post/:subflag1/:subflag2', function (req, res) {
-  console.log(req.files);  // 上传的文件信息
-  console.log(req.body);
-  console.log('----------');
-  console.log(req.params);
-  console.log('----------');
-  console.log(req.query);
-  // console.log('****',req.chunk);
-  res.end("haha")
+  res.end(JSON.stringify(response))
 })
 
-app.post('/form-data/:ddd',function (req, res) {
-  console.log(req.files);  // 上传的文件信息
-  console.log(req.body);
-  console.log('----------');
-  console.log(req.params);
-  console.log('----------');
-  console.log(req.query);
 
-  res.end("form-data")
-})
+var server = app.listen(8081, function () {
+  var host = server.address().address
+  var port = server.address().port
 
-const server = app.listen(8083, function () {
-  const host = server.address().address
-  const port = server.address().port
-  
-  console.log("应用实例，访问地址为 http://%s:%s", host, port)
+  console.log('应用实例，访问地址为 http://%s:%s', host, port)
 })

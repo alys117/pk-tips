@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>hangge.com</title>
+  <!--支持es6新语法-->
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <!-- babel@7 不知道为什么报错  SCRIPT1055: const 赋值 babel.min.js (1,929347) -->
+  <!-- <script src="../node_modules/@babel/standalone/babel.min.js"></script>  -->
+  <!--支持es6新api-->
+  <script src="../node_modules/@babel/polyfill/dist/polyfill.min.js"></script>
+  <script type="text/babel">
+    var arrayLike = {
+      '0': 1,
+      '1': 2,
+      '2': 3,
+      length: 3
+    };
+    // Array.from为ES6新添加的方法
+    var arr2 = Array.from(arrayLike, x => x + x);
+    console.log(arr2); // [2, 4, 6]
+
+    var a = [1, 34, 56]
+    var b = a.find(i=>  i === 1)
+    console.log(b, 'find');
+
+  </script>
+  <script>
+    Promise.resolve(23333).then(function (res) {
+      console.log(res);
+    })
+  </script>
+</head>
+
+<body>
+</body>
+
+</html>
