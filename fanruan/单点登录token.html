@@ -11,7 +11,8 @@
             //    "baseUri": "/proxy",
             //    "proxyUri": "http://192.168.0.105:9080/"
             // },
-            var url = "/proxy/webroot/widgets/jsp/sso/sso.jsp?user=Alice";
+            // var url = "/proxy/webroot/widgets/jsp/sso/sso.jsp?user=Alice";
+            var url = "http://192.168.0.105:9080/webroot/widgets/jsp/sso/sso.jsp?user=Alice";// 该地址已经做好跨域
             $.ajax({
                 url: url,//单点登录的管理平台报表服务器
                 timeout: 5000,//超时时间（单位：毫秒）
@@ -26,7 +27,7 @@
             });
         }
         function Login(Thirdtoken) {
-            var url = "/proxy/webroot/decision/third/auth/cross/login";
+            var url = "http://192.168.0.105:9080/webroot/decision/third/auth/cross/login";
             console.log('thirdtoken', Thirdtoken);
             $.ajax({
                 url: url,
@@ -37,7 +38,7 @@
                     if (res.errorCode) {
                         window.alert(res.errorMsg);
                     } else {
-                      iframe1.src = "http://192.168.0.105:9080/webroot/decision/view/report?viewlet=GettingStarted.cpt"
+                      $('#iframe1').attr("src","http://192.168.0.105:9080/webroot/decision/view/report?viewlet=GettingStarted.cpt");  
                     }
                 },
                 error: function () {
