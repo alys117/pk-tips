@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
+
+<body>
+  <button onclick="post()">father button</button>
+  <button onclick="post2('haha')">father button2</button>
+  <div>
+    <iframe id="ifm" src="http://192.168.0.105:9080/webroot/son.html" frameborder="0"></iframe>
+  </div>
+
+  <div>
+    <iframe id="ifm2" src="ie8.evetlistener.html" frameborder="0"></iframe>
+  </div>
+  <script>
+    if (window.addEventListener) {
+      window.addEventListener('message', function (e) {
+        if (e.data && e.data.type === 'get') {
+          if (!window.expired) {
+            console.log('第一次访问fr')
+            post({ expired: new Date().getTime() - 999999 })
+          } else {
+            console.log('返回window.expired')
+            post({ expired: window.expired })
+          }
+        } else if (e.data && e.data.type === 'set') {
+          window.expired = e.data.expired
+        }
+      })
+    } else {
+      window.attachEvent('onmessage', function (e) {
+        console.log('why',e.data);
+        console.log(/^abc/.test('11abc1111'))
+        console.log('abc123456'.substring(3,'abc123456'.length))
+        if (e.data && e.data.type === 'get') {
+          if (!window.expired) {
+            console.log('第一次访问fr')
+            post({ expired: new Date().getTime() - 999999 })
+          } else {
+            console.log('返回window.expired')
+            post({ expired: window.expired })
+          }
+        } else if (e.data && e.data.type === 'set') {
+          window.expired = e.data.expired
+        }
+      })
+    }
+    function post(params) {
+      document.getElementById('ifm').contentWindow.postMessage(params, '*')
+    }
+    function post2(params) {
+      document.getElementById('ifm2').contentWindow.postMessage(params, '*')
+    }
+  </script>
+</body>
+
+</html>

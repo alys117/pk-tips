@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>无标题文档</title>
+  </head>
+  <body>
+    <div>
+      　　　
+      <p id="pid">Click Me</p>
+    </div>
+    <script>
+      var theP; //P标签对象
+      var show = function (msg) {
+        //直接定义 function show(msg) 效果是一样的
+        return function () {
+          alert(msg + ' from show()')
+
+          if (window.addEventListener) {
+            //FF etc.
+            theP.removeEventListener('click', theP.show11, false)
+          } else {
+            //IE
+            theP.detachEvent('onclick', theP.show11)
+          }
+        }
+      }
+
+      var show2 = function (msg) {
+        //直接定义 function show2(msg) 效果是一样的
+        return function () {
+          alert(msg + ' from show2()')
+        }
+      }
+      function showDef() {
+        alert('showDef()')
+        if (window.addEventListener) {
+          //FF etc.
+          theP.removeEventListener('click', showDef, false)
+        } else {
+          //IE
+          theP.detachEvent('onclick', showDef)
+        }
+      }
+      (function () {
+        theP = document.getElementById('pid')
+        console.log('theP',theP);
+        
+        theP.show11 = show('可以detach的带参数方法')
+        if (window.addEventListener) {
+          // not IE
+          //for FF.etc
+          theP.addEventListener('click', theP.show11, false)
+          theP.addEventListener('click', showDef, false)
+          window.addEventListener('message', function (e) {
+            console.log('e',e);
+          })
+        } else {
+          //for IE
+          theP.attachEvent('onclick', theP.show11)
+          theP.attachEvent('onclick', show2('不能detach的带参数方法')) //区别于上一个，这里不能detach
+          theP.attachEvent('onclick', showDef) //无参数的方法直接写
+          window.attachEvent('onmessage', function (e) {
+            console.log('e',e);
+          })
+        }
+      })()
+    </script>
+  </body>
+</html>

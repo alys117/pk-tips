@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head lang="en">
+    <meta charset="UTF-8" />
+    <title>FR Protocol Detection</title>
+  </head>
+  <body>
+    <h1>点击启动帆软设计器:</h1>
+    <div href="fanruan://http://192.168.0.105:9080/webroot/decision?admin?1">
+      fanruan协议
+    </div>
+    <!-- 用账号admin密码admin的用户验证登录信息 -->
+    <!-- <div href="fanruan://http://ip:port/webroot/decision?GWToken?"+third_token>fanruan协议</div> -->
+    <!-- 用第三方单点登录插件中生成的第三方token打开验证登录信息 -->
+    <!-- 引入下jquery和protocolcheck, protocolcheck是个git项目用来校验本地自定义协议是否存在-->
+    <script src="scripts/jquery-1.11.2.min.js"></script>
+    <script src="scripts/protocolcheck.js"></script>
+    <script type="text/javascript">
+      function getDownloadUrl() {
+        var agent = navigator.userAgent.toLowerCase()
+        if (
+          agent.indexOf('win64') >= 0 ||
+          agent.indexOf('wow64') >= 0 ||
+          agent.indexOf('x64') >= 0
+        ) {
+          return 'http://192.168.0.105:9080/download/windows_x64_FineReport-CN.exe' //改为64位设计器下载地址
+        }
+        return 'http://192.168.0.105:9080/download/windows_x86_FineReport-CN.exe' //改为32位设计器下载地址
+      }
+      $(function () {
+        $('div[href]').click(function (event) {
+          window.protocolCheck($(this).attr('href'), function () {
+            window.open(getDownloadUrl())
+          })
+          event.preventDefault
+            ? event.preventDefault()
+            : (event.returnValue = false)
+        })
+      })
+    </script>
+  </body>
+</html>

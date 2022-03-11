@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=10" />
+    <script type="text/javascript">
+      function doSubmit() {
+        var username = document.getElementById('username').value //获取输入的用户名
+        var password = document.getElementById('password').value //获取输入的参数
+        var scr = document.createElement('iframe') //创建iframe
+        scr.src =
+          'http://192.168.0.113:8075/webroot/decision/login/cross/domain?fine_username=' +
+          encodeURIComponent(username) +
+          '&fine_password=' +
+          encodeURIComponent(password) +
+          '&validity=' +
+          -1 +
+          '&callback=callback' //将报表验证用户名密码的地址指向此iframe
+        if (scr.attachEvent) {
+          //判断是否为ie浏览器
+          scr.attachEvent('onload', function () {
+            //如果为ie浏览器则页面加载完成后立即执行
+            window.location = 'http://192.168.0.113:8075/webroot/decision/view/report?viewlet=GettingStarted.cpt' //直接跳转到数据决策系统
+          })
+        } else {
+          scr.onload = function () {
+            //其他浏览器则重新加载onload事件
+            /*跳转到指定登录成功页面,index.jsp  
+                    var f = document.getElementById("login");  
+                    f.submit();  */
+            window.location = 'http://192.168.0.113:8075/webroot/decision/view/report?viewlet=GettingStarted.cpt' //直接跳转到数据决策系统
+          }
+        }
+
+        document.getElementsByTagName('head')[0].appendChild(scr) //将iframe标签嵌入到head中
+      }
+    </script>
+  </head>
+  <body>
+    <p>请登录</p>
+    <form id="login" name="login" method="POST" action="">
+      <p>用户名:<input id="username" type="text" name="username" /></p>
+      <p>密 码:<input id="password" type="password" name="password" /></p>
+      <input type="button" value="登录" onClick="doSubmit()" />
+    </form>
+  </body>
+</html>

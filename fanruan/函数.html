@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .com-sel {
+      line-height: 5rem;
+      cursor: pointer;
+      /*鼠标上移变成小手*/
+    }
+
+    .com-opt {
+      padding-right: 1.8rem;
+      color: #afbac0;
+      font-size: 1.6rem;
+      border: none;
+      outline: none;
+      /*去掉默认的下拉三角*/
+      appearance: none;
+      -moz-appearance: none;
+      -webkit-appearance: none;
+      /*添加下拉三角图标*/
+      background: url("./向下箭头.png") no-repeat right center transparent;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="com-sel">
+    <select class="com-opt">
+      <option value="">食宿</option>
+      <option value="">包吃住</option>
+      <option value="">包吃</option>
+      <option value="">包住</option>
+    </select>
+  </div>
+
+  <script>
+    var tool = {
+      name: 'aaa',
+      myfun(p1, p2) {
+        return p1 + p2
+      }
+    }
+    var myfun1 = tool.myfun
+    tool.myfun = function (p1, p2) {
+      var rs = myfun1.apply(tool, Array.prototype.slice.call(arguments));
+      console.log(p1 * p2, rs)
+      return p1 * p2
+    }
+
+    tool.myfun(2, 3)
+  </script>
+</body>
+
+</html>

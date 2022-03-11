@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .dot {
+      /* background-color: lightgray; */
+      padding: 0 5px;
+    }
+
+    .ui-state-disabled::after {
+      content: '';
+      background: #f00;
+      width: 0.7rem;
+      height: 0.7rem;
+      border-radius: 50%;
+      position: relative;
+      display: inline-block;
+    }
+
+    .uu {
+      background: #f00;
+      width: 0.65rem;
+      height: 0.65rem;
+      border-radius: 50%;
+      top: 0.35rem;
+      position: relative;
+      display: inline-block;
+    }
+  </style>
+</head>
+
+<body>
+  <div style="display: flex;">
+    <div class="dot ui-state-disabled"></div>
+    <div class="dot">电费：20元</div>
+  </div>
+  <div style="display: flex;">
+    <div class="dot ui-state-disabled"></div>
+    <div class="dot">电费：20元</div>
+  </div>
+
+  <div style="display: flex;">
+    <div
+      style="background:darkslateblue;width: 0.65rem;height: 0.65rem;border-radius: 50%;top: 0.35rem;position: relative;display: inline-block;">
+    </div>
+    <div style="padding: 0 5px;">电费：20元</div>
+  </div>
+  <div style="display: flex;">
+    <div
+      style="background:darkseagreen;width: 0.65rem;height: 0.65rem;border-radius: 50%;top: 0.35rem;position: relative;display: inline-block;">
+    </div>
+    <div style="padding: 0 5px;">电费：20元</div>
+  </div>
+  <script>
+    function aaa() {
+      return '<div style="display: flex;">'+
+        '<div style="background: #f00;width: 0.65rem;height: 0.65rem;border-radius: 50%;top: 0.35rem;position: relative;display: inline-block;"></div>'+
+        '<div style="padding: 0 5px;">电费：20元</div></div>'+
+        '<div style="display: flex;">'+
+        '<div style="background: #f00;width: 0.65rem;height: 0.65rem;border-radius: 50%;top: 0.35rem;display: inline-block;"></div>'+
+        '<div style="padding: 0 5px;">电费：20元</div></div>'
+    }
+  </script>
+</body>
+
+</html>
