@@ -2,9 +2,11 @@
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
     "@babel/standalone": "^7.17.6",
+    "async": "^3.2.3",
     "body-parser": "^1.19.2",
     "cors": "^2.8.5",
     "express": "^4.17.3",
+    "moment": "^2.29.1",
     "multer": "^1.4.4"
   }
 }
