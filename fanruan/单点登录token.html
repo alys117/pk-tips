@@ -12,14 +12,15 @@
             //    "proxyUri": "http://192.168.0.105:9080/"
             // },
             // var url = "/proxy/webroot/widgets/jsp/sso/sso.jsp?user=Alice";
-            var url = "http://192.168.0.105:9080/webroot/widgets/jsp/sso/sso.jsp?user=Alice";// 该地址已经做好跨域
+            var url = "http://192.168.0.105:9080/webroot/widgets/jsp/sso/sso.jsp?user=Alice&_"+new Date().getTime();// 该地址已经做好跨域
             $.ajax({
                 url: url,//单点登录的管理平台报表服务器
                 timeout: 5000,//超时时间（单位：毫秒）
+                dataType:'json',
                 //s                jsonp:"callback",
                 success: function (res) {
-                    var token = JSON.parse(res.replace(/^\s+|\s+$/g,'')).token;
-                    Login(token);
+                    // var rs = JSON.parse(res.replace(/^\s+|\s+$/g,''));
+                    Login(res.token);
                 },
                 error: function () {
                     alert("超时或服务器其他错误");// 登录失败（超时或服务器其他错误）
@@ -41,15 +42,21 @@
                       $('#iframe1').attr("src","http://192.168.0.105:9080/webroot/decision/view/report?viewlet=GettingStarted.cpt");  
                     }
                 },
-                error: function () {
-                    alert("超时或服务器其他错误");// 登录失败（超时或服务器其他错误）
+                error: function (err) {
+                    alert(err);// 登录失败（超时或服务器其他错误）
                 }
             });
         }
         getThirdToken();
+        function openIfm2(){
+          $('#iframe2').attr("src","http://192.168.0.105:9080/webroot/decision/view/report?viewlet=GettingStarted.cpt");
+        }
     </script>
 </head>
 <body style="margin: 0;padding: 0;">  
-    <iframe id="iframe1" width="100%" height="800" frameborder="no" border="0" marginwidth="0" marginheight="0"></iframe>
+    <button onclick="openIfm2()">iframe2</button>
+    <iframe id="iframe1" width="100%" height="400" frameborder="no" border="0" marginwidth="0" marginheight="0"></iframe>
+    <iframe id="iframe2" width="100%" height="400" frameborder="no" border="0" marginwidth="0" marginheight="0"></iframe>
+
 </body>
 </html>
