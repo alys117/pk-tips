@@ -10,5 +10,23 @@
     "moment": "^2.29.1",
     "multer": "^1.4.4",
     "node-jsencrypt": "^1.0.0"
-  }
+  },
+  "name": "pk-tips",
+  "description": "学习小结",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alys117/pk-tips.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alys117/pk-tips/issues"
+  },
+  "homepage": "https://github.com/alys117/pk-tips#readme"
 }
