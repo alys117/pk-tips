@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .container {
+      border: 1px solid;
+      width: 25%;
+      margin: 0px auto;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    table tr td {
+      border: 1px solid red;
+    }
+
+    table tr td:first-child {
+      width: 20%;
+    }
+
+    table tr td:nth-child(2) {
+      width: 20%;
+    }
+
+    table tr td:last-child {
+      width: 60%;
+      /*为防止最右侧列内容被滚动条遮挡，设置最右侧列的padding为滚动条宽度*/
+      padding-right: 17px;
+    }
+
+    .table-body {
+      height: 100px;
+      /* 这里只是为了留意table-body宽度的变化 */
+      border-bottom: 1px solid blue;
+      overflow: hidden;
+    }
+
+    .table-body:hover {
+      overflow-y: auto;
+    }
+
+    .table-body:hover {
+      /* 关键样式：在鼠标移入时，通过margin-left在table-body上增加滚动条的宽度
+	特别注意：这里table-body不能明确定义width，定义里话只是左移，不是增加宽度，需要设置width为clac(100% + 17px) */
+      margin-left: -17px;
+    }
+
+    .table-body:hover table {
+      /* 相应地，table右移，使table归位 */
+      margin-left: 17px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="table-header">
+      <table>
+        <tr>
+          <td>表头1</td>
+          <td>表头2</td>
+          <td>表头3</td>
+        </tr>
+      </table>
+    </div>
+    <div class="table-body">
+      <table>
+        <tr>
+          <td>内容11</td>
+          <td>内容12</td>
+          <td>内容13 - Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita quaerat quidem mollitia dolore
+            autem, praesentium necessitatibus commodi modi, quis sapiente voluptatum sunt tempora magnam rem veniam a
+            obcaecati illum cum.</td>
+        </tr>
+        <tr>
+          <td>内容21</td>
+          <td>内容22</td>
+          <td>内容23</td>
+        </tr>
+        <tr>
+          <td>内容31</td>
+          <td>内容32</td>
+          <td>内容33</td>
+        </tr>
+        <tr>
+          <td>内容41</td>
+          <td>内容42</td>
+          <td>内容43</td>
+        </tr>
+        <tr>
+          <td>内容51</td>
+          <td>内容52</td>
+          <td>内容53</td>
+        </tr>
+        <tr>
+          <td>内容61</td>
+          <td>内容62</td>
+          <td>内容63</td>
+        </tr>
+        <tr>
+          <td>内容71</td>
+          <td>内容72</td>
+          <td>内容73</td>
+        </tr>
+        <tr>
+          <td>内容81</td>
+          <td>内容82</td>
+          <td>内容83</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+</body>
+
+</html>
