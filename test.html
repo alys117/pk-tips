@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    .side{
+      position: fixed;
+      height: 100vh;
+      width: 100px;
+      background-color: blueviolet;
+    }
+    .main{
+      height: 100vh;
+      background-color: aliceblue;
+      margin-left: 100px;
+      width: calc(100vw - 100px);
+      overflow: auto;
+    }
+    .head{
+      height: 84px;
+      background-color: bisque;
+      text-align: right;
+    }
+    .body{
+      background-color: yellow;
+      height: calc(100vh - 84px);
+      overflow: auto;
+    }
+    .page1{
+      background-color: gray;
+      height: 1080px;
+      width: 1920px;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    <div class="side"></div>
+    <div class="main">
+      <div class="head">123</div>
+      <div class="body">
+        <div class="page1">
+          12322222222222222
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
