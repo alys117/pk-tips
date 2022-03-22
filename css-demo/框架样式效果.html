@@ -29,15 +29,32 @@
       background-color: bisque;
       text-align: right;
     }
+    /* 下面注释的四个选项，组合起来使用有不同效果，尝试下哪种效果符合要求，以下配置可固定头部，效果不错
+        .body{
+          background-color: yellow;
+          min-height: calc(100vh - 84px); 
+          overflow: auto;
+          position: relative;
+        }
+        .page1{
+          background-color: gray;
+          height: 900px;
+          width: 1600px;
+          position: absolute;
+        }
+    */
     .body{
       background-color: yellow;
-      height: calc(100vh - 84px);
+      /* height: calc(100vh - 84px); */
+      /* min-height: calc(100vh - 84px); */
       overflow: auto;
+      /* position: relative; */
     }
     .page1{
       background-color: gray;
-      height: 1080px;
-      width: 1920px;
+      height: 900px;
+      width: 1600px;
+      /* position: absolute; */
     }
   </style>
 </head>
@@ -46,10 +63,10 @@
   <div>
     <div class="side"></div>
     <div class="main">
-      <div class="head">123</div>
+      <div class="head">头部</div>
       <div class="body">
         <div class="page1">
-          12322222222222222
+          内容区域
         </div>
       </div>
     </div>
