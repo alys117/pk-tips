@@ -1,3 +1,6 @@
+/* 
+教程  https://www.cnblogs.com/maomingchao/p/9324090.html
+*/
 var oracledb = require('oracledb');
 let Ut = require("./Delay");
 var config = {
