@@ -34,19 +34,19 @@ async.auto({
     },
     makeFolder: function (callback) {
         setTimeout(function(){
-            console.log('1.1: made folder');
+            console.log('1.1: made folder', callback);
             callback(null, 'myfolder');
         }, 200);
     },
-    writeFile: ['getData', 'makeFolder', function(callback) {
+    writeFile: ['getData', 'makeFolder', function(results,callback) {
         setTimeout(function(){
-            console.log('1.1: wrote file');
+            console.log('1.1: wrote file',results);
             callback(null, 'myfile');
         }, 300);
     }],
-    emailFiles: ['writeFile', function(callback, results) {
-        log('1.1: emailed file: ', results.writeFile);
-        callback(null, results.writeFile);
+    emailFiles: ['writeFile', function(results,callback) {
+        log('1.1: emailed file: ', results);
+        callback(null, 'myEmail');
     }]
 }, function(err, results) {
     log('1.1: err: ', err);
@@ -60,7 +60,7 @@ async.auto({
 //20.127> 1.1: results: { makeFolder: 'myfolder',
 //    getData: 'mydata',
 //    writeFile: 'myfile',
-//    emailFiles: 'myfile' }
+//    emailFiles: 'myEmail' }
 
 
 

@@ -9,7 +9,7 @@
   <script src="https://unpkg.com/vue@2"></script>
   <script src="https://unpkg.com/vue-router@3"></script>
   <style>
-    p a{
+    p a {
       margin-right: 15px;
     }
   </style>
@@ -17,6 +17,9 @@
 
 <body>
   <div id="app">
+    {{count}}
+    <button @click="addR()">添加路由</button>
+    <button @click="checkR()">查看路由</button>
     <h1>Hello App!</h1>
     <p>
       <!--使用 router-link 组件进行导航 -->
@@ -31,58 +34,80 @@
     <!-- 路由出口 -->
     <!-- 路由匹配到的组件将渲染在这里 -->
     <router-view></router-view>
+    <div>
+      <iframe :src="url" frameborder="0" width="100%" style="height: calc(100vh - 600px);"></iframe>
+    </div>
   </div>
 </body>
 <script>
   // 1. 定义路由组件.
-// 也可以从其他文件导入
-const Home = { template: '<div>Home</div>' }
-const About = { template: '<div>About</div>' }
-const User = {
-  template: `<div>User:{{ $route.params.id }}</div>`,
-  created() {
-    this.$watch(
-      () => this.$route.params,
-      (toParams, previousParams) => {
-        // 对路由变化做出响应...
-        console.log(toParams, previousParams);
+  // 也可以从其他文件导入
+  const Home = { template: '<div>Home</div>' }
+  const About = { template: '<div>About</div>' }
+  const User = {
+    template: `<div>User:{{ $route.params.id }}</div>`,
+    created () {
+      this.$watch(
+        () => this.$route.params,
+        (toParams, previousParams) => {
+          // 对路由变化做出响应...
+          console.log(toParams, previousParams);
+        }
+      )
+    },
+  }
+  // 2. 定义一些路由
+  // 每个路由都需要映射到一个组件。
+  // 我们后面再讨论嵌套路由。
+  const routes = [
+    { path: '/', component: Home },
+    { path: '/about', component: About },
+    { path: '/user/:id', component: User }
+  ]
+
+
+  // 3. 创建 router 实例，然后传 `routes` 配置
+  // 你还可以传别的配置参数, 不过先这么简单着吧。
+  const router = new VueRouter({
+    routes // (缩写) 相当于 routes: routes
+  })
+  console.log(router);
+  console.log(router.getRoutes());
+
+  // 4. 创建和挂载根实例。
+  // 记得要通过 router 配置参数注入路由，
+  // 从而让整个应用都有路由功能
+  const app = new Vue({
+    data() {
+      return {
+        count: 10,
+        // url: 'http://192.168.0.249/post.html'
+        url: 'http://192.168.0.249/location.html'
+        // url: 'hashchange.html'
       }
-    )
-  },
-}
-// 2. 定义一些路由
-// 每个路由都需要映射到一个组件。
-// 我们后面再讨论嵌套路由。
-const routes = [
-  { path: '/', component: Home },
-  { path: '/about', component: About },
-  { path: '/user/:id', component: User }
-]
-
-
-// 3. 创建 router 实例，然后传 `routes` 配置
-// 你还可以传别的配置参数, 不过先这么简单着吧。
-const router = new VueRouter({
-  routes // (缩写) 相当于 routes: routes
-})
-console.log(router);
-console.log(router.matcher.getRoutes());
-
-// 4. 创建和挂载根实例。
-// 记得要通过 router 配置参数注入路由，
-// 从而让整个应用都有路由功能
-const app = new Vue({
-  router
-}).$mount('#app')
-
-const Dynamic = { template: '<div>Dynamic</div>' }
-const dynamicRoutes = [
-  { path: '/dynamic', component: Dynamic }
-]
-router.addRoutes(dynamicRoutes)
-
-console.log(router);
-console.log(router.matcher.getRoutes());
-// 现在，应用已经启动了！
+    },
+    mounted(){
+      window.addEventListener('message',e=>{
+        console.log('iframe传参：',e.data);
+      })
+    },
+    methods: {
+      addR () {
+        const Dynamic = { template: '<div>Dynamic</div>' }
+        const dynamicRoutes = [
+          { path: '/dynamic', component: Dynamic }
+        ]
+        // this.$router.addRoutes(dynamicRoutes)
+        this.$router.addRoute(...dynamicRoutes)
+      },
+      checkR () {
+        console.log(this.$router.getRoutes())
+      }
+    },
+    router
+  }).$mount('#app')
+  // 现在，应用已经启动了！
+  console.log(location.port);
 </script>
+
 </html>
