@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    var gProp = 'global property';
+
+    //普通函数
+    function ordinary () {
+      return 'ordinary Function!!!';
+    };
+    console.dir(ordinary);
+
+    //闭包
+    function closure_Fn () {
+      let num = 1;
+      return function () {
+        return ++num;
+      }
+    }
+    var add = closure_Fn();
+    console.dir(add);
+    console.log(add());//2
+    console.log(add());//3
+
+    /*   闭包的特点：
+    1、这个是用var 声明的变量->  Closuure
+    [[Scopes]]: Scopes[2]
+      0: Closure (createFunc) {i: 10}
+      1: Global {window: Window, self: Window, document: document, name: '', location: Location, …}
+  
+    2、这个是用let 声明的变量->  Block
+    [[Scopes]]: Scopes[2]
+      0: Block {i: 8}
+      1: Global {window: Window, self: Window, document: document, name: '', location: Location, …}  
+    */
+    function createFunc () {
+      const result = []
+      for (var i = 0; i < 10; i++) {
+        result[i] = function () { return i }
+      }
+      return result
+    }
+
+    function createFunc2 () {
+      const result = []
+      for (let i = 0; i < 10; i++) {
+        result[i] = function () { return i }
+      }
+      return result
+    }
+    console.log(createFunc(), createFunc2())
+  </script>
+</body>
+
+</html>

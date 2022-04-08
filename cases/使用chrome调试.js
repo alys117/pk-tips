@@ -50,3 +50,38 @@ function f(arr, selectedKey) {
 }
 console.log(f(treeData, '1-2'))
 console.log('end')
+
+/* 
+判断是否为闰年 
+ */
+function isLeapYear(year) {
+  return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0
+} 
+/* 
+判断邮箱地址
+ */
+function isEmail(email) { 
+  let reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/
+  return reg.test(email)
+}
+/* 
+计算阶乘 
+显示caller和callee
+*/
+function factorial(n) {   // 阶乘
+  if (n === 1) {
+    return 1
+  }
+  console.log(factorial.caller);
+  return n * arguments.callee(n - 1)
+}
+function caller(params) {
+  factorial(6)
+}
+caller()
+
+const {nanoid} = require('nanoid')
+console.log(nanoid());
+console.log(nanoid());
+console.log(nanoid());
+console.log(nanoid());

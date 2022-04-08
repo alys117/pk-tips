@@ -19,3 +19,12 @@ function infiniteLoop(): never {
   while (true) {
   }
 }
+
+type Maplish = {
+  [index: string]: number
+}
+type M = keyof Maplish
+const m:M = 1
+const m2:M = "sdfd"
+const m3: Maplish = {1:1036}
+console.log(m3[1]);

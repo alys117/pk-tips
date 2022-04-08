@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    function outer () {
+      var a = 1
+
+      function inner () {
+        var b = 2
+
+        return function innermost () {
+          console.log(a, b)
+        }
+      }
+
+      return inner()
+    }
+
+    var innermost = outer()
+    innermost() // 此时输出的值是1 2
+    console.dir(innermost) // 此时输出的值是innermost函数
+    console.log(innermost) // 此时输出的值是innermost函数
+  </script>
+  </script>
+</body>
+
+</html>
