@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="btn1" data-attr="1">按钮1</button>
+    <button id="btn2" data-attr="2">按钮2</button>
+    <script type="module">
+      console.log(document.querySelectorAll('button'))
+      console.log(document.getElementsByTagName('button'))
+      document.querySelectorAll('button').forEach((element) => {
+        element.addEventListener('click', function (e) {
+          // console.log(e.target.getAttribute("data-attr"))
+          // console.log(e.target.dataset.attr)
+          let num = e.target.dataset.attr
+          if (num == 1) {
+            import('./module1.js').then((res) => {
+              res.myobj.myfunc()
+              res.default.b()
+            })
+          } else {
+            console.log('nothing')
+          }
+        })
+      })
+    </script>
+  </body>
+</html>

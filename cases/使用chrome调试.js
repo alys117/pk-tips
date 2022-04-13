@@ -1,4 +1,4 @@
-/* 
+/*
 启动时在 node 后面加上 --inspect-brk  标志，Node.js 将监听调试客户端，默认情况下监听在 127.0.0.1:9229 地址，
 也可以显示指定地址 --inspect-brk=_host:port_
 注意 node --inspect 与 node --inspect-brk 的区别：--inspect 不会终断，--inspect-brk 在用户代码启动之前会终断，也就是代码在第一行就会暂停执行。
@@ -51,21 +51,21 @@ function f(arr, selectedKey) {
 console.log(f(treeData, '1-2'))
 console.log('end')
 
-/* 
-判断是否为闰年 
+/*
+判断是否为闰年
  */
 function isLeapYear(year) {
   return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0
-} 
-/* 
+}
+/*
 判断邮箱地址
  */
-function isEmail(email) { 
+function isEmail(email) {
   let reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/
   return reg.test(email)
 }
-/* 
-计算阶乘 
+/*
+计算阶乘
 显示caller和callee
 */
 function factorial(n) {   // 阶乘
@@ -85,3 +85,5 @@ console.log(nanoid());
 console.log(nanoid());
 console.log(nanoid());
 console.log(nanoid());
+
+/*这是要提交的内容*/
