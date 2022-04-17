@@ -18,18 +18,18 @@ import javax.swing.ImageIcon;
  * @author zengshunyao
  * @version 1.0
  */
-public class ImageRemarkUtil {
+public class Watermark {
 
     // 水印透明度
-    private static float alpha = 0.5f;
+    private static float alpha = 0.3f;
     // 水印横向位置
     private static int positionWidth = 150;
     // 水印纵向位置
     private static int positionHeight = 300;
     // 水印文字字体
-    private static Font font = new Font("宋体", Font.BOLD, 72);
+    private static Font font = new Font("Helvetica Neue", Font.BOLD, 15);
     // 水印文字颜色
-    private static Color color = Color.red;
+    private static Color color = new Color(200, 200, 200);
 
     /**
      *
@@ -179,6 +179,9 @@ public class ImageRemarkUtil {
             Image srcImg = ImageIO.read(new File(srcImgPath));
             BufferedImage buffImg = new BufferedImage(srcImg.getWidth(null),
                     srcImg.getHeight(null), BufferedImage.TYPE_INT_RGB);
+            System.out.println(String.format("Size: %.1f KB", new File(srcImgPath).length()/1024.0));
+            System.out.println("Width: " + buffImg.getWidth());
+            System.out.println("Height: " + buffImg.getHeight());
 
             // 2、得到画笔对象
             Graphics2D g = buffImg.createGraphics();
@@ -191,9 +194,7 @@ public class ImageRemarkUtil {
                     null);
             // 4、设置水印旋转
             if (null != degree) {
-                g.rotate(Math.toRadians(degree),
-                        (double) buffImg.getWidth() / 2,
-                        (double) buffImg.getHeight() / 2);
+                g.rotate(Math.toRadians(degree),(double) buffImg.getWidth() / 2,(double) buffImg.getHeight() / 2);
             }
             // 5、设置水印文字颜色
             g.setColor(color);
@@ -203,7 +204,10 @@ public class ImageRemarkUtil {
             g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP,
                     alpha));
             // 8、第一参数->设置的内容，后面两个参数->文字在图片上的坐标位置(x,y)
-            g.drawString(logoText, positionWidth, positionHeight);
+            g.drawString(logoText, buffImg.getWidth()/4, buffImg.getHeight()/4);
+            g.drawString(logoText, buffImg.getWidth()*3/4, buffImg.getHeight()*3/4);
+            g.drawString(logoText, buffImg.getWidth()*3/4, buffImg.getHeight()/4);
+            g.drawString(logoText, buffImg.getWidth()/4, buffImg.getHeight()*3/4);
             // 9、释放资源
             g.dispose();
             // 10、生成图片
@@ -232,11 +236,13 @@ public class ImageRemarkUtil {
 
     public static void main(String[] args) {
         String srcImgPath = "c:/Users/drunk/Desktop/mario.jpg";
-        String logoText = "复 印 无 效";
+//        String srcImgPath = "c:/Users/drunk/Desktop/headphones.jpg";
+//        String srcImgPath = "c:/Users/drunk/Desktop/ar.png";
+        String logoText = "UV admin";
         String iconPath = "c:/Users/drunk/Desktop/luoli.jpg";
 
         String targerTextPath = "c:/Users/drunk/Desktop/qie_text.jpg";
-        String targerTextPath2 = "d:/qie_text_rotate.jpg";
+        String targerTextPath2 = "c:/Users/drunk/Desktop/qie_text_rotate.jpg";
 
         String targerIconPath = "c:/Users/drunk/Desktop/qie_icon.jpg";
         String targerIconPath2 = "c:/Users/drunk/Desktop/qie_icon_rotate.jpg";
@@ -259,4 +265,3 @@ public class ImageRemarkUtil {
     }
 
 }
-
