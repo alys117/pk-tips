@@ -2,6 +2,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
     "@babel/standalone": "^7.17.6",
+    "@oopsunome/watermark": "^1.0.7",
     "async": "^3.2.3",
     "axios": "^0.26.1",
     "body-parser": "^1.19.2",
