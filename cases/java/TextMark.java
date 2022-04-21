@@ -124,6 +124,7 @@ public class TextMark {
 
 
     public static void main(String[] args) {
+        System.out.println("我是一个中国人");
         TextMark.markWithContent("C:\\Users\\drunk\\Desktop\\html_logo.png", FONT, Color.darkGray, "水印文字");
     }
 }
