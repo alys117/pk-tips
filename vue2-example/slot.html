@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>element-ui</title>
+  <!-- <link href="../node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet"> -->
+  <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- <link href="https://unpkg.com/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <script src="https://unpkg.com/vue@2"></script>
+  <script src="https://unpkg.com/element-ui@2"></script>
+  <style>
+    .redtip {
+      border-radius: 0.6em;
+      font-style: normal;
+      color: #fff;
+      display: inline-block;
+      height: 1.2em;
+      width: 1.2em;
+      text-align: center;
+      line-height: 1.2em;
+      font-size: 0.8em;
+      background-color: #f5222d;
+    }
+
+    .el-dropdown-link {
+      cursor: pointer;
+      color: #409EFF;
+    }
+
+    .el-icon-arrow-down {
+      font-size: 12px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <el-button size="mini" type="primary" @click="count++">ele按钮</el-button>
+    {{count}}
+
+    <el-dropdown trigger="click">
+      <span class="el-dropdown-link">
+        下拉菜单<i class="el-icon-arrow-down el-icon--right"></i>
+      </span>
+      <el-dropdown-menu slot="dropdown">
+        <el-dropdown-item>
+          黄金糕
+          <tipnotes :redval="msg">
+            <template slot-scope='tmp'>
+              <!-- 这是已废弃的写法（scope,slot-scope） -->
+              <i class="redtip bg-danger" v-show="tmp.text>0">{{tmp.text}}</i>
+            </template>
+          </tipnotes>
+        </el-dropdown-item>
+        <el-dropdown-item>狮子头</el-dropdown-item>
+        <el-dropdown-item>螺蛳粉</el-dropdown-item>
+        <el-dropdown-item disabled>双皮奶</el-dropdown-item>
+        <el-dropdown-item divided>蚵仔煎</el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
+
+    <el-dropdown trigger="click">
+      <span class="el-dropdown-link pointer"><i class="fa fa-user-circle fa-lg"></i>
+        张三<i class="el-icon-caret-bottom el-icon--right"></i>
+      </span>
+      <el-dropdown-menu slot="dropdown">
+        <el-dropdown-item><i class="fa fa-commenting-o"></i>消息提醒
+          <tipnotes :redval="msg">
+            <template slot-scope='tmp'>
+              <!-- 这是已废弃的写法（scope,slot-scope） -->
+              <i class="redtip bg-danger" v-show="tmp.text>0">{{tmp.text}}</i>
+            </template>
+          </tipnotes>
+        </el-dropdown-item>
+        <el-dropdown-item><i class="fa fa-calendar"></i>日程安排
+          <tipnotes :redval="day">
+            <template v-slot:default='slotPorps'>
+              <!-- 自 2.6.0 后的新写法 -->
+              <i class="redtip bg-danger" :style="{width: 1.2+(slotPorps.text.length-1)*0.8 + 'em'}"
+                v-show="slotPorps.text>0">{{slotPorps.text}}</i>
+            </template>
+          </tipnotes>
+        </el-dropdown-item>
+        <el-dropdown-item><i class="fa fa-calendar"></i>日程安排
+          <tipnotes :redval="note">
+            <template v-slot:default='slotPorps'>
+              <!-- 自 2.6.0 后的新写法 -->
+              <i class="redtip bg-danger" :style="{width: 1.2+(slotPorps.text.length-1)*0.8 + 'em'}"
+                v-show="slotPorps.text>0">{{slotPorps.text}}</i>
+                {{slotPorps.age}}
+            </template>
+          </tipnotes>
+        </el-dropdown-item>
+        <el-dropdown-item>
+          <div style="background-color: antiquewhite;">
+            <tipnotes :redval="count">
+            </tipnotes>
+          </div>
+        </el-dropdown-item>
+        <el-dropdown-item>
+          <tipnotes :redval="count">
+            <template v-slot:secret>
+              秘密
+            </template>
+            <template v-slot:default>
+              <div>A paragraph for the main content.</div>
+            </template>
+          </tipnotes>
+        </el-dropdown-item>
+        <el-dropdown-item @click=""><i class="fa fa-power-off"></i>退出登录</el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
+  </div>
+</body>
+<script type="text/x-template" id="tipnotes">
+  <span>
+      <slot :text="redval" :age="myage">
+        如果不传，就原样显示 <br>
+        传过来的变量 {{redval}} <br>
+        组件自己内部的变量 {{mini}}
+      </slot>
+      <slot name="secret"></slot>
+  </span>
+</script>
+<script>
+  Vue.component('tipnotes', {
+    template: '#tipnotes',
+    props: ['redval'],
+    data () {
+      return {
+        mini: 'haro',
+        myage: 19
+      }
+    }
+  });
+  const app = new Vue({
+    data () {
+      return {
+        count: 11,
+        msg: "3",
+        note: '0',
+        day: "1234"
+      };
+    },
+    mounted () { },
+    methods: {
+
+    }
+  }).$mount('#app')
+</script>
+
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="div1"></div>
+  <div id="div2"></div>
+  <div id="div3"></div>
+</body>
+<!-- 
+  好比我来个diy，根本就不会有什么影响；这里推断text/x-template或text/html可能只是为了语义而已~而且在有些编辑器还具有语法高亮的显示
+    <script type="text/diy" id="anchored-heading-template">
+        <h1>小老弟，有事吗？</h1>
+    </script>
+ -->
+<script type="text/x-template" id="fragment">
+  <ul>
+    <li>javascript</li>
+    <li>c++</li>
+    <li>python</li>
+  </ul>
+</script>
+<script type="text/whatever" id="myCode">
+  <h1>hey,buddy</h1>
+</script>
+<script>
+  document.getElementById('div1').innerHTML = document.getElementById('fragment').innerHTML;
+  document.getElementById('div2').innerHTML = document.getElementById('myCode').innerHTML;
+  const mydiv = document.createElement('div'); mydiv.innerHTML = `<h2>jaja</h2>`;
+  document.getElementById('div3').appendChild(mydiv)
+</script>
+
+</html>

@@ -7,8 +7,9 @@ const fs = require('fs');
  * 通过流将视频发给客户端： Partial Content
  * http://blog.csdn.net/lv18092081172/article/details/51457525
  */
+
+ console.log(__dirname);  console.log(process.cwd())
  app.get('/video', function(req, res, next) {
-  // console.log(__dirname);  console.log(process.cwd())
   let path = './express-demo/assets/sintel.mp4';
   let stat = fs.statSync(path);
   let fileSize = stat.size;
@@ -32,6 +33,7 @@ const fs = require('fs');
           'Accept-Ranges': 'bytes',
           'Content-Length': chunksize,
           'Content-Type': 'video/mp4',
+          'Content-Disposition': 'attachment; filename=sintel.mp4'
       };
       res.writeHead(206, head);
       file.pipe(res);
@@ -39,6 +41,7 @@ const fs = require('fs');
       let head = {
           'Content-Length': fileSize,
           'Content-Type': 'video/mp4',
+          'Content-Disposition': 'attachment; filename=sintel.mp4'
       };
       res.writeHead(200, head);
       fs.createReadStream(path).pipe(res);

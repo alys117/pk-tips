@@ -1,0 +1,43 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="https://unpkg.com/vue@2.6.0/dist/vue.js"></script>
+</head>
+<body>
+  <div id="app">
+    <kaka :jojo="count"></kaka>
+<!-- 
+  在template中定义模板，如果要换行的话，要加上一个“\”，
+  如果是比较简单的模板还好，如果比较多的话，就会感觉眼花缭乱的，
+  因此我们有一个看起来舒服的方式：x-template ,其实可以是任意名字，正如下面我用的  type="text/x-ray"
+-->
+    <script type="text/x-ray" id="my-component">
+      <div>
+        {{ jojo }}
+      <p>This is the content of component</p>
+      <p>Hello Vue!</p>
+      </div>
+      <div>Hello</div>
+    </script>
+  </div>
+  <script>
+    Vue.component('kaka', {
+      template: '#my-component',
+      props: ['jojo']
+    });
+    var app = new Vue({
+      data(){
+        return {
+          count: 13
+        }
+      },
+      el: "#app"
+    });
+  </script>
+</body>
+</html>
+<!-- 
+  以上会显示两行的内容。
+  以下只会显示第一个< div >标签内容
+  原因是因为template定义的模板，一定要用一个根元素包裹起来，每个组件必须只有一个根元素，比如上例中，如果去掉< div>标签，那么就相当于有两个根元素。
+ -->
