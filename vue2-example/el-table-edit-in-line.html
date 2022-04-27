@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>element-ui</title>
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <script src="https://unpkg.com/vue@2"></script>
+  <script src="https://unpkg.com/element-ui@2"></script>
+  <style>
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <el-dialog
+      width="30%"
+      :visible.sync="dialogVisible"
+      :close-on-click-modal="false"
+      top="10vh"
+      :style="cssVars"
+    >
+      dialog
+      <el-button size="mini" type="success" @click="right++">margin-right++</el-button>
+    </el-dialog>
+    <el-button size="mini" type="primary" @click="count++;dialogVisible=true;">ele按钮</el-button>
+    {{count}}
+    <el-divider></el-divider>
+    <div>
+      <el-table :data="tabledatas" border>
+        <el-table-column label="姓名">
+          <template slot-scope="scope">
+            <el-input placeholder="请输入内容" v-show="scope.row.show" v-model="scope.row.name"></el-input>
+            <span v-show="!scope.row.show">{{scope.row.name}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="年龄">
+          <template slot-scope="scope">
+            <el-input placeholder="请输入内容" v-show="scope.row.show" v-model="scope.row.age"></el-input>
+            <span v-show="!scope.row.show">{{scope.row.age}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="地址">
+          <template slot-scope="scope">
+            <el-input placeholder="请输入内容" v-show="scope.row.show" v-model="scope.row.address"></el-input>
+            <span v-show="!scope.row.show">{{scope.row.address}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="学籍">
+          <template slot-scope="scope">
+            <span v-show="!scope.row.show">{{ options.find(i=> i.value === scope.row.stu).stu }}</span>
+            <el-select v-model="scope.row.stu" placeholder="请选择" v-show="scope.row.show">
+              <el-option v-for="item in options" :key="item.stu" :label="item.stu" :value="item.value">
+              </el-option>
+            </el-select>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button @click="scope.row.show =true">编辑</el-button>
+            <el-button @click="scope.row.show =false;showNow()">保存</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+  </div>
+</body>
+<script>
+  const app = new Vue({
+    data () {
+      return {
+        count: 1,
+        right: 0,
+        dialogVisible: false,
+        options: [{
+          value: 'junior',
+          stu: '初中'
+        }, {
+          value: 'senior',
+          stu: '高中'
+        }, {
+          value: 'college',
+          stu: '大专'
+        }, {
+          value: 'undergraduate',
+          stu: '本科'
+        }, {
+          value: 'doctor',
+          stu: '博士'
+        }],
+        value: '',
+        tabledatas: [
+          { name: '李一', age: '19', address: "浙江省宁波市大晚茶街道63号5栋401", stu: "undergraduate", show: false },
+          { name: '郭明', age: '23', address: "四川", stu: "junior", show: false },
+          { name: '天天', age: '12', address: "海南", stu: "junior", show: false },
+          { name: '隆', age: '40', address: "上海", stu: "doctor", show: false },
+        ],
+      };
+    },
+    computed:{
+      cssVars(){
+        return {
+          'background-color': '#' + Math.floor(Math.random() * 0xffffff).toString(16)+ '1a', // 16777215 转16进制是0xffffff , 例如：红色10%的透明度'background-color': '#ff00001a',
+          '--right': this.right+'vw'
+        }
+      }
+    },
+    mounted () {},
+    methods: {
+      showNow () {
+        console.log(this.tabledatas)
+      }
+    }
+  }).$mount('#app')
+</script>
+<style>
+  .el-dialog {
+    margin-right: var(--right);
+  }
+</style>
+</html>

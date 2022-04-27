@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/vue@2"></script>
+</head>
+
+<body>
+  <div id="app">
+    <button @click="conflicting">conflicting</button>
+  </div>
+</body>
+<script>
+  var mixin = {
+    methods: {
+      foo: function () {
+        console.log('foo')
+      },
+      conflicting: function () {
+        console.log('from mixin')
+      }
+    }
+  }
+  Vue.mixin({
+    created: function () {
+      var myOption = this.$options.eee
+      console.log(this.$options, this.count, this.eee);
+    }
+  })
+  const app = new Vue({
+    eee: 'hello',
+    mixins: [mixin],
+    data () {
+      return {
+        count: 9
+      };
+    },
+    mounted () { },
+    methods: {
+      add () {
+        this.count++
+        console.log(this.count);
+      },
+      conflicting () {
+        console.log('from self')
+      }
+    }
+  }).$mount('#app')
+</script>
+</script>
+
+</html>

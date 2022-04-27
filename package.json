@@ -41,5 +41,9 @@
   "bugs": {
     "url": "https://github.com/alys117/pk-tips/issues"
   },
-  "homepage": "https://github.com/alys117/pk-tips#readme"
+  "homepage": "https://github.com/alys117/pk-tips#readme",
+  "devDependencies": {
+    "webpack": "^5.72.0",
+    "webpack-cli": "^4.9.2"
+  }
 }

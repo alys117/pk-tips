@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div style="--color: red; border: 1px solid var(--color)">
+    hello,world
+  </div>
+</body>
+<script>
+  const isSupported =
+  window.CSS &&
+  window.CSS.supports &&
+  window.CSS.supports('--a', 0);
+
+  if (isSupported) {
+    /* supported */
+    console.log('支持css变量');
+  } else {
+    /* not supported */
+    console.log('不支持css变量');
+  }
+</script>
+</html>
