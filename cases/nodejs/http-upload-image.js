@@ -15,10 +15,9 @@ const server = http.createServer((req, res) => {
       })
       // 监听写入结束
       req.on('end', () => {
-        // console.log(body)
-        // 处理body
-        // 1.获取image/png的位置
+        console.log(body);
         const payload = qs.parse(body, '\r\n', ': ')
+        console.log(payload);
         const type = payload['Content-Type']
         const typeIndex = body.indexOf(type) // 拿到image/jpeg的索引位置
         const typeLength = type.length // 拿到image/jpeg这个字符串的长度
@@ -28,12 +27,11 @@ const server = http.createServer((req, res) => {
         imageData = imageData.replace(/^\s\s*/, '')
         // 4. 将最后的boundary去除掉
         imageData = imageData.substring(0, imageData.indexOf(`--${boundary}--`))
-        console.log(imageData)
-        fs.writeFile('./foo.jpg', imageData, { encoding: 'binary' }, (err) => {
+        fs.writeFile('./static/a1.json', imageData, { encoding: 'binary' }, (err) => {
           res.end('文件上传成功~')
         })
-        console.log('文件上传成功')
-        res.end('文件上传成功')
+        console.log('文件上传成功')    
+        res.end (JSON.stringify({msg: "文件上传成功"}))
       })
     }
   }

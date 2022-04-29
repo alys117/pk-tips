@@ -10,6 +10,7 @@
 
 <body>
   <script>
+    const a = 'suprise'
     function outer () {
       var a = 1
 
@@ -17,7 +18,8 @@
         var b = 2
 
         return function innermost () {
-          console.log(a, b)
+          debugger // 在chrome里调试 在控制台输出a，显示surprise，这里是浏览器自己做的优化，但是如果把下面的console.log(a, b)的注释打开，则显示正常 a=1
+          // console.log(a, b)
         }
       }
 
@@ -28,39 +30,14 @@
     innermost() // 此时输出的值是1 2
     console.dir(innermost) // 此时输出的值是innermost函数
     console.log(innermost) // 此时输出的值是innermost函数
-  </script>
-  <script>
-    const obj ={
-      name: 'xiaoming',
-      age: 13,
-      'self-defination': 'hello' //用引号包裹不符合js变量命名规则的的属性名称，但是无法用.符合访问属性。
-    }
-    console.log(obj); 
-    console.log(obj['self-defination']); 
 
-    const jsonStr = '{"name": "xiaoming", "age": 13, "self-defination": "hello"}'
-    const josnObj = JSON.parse(jsonStr)
-    console.log(josnObj);
-    for (const key in josnObj) {
-      console.log(key, josnObj[key])
+
+    let detail = 'John'
+    function getDetail () {
+      console.log(detail);
     }
-    // for (const iterator of josnObj) { // 报错，对象没有实现iterator接口
-    //   console.log(iterator)
-    // }
-    Object.keys(josnObj).forEach(key => {
-      console.log(key, josnObj[key])
-    })
-    Object.values(josnObj).forEach(value => {
-      console.log(value)
-    })
-    console.log('------------');
-    const key = Object.getOwnPropertyNames(obj)
-    console.log(key);
-    console.log('============');
-    console.log(Object.entries(obj));
-    Object.entries(obj).forEach(([key, value]) => {
-      console.log(key, value)
-    })
+    detail = "Jack"
+    getDetail()
   </script>
 </body>
 

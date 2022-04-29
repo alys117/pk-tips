@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+</head>
+
+<body>
+  <script>
+    const origin = {
+      city: undefined,
+      name: 'simon',
+      hobby: {
+        name: 'reading',
+        level: 'high'
+      },
+      age: 19,
+      run: function () {
+        console.log('run function')
+      },
+      [Symbol.for('money')]: '$109',
+    }
+    const clone = _.cloneDeep(origin)
+    console.log(clone)
+
+    clone.hobby.name = 'running'
+    console.log(origin);
+
+    // Object.entries方法返回数组，每一项又是由 属性名和属性值构成的数组
+    Object.entries(origin).forEach(([key,value])=>{
+      console.log(key,value)
+    })
+  </script>
+</body>
+
+</html>
