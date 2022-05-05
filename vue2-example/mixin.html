@@ -12,6 +12,8 @@
 <body>
   <div id="app">
     <button @click="conflicting">conflicting</button>
+    <div v-if="setting.c?.flag">是否显示setting.c?.flag</div>
+    <div v-if="setting.a?.flag">是否显示setting.a?.flag</div>
   </div>
 </body>
 <script>
@@ -36,7 +38,13 @@
     mixins: [mixin],
     data () {
       return {
-        count: 9
+        count: 9,
+        setting:{
+          a:{
+            flag:true
+          },
+          b:{}
+        }
       };
     },
     mounted () { },

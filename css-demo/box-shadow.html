@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div class="shadow"></div>
+  <div class="shadow2"></div>
+  <style>
+    .shadow{
+      margin: 20px auto;
+      width: 100px;
+      height: 100px;
+      box-sizing: border-box;
+      background-color: #f1f1f2;
+      /* border: 5px solid green; */
+      box-shadow: 0px -10px 0px 0px #ff0000,   /*上边阴影  红色*/
+                  -10px 0px 0px 0px #3bee17,   /*左边阴影  绿色*/
+                  10px 0px 0px 0px #2279ee,    /*右边阴影  蓝色*/
+                  0px 10px 0px 0px #eede15;    /*下边阴影  黄色*/
+
+    }
+
+    .shadow2{
+      margin: 100px auto;
+      width: 100px;
+      height: 100px;
+      box-sizing: border-box;
+      background-color: #f1f1f2;
+      /* border: 5px solid green; */
+      box-shadow: 0px -10px 5px 0px #ff0000,   /*上边阴影  红色*/
+                  -10px 0px 5px 0px #000000,   /*左边阴影  绿色*/
+                  10px 0px 0px 0px #2279ee,    /*右边阴影  蓝色*/
+                  0px 10px 0px 0px #eede15;    /*下边阴影  黄色*/
+
+    }
+  </style>
+
+
+  <div class="f">
+    <div class="c"></div>
+    <div class="c"></div>
+  </div>
+  <style>
+    .f{
+      display: flex;
+      justify-content: center;
+    }
+    .c{
+      width: 100px;
+      height: 100px;
+      background-color: #f1f1f2;
+      box-shadow: 0px -5px 3px -3px red;
+    }
+  </style>
+</body>
+</html>

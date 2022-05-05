@@ -7,7 +7,7 @@ const server = http.createServer((req, res) => {
   const pathname = url.parse(req.url).pathname
   console.log('pathname::', `.${pathname}`)
   const q = url.parse(decodeURI(req.url), true).query //解析参数为id的值
-  console.log('query q::', q)
+  console.log('query::', q)
   fs.readFile(`.${pathname}`, function (isErr, data) {
     if (isErr) {
       res.end('Read file failed!')
