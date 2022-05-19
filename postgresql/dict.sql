@@ -79,28 +79,39 @@ insert into dict (type,type_name,sub_id,sub_name)values(15,'招聘时间',2,'下
 insert into dict (type,type_name,sub_id,sub_name)values(16,'职位标签',1,'急招');
 insert into dict (type,type_name,sub_id,sub_name)values(16,'职位标签',2,'已找到');
 insert into dict (type,type_name,sub_id,sub_name)values(16,'职位标签',3,'长期招聘');
-3	[{"1": "ESL/EAL"}, {"2": "Literature/History/Culture"}, {"3": "Mathematics"}, {"4": "STEM/Physics/Chemistry/Biology"}, {"5": "Art/Drama/Singing/Dancing/Music/PE"}, {"6": "Business/Management/Administration"}, {"7": "Daycare"}, {"8": "Other Language"}, {"9": "Private tutoring"}, {"10": "Oversea Education tutoring/Essay/PS"}, {"11": "TOEFL/ILETS"}, {"12": "Teacher Coaching"}, {"13": "Curriculum Development"}, {"14": "Homeroom"}, {"15": "Lead Teacher"}, {"16": "Managerial level"}, {"17": "Online teaching"}, {"18": "Part time Actor"}, {"19": "Professional Actor"}, {"20": "Part time"}, {"21": "Other"}]	可带科目
-insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',1,'ESL/EAL');
-insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',2,'Literature/History/Culture');
-insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',3,'Mathematics');
-insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',4,'TEM/Physics/Chemistry/Biology');
-insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',5,'Art/Drama/Singing/Dancing/Music/PE');
-insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',6,'Business/Management/Administration');
-insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',7,'Daycare');
-insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',8,'Other Language');
-insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',9,'Private tutoring');
-insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',10,'Oversea Education tutoring/Essay/PS');
-insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',11,'TOEFL/ILETS');
-insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',12,'Teacher Coaching');
-insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',13,'Curriculum Development');
-insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',14,'Homeroom');
-insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',15,'Lead Teacher');
-insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',16,'Managerial level');
-insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',17,'Online teaching');
-insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',18,'Part time Actor');
-insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',19,'Professional Actor');
-insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',20,'Part time');
-insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',21,'Other');
+3	 [{"1": "ESL/EAL/EAP"}, {"2": "Literature"}, {"3": "History/Social study/Culture"}, {"4": "Mathematics"}, {"5": "STEM/Science"}, {"6": "Physics"}, {"7": "Chemistry"}, {"8": "Biology/Ecology"}, {"9": "Arts"}, {"10": "Drama/Performance"}, {"11": "Singing/Vocal"}, {"12": "Dancing"}, {"13": "Music/Instruments"}, {"14": "PE/Atheletic"}, {"15": "Homeroom"}, {"16": "Management/Admin"}, {"17": "Daycare"}, {"18": "Economics/Business"}, {"19": "Private tutoring/PT teaching"}, {"20": "Oversea Edu counseling/Essay/PS"}, {"21": "TOEFL/ILETS"}, {"22": "Teacher Coaching"}, {"23": "Curriculum Development"}, {"24": "Other Language"}, {"25": "Lead Teacher"}, {"26": "Managerial level"}, {"27": "Online teaching "}, {"28": "PT Actor/Livehost"}, {"29": "Professional Actor"}, {"30": "FT Livehost"}, {"31": "Translation/Localization"}, {"32": "Other "}]	可带科目
+insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',1,'ESL/EAL/EAP');
+insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',2,'Literature');
+insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',3,'History/Social study/Culture');
+insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',4,'Mathematics');
+insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',5,'STEM/Science');
+insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',6,'Physics');
+insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',7,'Chemistry');
+insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',8,'Biology/Ecology');
+insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',9,'Arts');
+insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',10,'Drama/Performance');
+insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',11,'Singing/Vocal');
+insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',12,'Dancing');
+insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',13,'Music/Instruments');
+insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',14,'PE/Atheletic');
+insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',15,'Homeroom');
+insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',16,'Management/Admin');
+insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',17,'Daycare');
+insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',18,'Economics/Business');
+insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',19,'Private tutoring/PT teaching');
+insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',20,'Oversea Edu counseling/Essay/PS');
+insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',21,'TOEFL/ILETS');
+insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',22,'Teacher Coaching');
+insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',23,'Curriculum Development');
+insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',24,'Other Language');
+insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',25,'Lead Teacher');
+insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',26,'Managerial level');
+insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',27,'Online teaching ');
+insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',28,'PT Actor/Livehost');
+insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',29,'Professional Actor');
+insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',30,'FT Livehost');
+insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',31,'Translation/Localization');
+insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',32,'Other');
 17	[{"1": "热门抢手"}, {"2": "求职中"}, {"3": "有好工作可考虑"}, {"4": "近期已入职"}]	求职状态
 insert into dict (type,type_name,sub_id,sub_name)values(17,'可带科目',1,'热门抢手');
 insert into dict (type,type_name,sub_id,sub_name)values(17,'可带科目',2,'求职中');
@@ -122,18 +133,20 @@ insert into dict (type,type_name,sub_id,sub_name)values(9,'签证类型',10,'其
 insert into dict (type,type_name,sub_id,sub_name)values(18,'合同状态',1,'合同已签');
 insert into dict (type,type_name,sub_id,sub_name)values(18,'合同状态',2,'合同等盖章回传');
 insert into dict (type,type_name,sub_id,sub_name)values(18,'合同状态',3,'合同等待寄回');
-insert into dict (type,type_name,sub_id,sub_name)values(19,'合同状态',4,'合同协商中');
+insert into dict (type,type_name,sub_id,sub_name)values(18,'合同状态',4,'合同协商中');
 
-19	[{"1": "预约面试"}, {"2": "完成面试"}, {"3": "确认聘用"}, {"4": "已办签证"}, {"5": "已上岗"}, {"6": "已付前款"}, {"7": "已付全款"}, {"8": "开票了"}, {"9": "匹配不成功"}]	匹配阶段
-insert into dict (type,type_name,sub_id,sub_name)values(19,'匹配阶段',1,'预约面试');
-insert into dict (type,type_name,sub_id,sub_name)values(19,'匹配阶段',2,'完成面试');
-insert into dict (type,type_name,sub_id,sub_name)values(19,'匹配阶段',3,'确认聘用');
-insert into dict (type,type_name,sub_id,sub_name)values(19,'匹配阶段',4,'已办签证');
-insert into dict (type,type_name,sub_id,sub_name)values(19,'匹配阶段',5,'已上岗');
-insert into dict (type,type_name,sub_id,sub_name)values(19,'匹配阶段',6,'已付前款');
-insert into dict (type,type_name,sub_id,sub_name)values(19,'匹配阶段',7,'已付全款');
-insert into dict (type,type_name,sub_id,sub_name)values(19,'匹配阶段',8,'开票了');
-insert into dict (type,type_name,sub_id,sub_name)values(19,'匹配阶段',9,'匹配不成功');
+19	[{"1": "待推荐"}, {"2": "已推荐"}, {"3": "预约面试"}, {"4": "完成面试"}, {"5": "确认聘用"}, {"6": "已办签证"}, {"7": "已上岗"}, {"8": "已开票"}, {"9": "已付前款"}, {"10": "已付全款"}, {"11": "匹配不成功"}] 匹配阶段
+insert into dict (type,type_name,sub_id,sub_name)values(19,'匹配阶段',1,'待推荐');
+insert into dict (type,type_name,sub_id,sub_name)values(19,'匹配阶段',2,'已推荐');
+insert into dict (type,type_name,sub_id,sub_name)values(19,'匹配阶段',3,'预约面试');
+insert into dict (type,type_name,sub_id,sub_name)values(19,'匹配阶段',4,'完成面试');
+insert into dict (type,type_name,sub_id,sub_name)values(19,'匹配阶段',5,'确认聘用');
+insert into dict (type,type_name,sub_id,sub_name)values(19,'匹配阶段',6,'已办签证');
+insert into dict (type,type_name,sub_id,sub_name)values(19,'匹配阶段',7,'已上岗');
+insert into dict (type,type_name,sub_id,sub_name)values(19,'匹配阶段',8,'已开票');
+insert into dict (type,type_name,sub_id,sub_name)values(19,'匹配阶段',9,'已付前款');
+insert into dict (type,type_name,sub_id,sub_name)values(19,'匹配阶段',10,'已付全款');
+insert into dict (type,type_name,sub_id,sub_name)values(19,'匹配阶段',11,'匹配不成功');
 
 20	[{"1": "白人"}, {"2": "黑人"}, {"3": "菲律宾人"}, {"4": "其他"}]	肤色要求
 insert into dict (type,type_name,sub_id,sub_name)values(20,'肤色要求',1,'白人');

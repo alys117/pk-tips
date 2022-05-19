@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>element-ui</title>
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <script src="https://unpkg.com/vue@2"></script>
+  <script src="https://unpkg.com/element-ui@2"></script>
+  <style>
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <div style="width: 300px;">
+
+      <el-menu :router="true" mode="vertical" background-color="#1c213f" text-color="#fff" default-active="1-3">
+        <el-submenu index="1">
+          <template slot="title">
+            <i class="el-icon-menu"></i> 父级菜单
+          </template>
+          <el-menu-item index="1-1">
+            选项一
+            <span slot="title"
+              style="display: inline-block;width: 14px;height: 14px;background: red;border-radius: 50%;margin-left: 10px;font-size: 6px;color:#fff;line-height: 14px;text-align: center;">2</span>
+          </el-menu-item>
+          <el-submenu index="2">
+            <template slot="title">选项二</template>
+            <el-menu-item index="2-1">选项二-一</el-menu-item>
+          </el-submenu>
+          <el-menu-item index="1-3">
+            <i class="el-icon-picture"></i> 选项三(饿了吗)
+          </el-menu-item>
+      </el-menu>
+      <span
+        style="display: inline-block;width: 14px;height: 14px;background: red;border-radius: 50%;font-size: 6px;color:#fff;line-height: 14px;text-align: center;">2</span>
+      <ifm></ifm>
+      <comp :title="title"></comp>
+    </div>
+  </div>
+</body>
+<script>
+  const comp = {
+    name: 'Comp',
+    functional: true,
+    props: {
+      icon: {
+        type: String,
+        default: ''
+      },
+      title: {
+        type: String,
+        default: ''
+      }
+    },
+    render (h, context) {
+      const vnodes = []
+      vnodes.push('123')
+      vnodes.push('456')
+      return h('p', {
+        style: {
+          color: 'red'
+        }
+      }, vnodes)
+    }
+  }
+  Vue.component("ifm", {
+    template: `<div> <div>ifm component</div><iframe src="https://api.github.com/users/panke" frameborder=0 width=100% height=100% /></div>`
+  });
+  Vue.component('comp', comp)
+  const app = new Vue({
+    data () {
+      return {
+        count: 1,
+        title: 'Functional Component'
+      };
+    },
+    mounted () { },
+    methods: {
+    }
+  }).$mount('#app')
+</script>
+<style>
+
+</style>
+
+</html>
