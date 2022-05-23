@@ -113,10 +113,10 @@ insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',30,'FT 
 insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',31,'Translation/Localization');
 insert into dict (type,type_name,sub_id,sub_name)values(3,'可带科目',32,'Other');
 17	[{"1": "热门抢手"}, {"2": "求职中"}, {"3": "有好工作可考虑"}, {"4": "近期已入职"}]	求职状态
-insert into dict (type,type_name,sub_id,sub_name)values(17,'可带科目',1,'热门抢手');
-insert into dict (type,type_name,sub_id,sub_name)values(17,'可带科目',2,'求职中');
-insert into dict (type,type_name,sub_id,sub_name)values(17,'可带科目',3,'有好工作可考虑');
-insert into dict (type,type_name,sub_id,sub_name)values(17,'可带科目',4,'近期已入职');
+insert into dict (type,type_name,sub_id,sub_name)values(17,'求职状态',1,'热门抢手');
+insert into dict (type,type_name,sub_id,sub_name)values(17,'求职状态',2,'求职中');
+insert into dict (type,type_name,sub_id,sub_name)values(17,'求职状态',3,'有好工作可考虑');
+insert into dict (type,type_name,sub_id,sub_name)values(17,'求职状态',4,'近期已入职');
 9	[{"1": "Z字签证（工作）"}, {"2": "X1字签证（长期学习）"}, {"3": "X2字签证（短期学习）"}, {"4": "S或Q字签证（配偶）"}, {"5": "M字签证（商业贸易）"}, {"6": "R字签证（高层次人才）"}, {"7": "L字签证（旅游）"}, {"8": "D字签证（永久居留）"}, {"9": "T字签证（停留签）"}, {"10": "其他签证"}]	签证类型
 insert into dict (type,type_name,sub_id,sub_name)values(9,'签证类型',1,'Z字签证（工作）');
 insert into dict (type,type_name,sub_id,sub_name)values(9,'签证类型',2,'X1字签证（长期学习）');
@@ -153,9 +153,18 @@ insert into dict (type,type_name,sub_id,sub_name)values(20,'肤色要求',1,'白
 insert into dict (type,type_name,sub_id,sub_name)values(20,'肤色要求',2,'黑人');
 insert into dict (type,type_name,sub_id,sub_name)values(20,'肤色要求',3,'菲律宾人');
 insert into dict (type,type_name,sub_id,sub_name)values(20,'肤色要求',4,'其他');
-1	[{"1": "本科以下"}, {"2": "教育/语言/相关专业类本科"}, {"3": "教育/语言/相关专业类硕博"}, {"4": "非相关专业本科"}, {"5": "非相关专业硕博"}]	学历
+1	[{"1": "本科以下"}, {"2": "教育/语言相关本科"}, {"3": "教育/语言相关硕博"}, {"4": "人文社会类本科"}, {"5": "人文社会类硕博"} ,{"6": "数理化类本科"} ,{"7": "数理化类硕博"} ,{"8": "音乐艺术舞蹈本科"} ,{"9": "音乐艺术舞蹈硕博"} ,{"10": "体育竞技类本科"} ,{"11": "体育竞技类硕博"} ,{"12": "经管类本科"} ,{"13": "经管类硕博"} ,{"14": "其他专业学历"} ]	学历
 insert into dict (type,type_name,sub_id,sub_name)values(1,'学历',1,'本科以下');
-insert into dict (type,type_name,sub_id,sub_name)values(1,'学历',2,'教育/语言/相关专业类本科');
-insert into dict (type,type_name,sub_id,sub_name)values(1,'学历',3,'教育/语言/相关专业类硕博');
-insert into dict (type,type_name,sub_id,sub_name)values(1,'学历',4,'非相关专业本科');
-insert into dict (type,type_name,sub_id,sub_name)values(1,'学历',5,'非相关专业硕博');
+insert into dict (type,type_name,sub_id,sub_name)values(1,'学历',2,'教育/语言相关本科');
+insert into dict (type,type_name,sub_id,sub_name)values(1,'学历',3,'教育/语言相关硕博');
+insert into dict (type,type_name,sub_id,sub_name)values(1,'学历',4,'人文社会类本科');
+insert into dict (type,type_name,sub_id,sub_name)values(1,'学历',5,'人文社会类硕博');
+insert into dict (type,type_name,sub_id,sub_name)values(1,'学历',6,'数理化类本科');
+insert into dict (type,type_name,sub_id,sub_name)values(1,'学历',7,'数理化类硕博');
+insert into dict (type,type_name,sub_id,sub_name)values(1,'学历',8,'音乐艺术舞蹈本科');
+insert into dict (type,type_name,sub_id,sub_name)values(1,'学历',9,'音乐艺术舞蹈硕博');
+insert into dict (type,type_name,sub_id,sub_name)values(1,'学历',10,'体育竞技类本科');
+insert into dict (type,type_name,sub_id,sub_name)values(1,'学历',11,'体育竞技类硕博');
+insert into dict (type,type_name,sub_id,sub_name)values(1,'学历',12,'经管类本科');
+insert into dict (type,type_name,sub_id,sub_name)values(1,'学历',13,'经管类硕博');
+insert into dict (type,type_name,sub_id,sub_name)values(1,'学历',14,'其他专业学历');
