@@ -54,3 +54,14 @@ from teacher a
 left join dict b on b.type=4 and b.sub_id = ANY (ARRAY(select case when age_group = '{}' then array[0] else age_group end from teacher where id =a.id)) 
 left join dict c on c.type=2 and c.sub_id = ANY (ARRAY(select case when certificate = '{}' then array[0] else certificate end from teacher where id =a.id)) 
 where a.id=1042 
+
+
+SELECT to_tsvector('Try not to become a man of success, but rather try to become a man of value');
+
+select to_tsvector('If you can dream it, you can do it') @@ 'dream';
+select to_tsvector('It''s kind of fun to do the impossible') @@ 'im:*';
+SELECT to_tsvector('If the facts don''t fit the theory, change the facts.') @@ to_tsquery('fiction | theory');
+SELECT to_tsvector('If the facts don''t fit the theory, change the facts.') @@ to_tsquery('fiction | theory');
+ 
+SELECT to_tsvector('If the facts don''t fit the theory, change the facts.') @@ to_tsquery('theo:*')
+select to_tsvector('chinese','中国在亚洲') @@ to_tsquery('chinese','亚洲');

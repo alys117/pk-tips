@@ -1,0 +1,14 @@
+[greatdb@lab-greatdb ~]$ cd /usr/local/mysql
+[greatdb@lab-greatdb mysql]$ ./bin/greatdbd --defaults-file=my3306.cnf --datadir=/greatdbdata/data3306 --initialize-insecure --user=greatdb
+2022-05-13T23:00:48.904227+08:00 0 [Warning] TIMESTAMP with implicit DEFAULT value is deprecated. Please use --explicit_defaults_for_timestamp server option (see documentation for more details).
+ 100 200 300 400 500 600 700 800 900 1000
+ 100 200 300 400 500 600 700 800 900 1000
+ 100 200 300 400 500 600 700 800 900 1000
+ 100 200 300 400 500 600 700 800 900 1000
+2022-05-13T23:01:08.134156+08:00 0 [Warning] InnoDB: New log files created, LSN=45790
+2022-05-13T23:01:08.187617+08:00 0 [Warning] InnoDB: Creating foreign key constraint system tables.
+2022-05-13T23:01:08.253069+08:00 0 [ERROR] Can't open shared library '/usr/local/mysql/lib/plugin/semisync_master.so' (errno: 25 /usr/local/mysql/lib/plugin/semisync_master.so: cannot open shared object file: No such file or directory)
+2022-05-13T23:01:08.253109+08:00 0 [ERROR] Couldn't load plugin named 'rpl_semi_sync_master' with soname 'semisync_master.so'.
+2022-05-13T23:01:08.256158+08:00 0 [Warning] No existing UUID has been found, so we assume that this is the first time that this server has been started. Generating a new UUID: 84f727c8-d2cd-11ec-b39c-000c290bff7f.
+2022-05-13T23:01:08.256600+08:00 0 [Warning] Gtid table is not ready to be used. Table 'mysql.gtid_executed' cannot be opened.
+2022-05-13T23:01:08.315520+08:00 1 [Warning] root@localhost is created with an empty password ! Please consider switching off the --initialize-insecure option.

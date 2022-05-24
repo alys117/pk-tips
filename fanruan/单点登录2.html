@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>10.0单点登录示例</title>
+</head>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function () {
+    var cptUrl = 'http://223.99.141.15:8080/WebReport/decision/view/report?viewlet=bass/html5/jinan/WorkBook21.cpt&op=h5'
+    $('#login').click(function () {
+      $.ajax({
+        url: 'http://223.99.141.15:8080/WebReport/decision/login/cross/domain/',
+        data: {
+          fine_username: 'demo',
+          fine_password: '1234qwer',
+          validity: -1,
+        },
+        dataType: 'jsonp',
+        callback: 'callback',
+        success: function (data) {
+          if (!data.errorCode) {
+            alert('登录成功')
+          } else {
+            console.log(data)
+            alert('登录失败 token error')
+          }
+        },
+        error: function (err) {
+          console.dir(err)
+          alert('登录失败 network error')
+        },
+      })
+    })
+    function Login (Thirdtoken) {
+      var url = "http://223.99.141.15:8080/WebReport/decision/third/auth/cross/login";
+      $.ajax({
+        url: url,
+        dataType: "jsonp",
+        data: { third_token: Thirdtoken },
+        success: function (res) {
+          //console.log(res);
+          if (res.errorCode) {
+            window.alert(res.errorMsg);
+          } else {
+            //document.getElementById('ifm').src= 'http://10.19.206.196:8088/WebReport/decision/view/report?viewlet=bass/html5/jinan/WorkBook21.cpt&op=h5'
+            alert('登录成功')
+          }
+        },
+        error: function () {
+          alert("超时或服务器其他错误");// 登录失败（超时或服务器其他错误）
+        }
+      });
+    }
+    $('#wb1').click(function () {
+      window.open(cptUrl)
+    })
+    $('#wb2').click(function () {
+      document.getElementById('ifm').src = cptUrl
+    })
+
+    $('#sso').click(function () {
+      var token = 'eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTMzODgxMzUsInN1YiI6InBhbmtlIn0.D9H8WrgMGG060k8GUo46LJOxgdd1uD7B2ibQBDV4_B8'
+      Login(token)
+    })
+  })
+
+  function setCookie (name, value) {
+    document.cookie = name + '=' + escape(value)
+  }
+
+  function getCookie (name) {
+    var arr,
+      reg = new RegExp('(^| )' + name + '=([^;]*)(;|$)')
+    if ((arr = document.cookie.match(reg))) {
+      console.log(arr)
+      return unescape(arr[2])
+    } else {
+      return null
+    }
+  }
+</script>
+
+<body>
+  <button id="login">点击我密码</button>
+  <button id="sso">点击我sso</button>
+  <button id="wb1">点我访问window.open</button>
+  <button id="wb2">点我访问ifrm</button>
+  <div>
+    <iframe id="ifm" src="" frameborder="0" height="600" width="500"></iframe>
+  </div>
+</body>
+
+</html>
