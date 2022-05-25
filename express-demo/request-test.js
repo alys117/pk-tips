@@ -57,6 +57,12 @@ app2.post('/receive2', bodyParser.json(), bodyParser.text(), bodyParser.urlencod
   res.end(JSON.stringify({ msg: 'ok', code: 200 }))
 })
 
+app2.get('/receive2', function (req, res) {
+  res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' }) //设置response编码为utf-8
+  console.log(' ', req.body)
+  res.end(JSON.stringify({ msg: 'ok', code: 200 }))
+})
+
 const server_8083 = app.listen(8083, function () {
   const host = server_8083.address().address
   const port = server_8083.address().port
