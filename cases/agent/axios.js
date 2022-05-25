@@ -1,7 +1,7 @@
 /* 这是官方给出的https-proxy-agent示例 */
 var url = require('url');
 var https = require('https');
-var HttpsProxyAgent = require('https-proxy-agent');
+var HttpsProxyAgent = require('https-proxy-agent'); 
 
 // HTTP/HTTPS proxy to connect to
 var proxy = process.env.http_proxy || 'http://127.0.0.1:7890';
@@ -23,11 +23,18 @@ https.get(options, function (res) {
 
 /* 下面是axios使用 https-proxy-agent */
 var axios = require('axios');
-const httpsAgent = new HttpsProxyAgent(`http://127.0.0.1:7890`);
+// const httpsAgent = new HttpsProxyAgent(`http://127.0.0.1:7890`); // https代理,如果请求的是http 会自动忽略这个选项
+const httpsAgent = new HttpsProxyAgent(`http://127.0.0.1:8888`); // fiddler 的配置我失败了
 const service = axios.create({
     proxy:false,
     httpsAgent
 })
-service.get('https://www.google.com/').then(res=>{
-    console.log(res)
+// service.get('https://www.google.com/').then(res=>{
+//     console.log(res.data)
+// })
+service.get('https://exsi.deheng.com').then(res=>{
+    console.log(res.data)
 })
+// service.get('http://192.168.0.249').then(res=>{
+//     console.log(res.data)
+// })
