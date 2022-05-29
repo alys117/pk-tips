@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .content {
+      border: 1px solid slateblue;
+      padding: 10px;
+      width: 900px;
+      background: #dfdfdf
+    }
+  </style>
+</head>
+
+<body>
+  <div class="content">
+    <img src="../static/img/帆软.jpg" alt="" width="900px">
+  </div>
+  <div class="content" id="container">
+    
+  </div>
+  <div>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAARCAYAAADQWvz5AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAEqADAAQAAAABAAAAEQAAAADdCciFAAABsElEQVQ4EY1SOUsDYRCd+XIoNokgIlYe0cTKQiVR0N7KQtQgiAhiIYhiZWlp5QFWlgqSIKiN4D/wRBARYzwbLUQwsRCM2R1ngvtBlmzWhd2defPem9mdD6HMdXQTbyAwDwGQELC/uy3x7ERXTgXB2WSdH2EgihTiMmR0qp2lR5vyhnFHRIVmiGh6PZ6Wrtbtx1Iax4nYZNoyEaHEgpUyEazkROcPU4Hcd/aJ5dXFQvzwVwQaO5s3ssU4G52mh/sMA2e5UM9tawighuOgnWjLMzzBOyC+M/7q8dCa18hDkoDqbES3NMgNg9w4JET26FH8cVduKtc6wosiVTnBG7lwJTsQRMseA6onvPniCwR6EWHPgVsGxn3RiofeGq8XT27jy6ZJc2WUuqQUrkbDiXmeiH8XgD5HApCiA810CYRrmRQZSUIm9LnoddnO1RMJg4f8t5Gdq42uadFPgFHd8i/g8S/ltuPCFY2Fa6PPVEpOdqVV4HeGT+5MLDLYIbfEBcwiMLeg+cv11iQ/To2s8NYmeYKdKp9/oT209Wbp5H15P1b79ZNb4g0PKcTdWFty3Kr/Al7ym/eXpcK2AAAAAElFTkSuQmCC" alt="">
+  </div>
+  <script>
+    const img = new Image()
+    img.src = '../static/img/帆软.jpg'
+    img.onload = () => {
+      console.log(img.width, img.height)
+      img.style.width = '1000px'
+      img.width = 900 // 默认单位为px， 但是 img.width = '900px' 则失败，并且优先级没有css的优先级高
+      document.getElementById('container').appendChild(img)
+    }
+    document.getElementById('container').style.width = 1200 + 'px'
+  </script>
+</body>
+
+</html>

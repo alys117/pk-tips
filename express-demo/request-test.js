@@ -51,15 +51,27 @@ app2.post('/receive', function (req, res) {
   })
 })
 
-app2.post('/receive2', bodyParser.json(), bodyParser.text(), bodyParser.urlencoded(), function (req, res) {
-  res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' }) //设置response编码为utf-8
-  console.log(' ', req.body)
+app2.post(
+  '/receive2',
+  bodyParser.json(),
+  bodyParser.text(),
+  bodyParser.urlencoded(),
+  function (req, res) {
+    res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' }) //设置response编码为utf-8
+    console.log('post请求/receive2', req.body)
+    res.end(JSON.stringify({ msg: 'ok', code: 200 }))
+  }
+)
+
+app2.post('/api/receive', bodyParser.text({ type: '*/*' }), function (req, res) {
+  res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' })
+  console.log('post请求/api/receive', req.body)
   res.end(JSON.stringify({ msg: 'ok', code: 200 }))
 })
 
 app2.get('/receive2', function (req, res) {
-  res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' }) //设置response编码为utf-8
-  console.log(' ', req.body)
+  res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' })
+  console.log('get请求/receive2', req.body)
   res.end(JSON.stringify({ msg: 'ok', code: 200 }))
 })
 
