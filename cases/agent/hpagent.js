@@ -20,7 +20,8 @@ let agent_https=new HttpsProxyAgent({
 })
 request({
     method: 'get',
-    url: 'https://www.google.com/',
+    url: 'https://www.baidu.com/',
+    // url: 'https://www.google.com/',
     agent:agent_https  // https接口用 agent_https
 }, (error, response, body) => {
     console.log(body)
