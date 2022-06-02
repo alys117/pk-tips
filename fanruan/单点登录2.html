@@ -83,13 +83,20 @@
 </script>
 
 <body>
-  <button id="login">点击我密码</button>
-  <button id="sso">点击我sso</button>
-  <button id="wb1">点我访问window.open</button>
-  <button id="wb2">点我访问ifrm</button>
+  <div style="display: flex;width: 100%;height: 40px;">
+    <button id="login" style="flex:1;font-size: 28px;">密码登录</button>
+    <button id="sso" style="flex:1;font-size: 28px;">插件登录</button>
+    <button id="wb1" style="flex:1;font-size: 28px;">点我window.open</button>
+    <button id="wb2" style="flex:1;font-size: 28px;">点我ifrm</button>
+  </div>
   <div>
-    <iframe id="ifm" src="" frameborder="0" height="600" width="500"></iframe>
+    <iframe id="ifm" src="" frameborder="0" style="width: 100%;height: calc(100vh - 40px)"></iframe>
   </div>
 </body>
-
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+</style>
 </html>
