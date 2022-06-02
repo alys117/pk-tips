@@ -1,0 +1,134 @@
+<html>    
+  <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <style type="text/css">
+          body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;}
+          #l-map{height:100%;width:78%;float:left;border-right:2px solid #bcbcbc;}
+          #r-result{height:100%;width:20%;float:left;}
+      </style>
+      <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.5&ak=E2e5a8af567e7bb2e3a9892e1006c505">
+      </script>
+      <title>
+          圆形区域搜索
+      </title>
+  </head>    
+  <body>
+      <div id="allmap">
+      </div>
+  </body>
+
+</html>
+<script type="text/javascript">
+  var map = new BMap.Map("allmap"); // 创建Map实例
+  var mPoint = new BMap.Point(102.752495, 25.047873);
+  map.enableScrollWheelZoom();
+  map.centerAndZoom(mPoint, 14);
+  setMapEvent();
+  
+  addMarker(mPoint, 0);
+  
+  var circle = new BMap.Circle(mPoint, 5000, { //半径为5公里圆
+      fillColor: "blue",
+      strokeWeight: 1,
+      fillOpacity: 0.1,
+      strokeOpacity: 0.1
+  });
+  var circle1 = new BMap.Circle(mPoint, 7500, { //半径为7.5公里圆
+      fillColor: "red", //颜色
+      strokeWeight: 2, //边框宽带
+      fillOpacity: 0.1,
+      strokeOpacity: 0.1
+  });
+  map.addOverlay(circle);
+  map.addOverlay(circle1);
+  var local = new BMap.LocalSearch(map, {
+      renderOptions: {
+          map: map,
+          autoViewport: false
+      }
+  });
+  var bounds = getSquareBounds(circle.getCenter(), circle.getRadius());
+  var bounds1 = getSquareBounds(circle1.getCenter(), circle1.getRadius());
+  function setMapEvent() {
+      map.enableScrollWheelZoom();
+      map.enableKeyboard();
+      map.addControl(new BMap.NavigationControl({
+          type: BMAP_NAVIGATION_CONTROL_SMALL
+      })); //添加默认缩放平移控件
+  }
+  //local.searchInBounds("餐馆",bounds); 
+  /**
+   * 得到圆的内接正方形bounds
+   * @param {Point} centerPoi 圆形范围的圆心
+   * @param {Number} r 圆形范围的半径
+   * @return 无返回值   
+   */
+  function getSquareBounds(centerPoi, r) {
+      var a = Math.sqrt(2) * r; //正方形边长
+      mPoi = getMecator(centerPoi);
+      var x0 = mPoi.x,
+      y0 = mPoi.y;
+
+      var x1 = x0 + a / 2,
+      y1 = y0 + a / 2; //东北点
+      var x2 = x0 - a / 2,
+      y2 = y0 - a / 2; //西南点
+      var ne = getPoi(new BMap.Pixel(x1, y1)),
+      sw = getPoi(new BMap.Pixel(x2, y2));
+      console.log(x2,y2);
+      return new BMap.Bounds(sw, ne);
+
+  }
+  //根据球面坐标获得平面坐标。
+  function getMecator(poi) {
+    console.log(poi);
+      return map.getMapType().getProjection().lngLatToPoint(poi);
+  }
+  //根据平面坐标获得球面坐标。
+  function getPoi(mecator) {
+      return map.getMapType().getProjection().pointToLngLat(mecator);
+  }
+  function addMarker(point, c) {
+      map.clearOverlays();
+      var b = new BMap.Icon("Images/markers.png", new BMap.Size(23, 25), {
+          offset: new BMap.Size(10, 25),
+          imageOffset: new BMap.Size(0, 0 - c * 25),
+          infoWindowAnchor: new BMap.Size(12, 0)
+      });
+      var marker = null;
+      if (c >= 0) {
+          marker = new BMap.Marker(point, {
+              icon: b
+          });
+      } else {
+          marker = new BMap.Marker(point);
+      }
+      map.addOverlay(marker);
+  
+      marker.addEventListener("click",
+      function(e) {
+          showPointInfo(0, mPoint, "王大桥", "王大桥公交站点");
+      });
+  }
+  //点击列表，地图打开气泡
+  function showPointInfo(index, poi, title, addr) { 
+      var title = '<span  style="COLOR: #cc5522; font-size:15px; font-weight:bolder; line-height:30px; ">' + title + '</span>'; 
+      var html = [];
+      html.push('<span style="font-size:13px;  padding-top:2px; line-height:20px;">地址信息：' + addr + '</span><br />');
+      var Icon = new BMap.Icon("Images/markers_new.png", new BMap.Size(30, 45), {
+          offset: new BMap.Size(0, 20),
+          imageOffset: new BMap.Size(30, -70)
+      });
+
+      var opts = {
+          width: 250,
+          height: 0,
+          title: title
+      }
+      var point = new BMap.Point(poi.lng, poi.lat);
+
+      var infoWindow = new BMap.InfoWindow(html.join(""), opts);
+
+      map.openInfoWindow(infoWindow, point);
+  }
+</script>

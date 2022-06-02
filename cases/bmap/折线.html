@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+  <script type="text/javascript"
+    src="https://api.map.baidu.com/api?v=1.0&type=webgl&ak=Eul8g1mSUP8z9XHwh9Hql0EpctbrcEK9"></script>
+  <title>折线图</title>
+  <style type="text/css">
+
+
+    html {
+      height: 100%
+    }
+
+    body {
+      height: 100%;
+      margin: 0px;
+      padding: 0px;
+      font-family: "微软雅黑";
+    }
+
+    #container {
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+</head>
+<body> 
+  <div id="container"></div>
+</body>
+
+</html>
+<script type="text/javascript">
+  var map = new BMapGL.Map("container");
+  var point = new BMapGL.Point(117.009766,36.483496);
+  var marker = new BMapGL.Marker(point);        // 创建标注   
+// 创建点坐标 
+map.centerAndZoom(point, 14);
+  map.addOverlay(marker);
+  var myIcon = new BMapGL.Icon("markers.png", new BMapGL.Size(23, 25), {
+    // 指定定位位置。  
+    // 当标注显示在地图上时，其所指向的地理位置距离图标左上   
+    // 角各偏移10像素和25像素。您可以看到在本例中该位置即是  
+    // 图标中央下端的尖角位置。   
+    anchor: new BMapGL.Size(10, 25),
+    // 设置图片偏移。  
+    // 当您需要从一幅较大的图片中截取某部分作为标注图标时，您  
+    // 需要指定大图的偏移位置，此做法与css sprites技术类似。   
+    imageOffset: new BMapGL.Size(0, 0 - 25)   // 设置图片偏移   
+  });
+  // 创建标注对象并添加到地图  
+  var marker = new BMapGL.Marker(point, { icon: myIcon });
+  map.addOverlay(marker);
+  marker.addEventListener("click", function () {
+    alert("您点击了标注");
+  });
+  // var polyline = new BMapGL.Polyline([
+  //   new BMapGL.Point(116.399, 39.910),
+  //   new BMapGL.Point(116.405, 39.920),
+  //   new BMapGL.Point(116.425, 39.900)
+  // ], { strokeColor: "blue", strokeWeight: 2, strokeOpacity: 0.5 });
+  // map.addOverlay(polyline);
+  var polygon = new BMapGL.Polygon([
+  new BMapGL.Point(117.009766,36.483496),
+new BMapGL.Point(117.009683,36.482652),
+new BMapGL.Point(117.009438,36.481828),
+new BMapGL.Point(117.009035,36.481046),
+new BMapGL.Point(117.008484,36.480324),
+new BMapGL.Point(117.0078,36.47968),
+new BMapGL.Point(117.006999,36.47913),
+new BMapGL.Point(117.006101,36.478687),
+new BMapGL.Point(117.005128,36.478363),
+new BMapGL.Point(117.004104,36.478166),
+new BMapGL.Point(117.003055,36.478099),
+new BMapGL.Point(117.002005,36.478166),
+new BMapGL.Point(117.000981,36.478363),
+new BMapGL.Point(117.000008,36.478687),
+new BMapGL.Point(116.99911,36.47913),
+new BMapGL.Point(116.998309,36.47968),
+new BMapGL.Point(116.997625,36.480324),
+new BMapGL.Point(116.997074,36.481046),
+new BMapGL.Point(116.996671,36.481828),
+new BMapGL.Point(116.996426,36.482652),
+new BMapGL.Point(116.996343,36.483496),
+new BMapGL.Point(116.996426,36.48434),
+new BMapGL.Point(116.996671,36.485163),
+new BMapGL.Point(116.997074,36.485946),
+new BMapGL.Point(116.997625,36.486668),
+new BMapGL.Point(116.998309,36.487311),
+new BMapGL.Point(116.99911,36.487861),
+new BMapGL.Point(117.000008,36.488304),
+new BMapGL.Point(117.000981,36.488628),
+new BMapGL.Point(117.002005,36.488825),
+new BMapGL.Point(117.003055,36.488892),
+new BMapGL.Point(117.004104,36.488825),
+new BMapGL.Point(117.005128,36.488628),
+new BMapGL.Point(117.006101,36.488304),
+new BMapGL.Point(117.006999,36.487861),
+new BMapGL.Point(117.0078,36.487311),
+new BMapGL.Point(117.008484,36.486668),
+new BMapGL.Point(117.009035,36.485946),
+new BMapGL.Point(117.009438,36.485163),
+new BMapGL.Point(117.009683,36.48434)
+  ], { strokeColor: "blue", strokeWeight: 2, strokeOpacity: 0.5 });
+  map.addOverlay(polygon);
+</script>

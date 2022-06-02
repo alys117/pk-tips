@@ -1,4 +1,4 @@
-const globalTunnel = require('global-tunnel-ng');
+const globalTunnel = require('global-tunnel-ng')
 
 globalTunnel.initialize({
   connect: 'neither',
@@ -6,7 +6,7 @@ globalTunnel.initialize({
   host: '127.0.0.1',
   port: 7890,
   // proxyAuth: 'userId:password', // optional authentication
-  sockets: 50 // optional pool size for each http and https
+  sockets: 50, // optional pool size for each http and https
 })
 
 const axios = require('axios')
@@ -14,8 +14,8 @@ axios({
   url: 'https://www.google.com',
   // url: 'https://api.github.com/users/panke',
   // url: 'http://192.168.1.34/test.txt',
-  method: 'get'
-}).then(res => { 
+  method: 'get',
+}).then((res) => {
   console.log(res.data)
 })
 /*

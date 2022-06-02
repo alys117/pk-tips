@@ -6,15 +6,15 @@
   <title>10.0单点登录示例</title>
 </head>
 <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="../tip.panke.js"></script>
 <script type="text/javascript">
   $(document).ready(function () {
-    var cptUrl = 'http://223.99.141.15:8080/WebReport/decision/view/report?viewlet=bass/html5/jinan/WorkBook21.cpt&op=h5'
     $('#login').click(function () {
       $.ajax({
-        url: 'http://223.99.141.15:8080/WebReport/decision/login/cross/domain/',
+        url: ssoUrl,
         data: {
-          fine_username: 'demo',
-          fine_password: 'r4c@9j',
+          fine_username: username,
+          fine_password: password,
           validity: -1,
         },
         dataType: 'jsonp',

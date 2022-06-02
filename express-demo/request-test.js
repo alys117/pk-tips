@@ -63,9 +63,19 @@ app2.post(
   }
 )
 
-app2.post('/api/receive', bodyParser.text({ type: '*/*' }), function (req, res) {
+app2.post(
+  '/api/receive',
+  bodyParser.text({ type: '*/*' }),
+  function (req, res) {
+    res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' })
+    console.log('post请求/api/receive', req.body)
+    res.end(JSON.stringify({ msg: 'ok', code: 200 }))
+  }
+)
+
+app2.post('/api/raw', bodyParser.raw({ type: '*/*' }), function (req, res) {
   res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' })
-  console.log('post请求/api/receive', req.body)
+  console.log('post请求/api/raw', req.body)
   res.end(JSON.stringify({ msg: 'ok', code: 200 }))
 })
 
