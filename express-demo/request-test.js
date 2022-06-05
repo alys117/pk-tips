@@ -85,6 +85,32 @@ app2.get('/receive2', function (req, res) {
   res.end(JSON.stringify({ msg: 'ok', code: 200 }))
 })
 
+app2.post('/api/user/login', function (req, res) {
+  res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' })
+  console.log('post请求/api/user/login', req.body)
+  res.end(JSON.stringify({ data: {token: 'admin-token', tip: 'pan'}, code: 20000 }))
+})
+app2.get('/api/user/info', function (req, res) {
+  res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' })
+  console.log('get请求/api/user/info', req.body)
+  res.end('{"code":20000,"data":{"roles":["admin"],"introduction":"I am a super administrator","avatar":"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif","name":"Super Admin"}}')
+})
+app2.post('/api/user/logout', function (req, res) {
+  res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' })
+  console.log('post请求/api/user/logout', req.body)
+  res.end(JSON.stringify({ data: 'success', code: 20000 }))
+})
+app2.post('/api/test', function (req, res) {
+  res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' })
+  console.log('post请求/api/test', req.body)
+  res.end(JSON.stringify({ data: "123", code: 20000 }))
+})
+// app2.get('/vue-admin-template/table/list', function (req, res) {
+//   res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' })
+//   console.log('get请求/api/test', req.body)
+//   res.end(JSON.stringify({ data: "456", code: 20000 }))
+// })
+
 const server_8083 = app.listen(8083, function () {
   const host = server_8083.address().address
   const port = server_8083.address().port

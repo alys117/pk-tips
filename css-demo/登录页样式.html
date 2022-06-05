@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div class="container">
+    <div class="entry" id="entry">
+      <div class="outer">
+        <div class="inner">inner content</div>
+      </div>
+    </div>
+    <div class="banner" id="banner"></div>
+  </div>
+</body>
+<script>
+  window.addEventListener('resize', function  () {
+    console.log(window.innerWidth);
+    if(window.innerWidth<800){
+      document.getElementById('entry').style.position='static';
+      document.getElementById('entry').style.width='100%';
+    }else{
+      document.getElementById('entry').style.position='absolute';
+      document.getElementById('entry').style.width='800px';
+    }
+  });
+</script>
+<style>
+  .container {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+  }
+  .banner{
+    width: 100%;
+    height: 100%;
+    background: #C9D66B url(../static/img/background.png) no-repeat center left;
+    background-size: auto 100%;
+  }
+  .entry {
+    width: 800px;
+    height: 100%;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: teal;
+    overflow: auto;
+  }
+  .outer {
+    width: 400px;
+    height: 700px;
+    background: #fdfd11;
+    margin: 0 auto; 
+  }
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+</style>
+</html>
