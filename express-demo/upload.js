@@ -10,10 +10,14 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')))
 
-app.post('/file_upload', upload.single('myfile'), function (req, res) {
+// curl -F 'media=@a1.png;filename=333.png' -F 'p1=foo' -F 'p2=bar' http://localhost:8081/file_upload
+//  upload.array(文件参数名，最大文件数量)	
+//  upload.feilds([{name:文件名称1,maxCount:最大文件1数量},{name:文件名称2,maxCount:最大文件2数量}...])
+
+app.post('/file_upload', upload.single('media'), function (req, res) {
   let file = req.file;
   console.log(file.originalname,file.filename)
-  console.log(req.body.username)
+  console.log(req.body)
   // fieldname: 上传文件标签在表单中的name
   let filename = path.join(__dirname, 'tmp/uploads/') + file.filename;
   // 判断上传的图片格式
@@ -32,8 +36,8 @@ app.post('/file_upload', upload.single('myfile'), function (req, res) {
   // 响应
   res.json("上传成功");
 })
-// curl -X POST -d "aaa=bbb" "http://localhost:8081/process_post/aa/77?first_name=ke&last_name=pan"
 
+// curl -X POST -d "aaa=bbb" "http://localhost:8081/process_post/aa/77?first_name=ke&last_name=pan"
 app.post('/process_post/:subflag1/:subflag2', urlencodedParser, function (req, res) {
   // 输出 JSON 格式
   res.writeHead(200,{'Content-Type':'application/json;charset=utf-8'});//设置response编码为utf-8
