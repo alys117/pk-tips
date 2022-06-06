@@ -18,3 +18,12 @@
 
 ### 5、设计器同步问题
 #### 插件同步问题依然存在，请确认该功能测试正常。
+
+### 6、在WEB-INFO/reportlets目录下FineReport.Reuse目录是做什么用的，是否可以删除
+### 7、控件编辑后事件 不能立即起作用，需要setTimeout才可以，涉及报表很广，有什么办法统一更改
+![image](static/img/控件级联.png)
+### 8、frm报表里面的数据集查询不能同步进行，大屏响应时间很慢
+如下图，请求时间9秒，是两个请求时间之和，能够改成异步的
+![image](static/img/frm%E6%9F%A5%E8%AF%A2%E6%97%B6%E9%97%B4.png)
+![image](static/img/%E5%90%8E%E5%8F%B0%E8%AF%B7%E6%B1%82%E6%97%B6%E9%97%B4.png)
+### 9、如何更改cubes日志的存放位置

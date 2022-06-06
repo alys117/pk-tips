@@ -12,25 +12,26 @@ globalTunnel.initialize({
 const http = require('http')
 
 const postData = JSON.stringify({
-  'msg': 'Hello World!'
+  msg: `require('global-tunnel-ng'); require('http').request(options, res => {})`,
 })
+
 var options = {
   hostname: 'localhost',
   port: 8084,
   path: '/api/raw',
   method: 'POST',
-  // headers: {
-  //   'Content-Type': 'application/json',
-  //   'Content-Length': Buffer.byteLength(postData)
-  // }
+  headers: {
+    'Content-Type': 'application/octet-stream',
+    'Content-Length': Buffer.byteLength(postData),
+  },
 }
 
 const req = http.request(options, (res) => {
-  console.log(`STATUS: ${res.statusCode}`);
+  console.log(`STATUS: ${res.statusCode}`)
   console.log(`HEADERS: ${JSON.stringify(res.headers)}`)
-  res.setEncoding('utf8');
+  res.setEncoding('utf8')
   res.on('data', (chunk) => {
-    console.log(`BODY: ${chunk}`);
+    console.log(`BODY: ${chunk}`)
   })
   res.on('end', () => {
     console.log('No more data in response.')
@@ -44,3 +45,9 @@ req.on('error', (e) => {
 // 将数据写入请求正文
 req.write(postData)
 req.end()
+
+http.createServer(function(req, res){
+  res.writeHead(200, {'Content-type' : 'text/html'}); // 使用不了fiddler代理，必须在请求中设置代理，在response中设置代理不起作用
+  res.write('<h1>Node.js</h1>');
+  res.end('<p>Hello World</p>');
+ }).listen(3000);

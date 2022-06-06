@@ -65,18 +65,23 @@ app2.post(
 
 app2.post(
   '/api/receive',
-  bodyParser.text({ type: '*/*' }),
+  bodyParser.text({ type: function(req){
+    return true // 不管你的请求头里面有没有Content-Type，都用text解析器解析
+  } }),
   function (req, res) {
     res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' })
-    console.log('post请求/api/receive', req.body)
-    res.end(JSON.stringify({ msg: 'ok', code: 200 }))
+    console.log('post请求/api/receive body：', req.body)
+    res.end(JSON.stringify({ msg: '请求都按照text解析', code: 200 }))
   }
 )
 
-app2.post('/api/raw', bodyParser.raw({ type: '*/*' }), function (req, res) {
+app2.post('/api/raw', bodyParser.raw({ 
+  type: '*/*' // 不管你的请求头content-type(但是必须有content-type头)，都用raw解析器解析
+}), function (req, res) {
   res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' })
   console.log('post请求/api/raw', req.body)
-  res.end(JSON.stringify({ msg: 'ok', code: 200 }))
+  console.log(req.body.toString())
+  res.end(JSON.stringify({ msg: '请求body按照raw解析', code: 200 }))
 })
 
 app2.get('/receive2', function (req, res) {
@@ -84,6 +89,25 @@ app2.get('/receive2', function (req, res) {
   console.log('get请求/receive2', req.body)
   res.end(JSON.stringify({ msg: 'ok', code: 200 }))
 })
+
+const typeis = require('type-is')
+const app3 = express()
+app3.use(bodyParser.json({ type: function(req) {
+  if (undefined === req.headers['content-type']) {
+    // cleos POST data without content-type
+    return true
+  } else {
+    return Boolean(typeis(req, 'application/json'))
+  }
+}}))
+app3.post(
+  '/api/receive',
+  function (req, res) {
+    res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' })
+    console.log('post请求/api/receive body：', req.body)
+    res.end(JSON.stringify({ msg: 'app3 8085', code: 200 }))
+  }
+)
 
 const server_8083 = app.listen(8083, function () {
   const host = server_8083.address().address
@@ -94,5 +118,11 @@ const server_8083 = app.listen(8083, function () {
 const server_8084 = app2.listen(8084, function () {
   const host = server_8084.address().address
   const port = server_8084.address().port
+  console.log('应用访问地址为 http://%s:%s', host, port)
+})
+
+const server_8085 = app3.listen(8085, function () {
+  const host = server_8085.address().address
+  const port = server_8085.address().port
   console.log('应用访问地址为 http://%s:%s', host, port)
 })
