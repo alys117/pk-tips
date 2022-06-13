@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+</body>
+<script type="module">
+  import { debounce } from './util.js'
+  const obj = { tip: 'shooting star'}
+  const handler = debounce(function(...args) {
+    console.log('debounce',this?.tip, args)
+  }
+  .bind(obj, {param: '参数'}) 
+  , 100)
+  window.addEventListener('resize', handler)
+  handler()
+</script>
+</html>
