@@ -10,18 +10,19 @@
   <button id="btn">重新设置timeout</button>
   <script>
     let count = 0
-    let timeout = setTimeout(() => {
-      console.log('timeout');
-    }, 2000);
+    let timeout
 
     document.getElementById('btn').addEventListener('click', () => {
       // clearTimeout(timeout);
       count++
-      timeout = null
       timeout = setTimeout(() => {
-        console.log('timeout', count);
+        f()
       }, 2000);
     });
+    function f(){
+      timeout= null
+      console.log('work '+ count);
+    }
   </script>
 </body>
 </html>

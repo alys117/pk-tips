@@ -33,26 +33,6 @@
         },
       })
     })
-    function Login (Thirdtoken) {
-      var url = "http://223.99.141.15:8080/WebReport/decision/third/auth/cross/login";
-      $.ajax({
-        url: url,
-        dataType: "jsonp",
-        data: { third_token: Thirdtoken },
-        success: function (res) {
-          //console.log(res);
-          if (res.errorCode) {
-            window.alert(res.errorMsg);
-          } else {
-            //document.getElementById('ifm').src= 'http://10.19.206.196:8088/WebReport/decision/view/report?viewlet=bass/html5/jinan/WorkBook21.cpt&op=h5'
-            alert('登录成功')
-          }
-        },
-        error: function () {
-          alert("超时或服务器其他错误");// 登录失败（超时或服务器其他错误）
-        }
-      });
-    }
     $('#wb1').click(function () {
       window.open(cptUrl)
     })
@@ -61,11 +41,30 @@
     })
 
     $('#sso').click(function () {
-      var token = 'eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTMzODgxMzUsInN1YiI6InBhbmtlIn0.D9H8WrgMGG060k8GUo46LJOxgdd1uD7B2ibQBDV4_B8'
+      var token = 'eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTUxNzE5MzMsInN1YiI6IlNZU19SV0cwMDAwMDBwbiJ9.fTrRWPtqUsMn3b_2d2aGGnxu1ffOYw5m8CalN0IHtVo'
       Login(token)
     })
   })
-
+  function Login (Thirdtoken) {
+    console.log('thirdtoken', Thirdtoken);
+    $.ajax({
+      url: ssoUrl,
+      dataType: "jsonp",
+      data: { third_token: Thirdtoken },
+      success: function (res) {
+        console.log(res);
+        if (res.errorCode) {
+          window.alert(res.errorMsg);
+        } else {
+          console.log('success');
+        }
+      },
+      error: function (err) {
+        console.log(err);
+        alert(err);// 登录失败（超时或服务器其他错误）
+      }
+    });
+  }
   function setCookie (name, value) {
     document.cookie = name + '=' + escape(value)
   }
@@ -99,4 +98,5 @@
     padding: 0;
   }
 </style>
+
 </html>
