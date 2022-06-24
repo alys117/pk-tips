@@ -1,0 +1,7 @@
+<doc>
+    <column><name>dodo</name><value type="string">bird</value></column>
+    <column><name>mighty</name><value type="string">boosh</value></column>
+    <column><name>crack</name><value type="string">fox</value></column>
+    <column><name>foo</name><value type="boolean">true</value></column>
+    <column><name>uid</name><value type="number">12345</value></column>
+</doc>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <style>
+    by-zhangxinxu {
+      display: flex;
+    }
+
+    item-zxx {
+      padding: 1em;
+      border: 1em solid deepskyblue;
+      color: deepskyblue;
+      outline: 1px dashed #fff;
+    }
+
+    item-zxx:nth-child(1) {
+      width: 100px;
+    }
+    item-zxx:nth-child(2) {
+      width: 100px;
+      box-sizing: border-box;
+      /* word-break: break-all; */
+    }
+
+    item-zxx:nth-child(3) {
+      flex-basis: 100px;
+    }
+
+    item-zxx:nth-child(4) {
+      flex-basis: 100px;
+      box-sizing: border-box;
+      /* word-break: break-all; */
+    }
+  </style>
+  <by-zhangxinxu>
+    <item-zxx>这是开场白，很惊艳吧。我设置了width:100px</item-zxx>
+    <item-zxx>这是开场白，很惊艳吧。我设置了width:100px，同时box-sizing: border-box</item-zxx>
+    <item-zxx>这是开场白，很惊艳吧。我设置了flex-basis:100px</item-zxx>
+    <item-zxx>这是开场白，很惊艳吧asiainfo_by_deheng。我设置了flex-basis:100px，同时box-sizing: border-box</item-zxx>
+  </by-zhangxinxu>
+</body>
+<script>
+  const url = new URL('http://panke:secret@192.168.0.103:9321/path/to/file?foo=bar#baz');
+  console.log(url);
+  console.log(url.searchParams.get('foo')); // 'bar'
+</script>
+</html>

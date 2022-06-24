@@ -10,6 +10,23 @@
   <div style="--color: red; border: 1px solid var(--color)">
     hello,world
   </div>
+  <div id="mydiv" class="ext" data-selfdef="hey,buddy">
+    css scoped
+  </div>
+
+  <div id="mydiv2" class="ext" data1-selfdef="hey,buddy">
+    css scoped
+  </div>
+
+  <div class="a">a</div>
+  <div class="a b c">
+    woshi a b c
+  </div>
+
+  <div class="flex">
+    <div class="item1">fdsfdsfdsfadsfdsafdsafdsaf</div>
+    <div class="item2">fdsfdsafdsafdsafdsafdsafds</div>
+  </div>
 </body>
 <script>
   const isSupported =
@@ -24,5 +41,34 @@
     /* not supported */
     console.log('不支持css变量');
   }
+  console.log(document.getElementById('mydiv').dataset.selfdef);
+  console.log(document.getElementById('mydiv2').dataset);
 </script>
+<style>
+  .ext[data-selfdef]{
+    background-color: bisque;
+  }
+  .ext[data1-selfdef]{
+    background-color: royalblue;
+  }
+  .a{
+    color: brown;
+  }
+  .a.b.c{
+    color: chartreuse;
+  }
+  .flex{
+    background-color: azure;
+    display: flex;
+    align-items: flex-end;
+    width: 200px;
+  }
+  .flex .item1{
+    background-color: burlywood;
+    font-size: 34px;
+  }
+  .flex .item2{
+    background-color: red;
+  }
+</style>
 </html>

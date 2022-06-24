@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,44 +8,62 @@
   <title>Document</title>
 </head>
 <style>
-  .container {
-    display: flex;
-    justify-content: space-around;
+  * {
+    margin: 0;
   }
-  .item{
+  .HolyGrail {
     display: flex;
+    min-height: 100vh;
     flex-direction: column;
-    align-items: center;
   }
-  .left_item {
-    height: 100%;
-    display: inline-block;
-    vertical-align: middle; 
+
+  header,
+  footer {
+    flex: 1;
+  }
+
+  .HolyGrail-body {
+    display: flex;
+    flex: 6;
+  }
+
+  .HolyGrail-content {
+    flex: 1;
+  }
+
+  .HolyGrail-nav,
+  .HolyGrail-ads {
+    /* 两个边栏的宽度设为12em */
+    flex: 0 0 12em;
+  }
+
+  .HolyGrail-nav {
+    /* 导航放到最左边 */
+    order: -1;
+  }
+
+  @media (max-width: 768px) {
+    .HolyGrail-body {
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .HolyGrail-nav,
+    .HolyGrail-ads,
+    .HolyGrail-content {
+      flex: auto;
+    }
   }
 </style>
-<body>
-  <div class="container">
-    <div class="item">
-      <div>
-        <img src="../static/img/house.png" alt="no-pic">
-        <span class="left_item">hh:mm</span>
-      </div>
-      <div>名字</div>
-    </div>
-    <div class="item">
-      <div>
-        <img src="../static/img/house.png" alt="no-pic">
-        <span class="left_item">hh:mm</span>
-      </div>
-      <div>名字</div>
-    </div>
-    <div class="item">
-      <div>
-        <img src="../static/img/house.png" alt="no-pic">
-        <span class="left_item">hh:mm</span>
-      </div>
-      <div>名字</div>
-    </div>
+
+<body class="HolyGrail">
+  <header style="background-color:aquamarine">header</header>
+  <div class="HolyGrail-body" style="background-color:blueviolet">
+    <main class="HolyGrail-content" style="background-color:beige;">...</main>
+    <nav class="HolyGrail-nav" style="background-color: red">...</nav>
+    <aside class="HolyGrail-ads" style="background-color: cadetblue;">...</aside>
   </div>
+  <footer style="background-color: black;">...</footer>
 </body>
+
 </html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <button onclick="goiframe()">显示iframe2</button><br>
+  <iframe width="600" height="200" src="http://localhost:8080/audio-platform/session-set.jsp" frameborder="1"></iframe>
+  <br>
+  <iframe id="iframe2" width="600" height="200" src="" frameborder="1"></iframe>
+  <script>
+    function goiframe(){
+      document.querySelector('#iframe2').src = "http://localhost:8080/audio-platform/session-get.jsp"
+    }
+  </script>
+</body>
+</html>
+
+<!-- 
+方案一
+Chrome 中打开
+chrome://flags/#same-site-by-default-cookies 
+和 chrome://flags/#cookies-without-same-site-must-be-secure ，设置为 Disabled ，重启浏览器
+
+方案二
+降级到 Chrome 79 及以下版本，并关闭自动更新
+ -->
