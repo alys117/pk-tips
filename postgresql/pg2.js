@@ -3,10 +3,10 @@ const pg = require('pg')
 // 数据库配置
 var config = {
   user: 'postgres',
-  host: '192.168.1.33',
-  database: 'foreign_teacher',
+  host: '192.168.0.103',
+  database: 'deheng',
   password: 'postgres',
-  port: 9432,
+  port: 5432,
 
   // 扩展属性
   max: 20, // 连接池最大连接数
@@ -38,7 +38,7 @@ pool.connect(function (err, client, done) {
 pool.connect().then((client) => {
   // insert 数据
   client
-    .query('INSERT INTO zhparser.student(name, age) VALUES($1::varchar, $2::int)', [
+    .query('INSERT INTO test(name, age) VALUES($1::varchar, $2::int)', [
       'xiaoming',
       '20',
     ])
@@ -49,7 +49,7 @@ pool.connect().then((client) => {
     })
     .then((res) => {
       // 查询xiaoming
-      return client.query('Select * FROM zhparser.student WHERE name = $1', ['xiaoming'])
+      return client.query('Select * FROM test WHERE name = $1', ['xiaoming'])
     })
     .then((res) => {
       // 输出结果，看是否插入成功
@@ -58,14 +58,14 @@ pool.connect().then((client) => {
     })
     .then((res) => {
       // update 数据，将age改为21
-      return client.query('UPDATE zhparser.student SET age=$1 WHERE name=$2', [
+      return client.query('UPDATE test SET age=$1 WHERE name=$2', [
         21,
         'xiaoming',
       ])
     })
     .then((res) => {
       // 再查询一次xiaoming
-      return client.query('Select * FROM zhparser.student WHERE name = $1', ['xiaoming'])
+      return client.query('Select * FROM test WHERE name = $1', ['xiaoming'])
     })
     .then((res) => {
       // 再输出结果，看是否改为了21
@@ -74,11 +74,11 @@ pool.connect().then((client) => {
     })
     .then((res) => {
       // 删除数据
-      client.query('DELETE FROM zhparser.student WHERE name=$1', ['xiaoming'])
+      client.query('DELETE FROM test WHERE name=$1', ['xiaoming'])
     })
     .then((res) => {
       // 最后再查询一次xiaoming
-      res = client.query('Select * FROM zhparser.student WHERE name = $1', ['xiaoming'])
+      res = client.query('Select * FROM test WHERE name = $1', ['xiaoming'])
       // 释放连接
       client.release()
       return res

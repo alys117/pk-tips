@@ -12,11 +12,16 @@
   <button id="btn">bind</button>
 </body>
 <script>
-  function f (...args) {
-    console.log(args, this);
+  const arr = [1, 2, 3];
+  console.log(arr.at(-1));
+
+  function func1 (...args) {
+    console.log(arguments);
+    console.log(args);
+    console.log(this);
   }
 
-  const a = f.bind(null, 'a', 'b', 'c');
+  const a = func1.bind(null, 'a', 'b', 'c');
   const b = a.bind(null, 'd', 'e', 'f');
   b(123)
 
@@ -25,7 +30,7 @@
   b.apply(null, ['apply', 'my', 'dream']);
 
 
-  document.getElementById('btn').addEventListener('click', f.bind(document.getElementById('btn'), 'a', 'b', 'c'));
+  document.getElementById('btn').addEventListener('click', func1.bind(document.getElementById('btn'), 'a', 'b', 'c'));
 </script>
 
 </html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <button id="fd3" onclick="busi_shadow()">防抖3</button>
+</body>
+<script>
+  function debounce (func, wait, immediate) {
+    if (typeof func === 'function') {
+      console.log(func);
+    } else {
+      console.log(123123);
+    }
+    let timeout, args, context, timestamp, result
+
+    const later = function () {
+      // 据上一次触发时间间隔
+      const last = +new Date() - timestamp // 如果重复调用debounce，timestamp会被重置为调用时间，即使上一个setTimeout到期被调用，因为下面的if判断会被在推迟执行，直到停止调用debounce, 这样timestamp的值被固定下来，才会走下面的else分支
+
+      // 上次被包装函数被调用时间间隔 last 小于设定时间间隔 wait
+      if (last < wait && last > 0) {
+        timeout = setTimeout(later, wait - last) // 重点重点：通过这个方法，只执行一次，因为如果不停点击的话，这个方法会一直被调用，直到停止调用这个函数
+      } else {
+        timeout = null
+        // 如果设定为immediate===true，因为开始边界已经调用过了此处无需调用
+        if (!immediate) {
+          result = func.apply(context, args)
+          if (!timeout) {
+            console.log('timeout', timeout);
+            context = args = null
+          } else {
+            console.log('timeout', timeout);
+          }
+        }
+      }
+    }
+    return function () {
+      context = this
+      const callNow = immediate && !timeout
+      // 如果延时不存在，重新设定延时
+      if (!timeout) {
+        timeout = setTimeout(later, wait)
+      }
+      if (callNow) {
+        result = func.apply(context, args)
+        context = args = null
+      }
+      // console.log(result, '目标函数返回结果');
+      return result
+    }
+  }
+  function busi () { console.log('%c我是真正业务代码', 'color: #43bb88;font-size: 24px;font-weight: bold;text-decoration: underline;'); }
+  var busi_shadow = debounce(busi, 2000, true)
+</script>
+
+</html>

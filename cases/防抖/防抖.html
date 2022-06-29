@@ -10,17 +10,26 @@
 </head>
 
 <body>
-
   <button onclick="debounce(function(...args) {
   console.log('click', this.obj.tip)
   return 123
-}, 1000,false)()">防抖</button> <!-- 直接写在onclick上不可以，还不知道为什么，和闭包有什么关系吗？？ -->
-  <button id="fd2" data-attr="smile">防抖2</button>
+}, 1000,false)()">防抖</button> 
+<!-- // 直接写在onclick上不可以，还不知道为什么，和闭包有什么关系吗？？ -->
+  <button id="fd2">防抖2</button>
   <!--使用addEventListener可以 -->
+  <button id="fd3" onclick="busi()">防抖3</button>
 </body>
 <script>
+  function busi () { console.log('%c我是真正业务代码', 'color: #43bb88;font-size: 24px;font-weight: bold;text-decoration: underline;'); }
+  var busi_shadow = debounce(busi, 2000, true)
+  var flag = false
   let count = 0
   function debounce (func, wait, immediate) {
+    if (typeof func === 'function') {
+      console.log(func);
+    } else {
+      console.log(123123);
+    }
     let timeout, args, context, timestamp, result
 
     const later = function () {
@@ -76,7 +85,7 @@
   var obj = { tip: 'shooting star' }
   document.getElementById('fd2').addEventListener('click', debounce(function (...args) {
     console.log('%c我是真正业务代码', 'color: #43bb88;font-size: 24px;font-weight: bold;text-decoration: underline;');
-    console.dir({'__this__': this, args }, moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS'))
+    console.dir({ '__this__': this, args }, moment(new Date()).format('YYYY-MM-DD HH:mm:ss.SSS'))
     return `target return ${++count}`
   }.bind(document.getElementById('fd2'), 'haha'), 2000, false)) // 如果第三个参数immediate传false，返回的 target function return 其实是上一次的结果
 </script>

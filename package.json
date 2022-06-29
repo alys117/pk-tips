@@ -29,6 +29,7 @@
     "socks-proxy-agent": "^6.2.0-beta.0",
     "socks5-http-client": "^1.0.4",
     "socks5-https-client": "^1.2.1",
+    "tunnel-ssh": "^4.1.6",
     "type-is": "^1.6.18",
     "vue": "^3.2.31",
     "xml2js": "^0.4.23",
