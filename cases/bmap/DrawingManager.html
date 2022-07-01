@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>获取自定义区域内的坐标点 - 百度地图</title>
+		<!-- 加载鼠标绘制样式 -->
+		<link rel="stylesheet" href="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.css">
+		<style>
+			html,
+			body {
+				width: 100%;
+				height: 100vh;
+				padding: 0;
+				margin: 0;
+				overflow: hidden;
+			}
+			/* 隐藏百度地图logo */
+			.anchorBL {
+				display: none;
+			}
+			
+			.btn-contrail button {
+				margin-bottom: 30px;
+				margin-left: 0px!important;
+				background-color: #FFFFFF;
+				color: rgba(0, 0, 0, .5);
+				padding: 10px;
+			}
+			
+			.layui-btn:hover {
+				background-color: #1890ff!important;
+				color: #FFFFFF!important;
+			}
+			
+			.btn-click {
+				background-color: #1890ff!important;
+				color: #FFFFFF!important;
+			}
+			
+			.BMapLib_Drawing {
+				position: absolute!important;
+				right: 150px!important;
+				display: none;
+			}
+			/* 隐藏工具栏 */
+			.BMapLib_marker {
+				display: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div style="position: fixed;top: 0;right: 0;height: 100vh;background: rgba(0,0,0,0);width: 125px;z-index: 9999999;display: flex;justify-content: center;align-items: center;">
+			<div class="tools" style="width: 100%;height: 100%">
+				<div class="btn-contrail" style="height: 100%;background: rgba(0,0,0,.5);width: 100%;display: flex;flex-direction: column;justify-content: center;align-items: center;">
+					<button type="button" class="layui-btn btn-click" data-model="0">查看点</button>
+					<button type="button" class="layui-btn" data-model="1">标新点</button>
+					<button type="button" class="layui-btn" data-model="2">删除点</button>
+					<button type="button" class="layui-btn" data-model="3">画区域</button>
+					<button type="button" class="layui-btn" data-model="4">清除域</button>
+					<button type="button" class="layui-btn" data-model="5">计算点</button>
+				</div>
+			</div>
+		</div>
+		<!-- 地图容器 -->
+		<div id="container" style="height: 100vh;width: 100%"></div>
+		<!-- jquery -->
+		<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<!-- 百度地图api -->
+		<script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=E2e5a8af567e7bb2e3a9892e1006c505"></script>
+		<!-- 点聚合工具 -->
+		<script type="text/javascript" src="http://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>
+		<!-- 点聚合工具 -->
+		<script type="text/javascript" src="https://api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer_min.js"></script>
+		<!--加载鼠标绘制工具-->
+		<script type="text/javascript" src="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.js"></script>
+
+		<script type="text/javascript">
+
+			// 工具栏模式：0-查看点1-标新点2-删除点3-画区域4-清除域5-计算点
+			var model = 0;
+
+			// 地图上所有的点
+			var points = [];
+			// 区域内的点
+			var areaPoint = [];
+
+			// 切换模式
+			$('body').on('click', '.layui-btn', function() {
+				// 样式改变
+				$('.btn-contrail').find('.layui-btn').removeClass('btn-click');
+				$(this).addClass('btn-click');
+				// 事件监听
+				model = $(this).data('model');
+				if(3 == model) {
+					$('.BMapLib_Drawing').show();
+				} else {
+					$('.BMapLib_Drawing').hide();
+				}
+				// 清除域
+				if(4 == model) {
+					clearAll();
+				}
+				// 计算点
+				if(5 == model) {
+					alert('所选区域点数：' + areaPoint.length);
+				}
+			});
+
+			// 定义地图
+			var mp = new BMap.Map("container");
+			// 鼠标滚动缩放
+		    mp.enableScrollWheelZoom(true);
+		    // 地图中心点，并设置级别
+		    mp.centerAndZoom(new BMap.Point(106.908, 28.1744), 10);
+		    // 地图类型，卫星地图
+		    mp.setMapType(BMAP_HYBRID_MAP);
+		    // 地图缩放级别
+		    mp.setZoom(10)
+		    
+			// 请求数据，并渲染地图
+			init();
+			function init() {
+				// 获取数据
+				$.get("json/data.json", function(res) {
+					points = res.data;
+					renderMap();
+				});
+			}
+
+			// 渲染地图坐标点
+			function renderMap() {
+				var markers = [];
+				points.forEach(v => {
+					// 创建新的坐标点
+					const marker = new BMap.Marker(new BMap.Point(v['lng'], v['lat']), {
+						icon: ''
+					})
+					// 为每一个点添加点击事件
+					marker.addEventListener('click', function() {
+						showPoint(v, marker);
+					});
+					markers.push(marker)
+				})
+				// 点聚合
+				new BMapLib.MarkerClusterer(mp, {
+					markers: markers
+				});
+			}
+
+			// 监听地图点击事件
+			mp.addEventListener("click", function(e) {
+				var point = e.point;
+				// 标新点
+				if(1 == model) {
+					// 创建新的坐标点
+					const marker = new BMap.Marker(new BMap.Point(point.lng, point.lat));
+					// 添加点击事件
+					marker.addEventListener('click', function() {
+						showPoint(point, marker);
+					});
+					// 添加坐标点到地图中
+					mp.addOverlay(marker);
+					// 将坐标点添加到我们的坐标带你集合中
+					points.push(point);
+				}
+			});
+
+			// 坐标点的点击事件监听
+			function showPoint(point, marker) {
+				// 查看点
+				if(0 == model) {
+					var lng = parseFloat(point.lng).toFixed(5);
+					var lat = parseFloat(point.lat).toFixed(5);
+					alert('经度：' + lng + '，纬度：' + lat);
+				}
+				// 删除点
+				if(2 == model) {
+					mp.removeOverlay(marker);
+				}
+			}
+
+			// 区域坐标点范围
+			var overlays = [];
+			// 区域划分后触发事件
+			var overlaycomplete = function(e) {
+				var position = [];
+				overlays.push(e.overlay);
+				// 获取多边形端点坐标
+				for(var i = 0; i < e.overlay.getPath().length; i++) {
+					let coordinate = new Object();
+					coordinate.lng = e.overlay.getPath()[i].lng;
+					coordinate.lat = e.overlay.getPath()[i].lat;
+					position.push(coordinate);
+				}
+				// 清空上一区域内的点
+				areaPoint.length = 0;
+				// 重新添加区域内的点
+				points.forEach(v => {
+					// 计算点是否在区域内
+					if(isInsidePolygon(v, position)) {
+						areaPoint.push(v)
+					}
+				})
+				// 关闭绘制模式
+				drawingManager.close();
+			};
+
+			// 绘制样式
+			var styleOptions = {
+				strokeColor: "red", //边线颜色。
+				fillColor: "red", //填充颜色。当参数为空时，圆形将没有填充效果。
+				strokeWeight: 3, //边线的宽度，以像素为单位。
+				strokeOpacity: 0.8, //边线透明度，取值范围0 - 1。
+				fillOpacity: 0.6, //填充的透明度，取值范围0 - 1。
+				strokeStyle: 'solid' //边线的样式，solid或dashed。
+			};
+			
+			// 实例化鼠标绘制工具
+			var drawingManager = new BMapLib.DrawingManager(mp, {
+				// 是否开启绘制模式
+				isOpen: false,
+				// 是否显示工具栏
+				enableDrawingTool: true,
+				drawingToolOptions: {
+					// 位置
+					anchor: BMAP_ANCHOR_TOP_RIGHT,
+					// 偏离值
+					offset: new BMap.Size(5, 5),
+					// 画覆盖物工具栏上显示的可选项
+					drawingModes: [
+						BMAP_DRAWING_MARKER,
+						BMAP_DRAWING_CIRCLE,
+						BMAP_DRAWING_POLYLINE,
+						BMAP_DRAWING_POLYGON,
+						BMAP_DRAWING_RECTANGLE
+					]
+				},
+				// 圆的样式
+				circleOptions: styleOptions,
+				// 线的样式
+				polylineOptions: styleOptions,
+				// 多边形的样式
+				polygonOptions: styleOptions,
+				// 矩形的样式
+				rectangleOptions: styleOptions
+			});
+			
+			// 添加鼠标绘制工具监听事件，用于获取绘制结果
+			drawingManager.addEventListener('overlaycomplete', overlaycomplete);
+
+			/// 清除区域
+			function clearAll() {
+				for(var i = 0; i < overlays.length; i++) {
+					mp.removeOverlay(overlays[i]);
+				}
+				// 区域坐标置空
+				overlays.length = 0
+			}
+
+			// 计算点是否在坐标内
+			function isInsidePolygon(point, pts) {
+				const N = pts.length
+				let intersectCount = 0
+				let precision = 2e-10
+				// 邻界顶点
+				let p1, p2
+				let p = point
+				// 左顶点
+				p1 = pts[0]
+				// 检查所有射线
+				for(let i = 1; i <= N; ++i) {
+					// p是一个边上的点
+					if(p.lat === p1.lat && p.lng === p1.lng){
+						return true
+					}
+					// 右顶点
+					p2 = pts[i % N]
+					// 射线与我们无关
+					if(p.lat < Math.min(p1.lat, p2.lat) || p.lat > Math.max(p1.lat, p2.lat)) {
+						p1 = p2;
+						// 下一个射线左点
+						continue;
+					}
+					if(p.lat > Math.min(p1.lat, p2.lat) && p.lat < Math.max(p1.lat, p2.lat)) {
+						if(p.lng <= Math.max(p1.lng, p2.lng)) {
+							if(p1.lat === p2.lat && p.lng >= Math.min(p1.lng, p2.lng))
+								return true
+
+							if(p1.lng === p2.lng) {
+								if(p1.lng === p.lng) {
+									return true
+								} else {
+									++intersectCount
+								}
+							} else {
+								let xInters = (p.lat - p1.lat) * (p2.lng - p1.lng) / (p2.lat - p1.lat) + p1.lng;
+								if(Math.abs(p.lng - xInters) < precision)
+									return true
+
+								if(p.lng < xInters)
+									++intersectCount
+							}
+						}
+					} else {
+						if(p.lat === p2.lat && p.lng <= p2.lng) {
+							// 下一个顶点
+							let p3 = pts[(i + 1) % N];
+							if(p.lat >= Math.min(p1.lat, p3.lat) && p.lat <= Math.max(p1.lat, p3.lat))
+								++intersectCount
+							else
+								intersectCount += 2
+						}
+					}
+					// 下一个射线左点
+					p1 = p2
+				}
+				// 偶数在多边形外, 奇数在多边形内
+				return 0 !== intersectCount % 2
+			}
+		</script>
+	</body>
+
+</html>

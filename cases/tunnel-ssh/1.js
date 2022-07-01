@@ -36,8 +36,16 @@ const server = tunnel(config, function (error, server) {
     client.query(selectSQLString).then((results,err)=>{
       err && console.log(err)
       console.log(results.rows)
-      client.end() 
-      server.close()
+      const promiseArr = [] 
+      results.rows.forEach(element => {
+        const rs = client.query('update test set age = 12 where id = $1', [element.id])
+        promiseArr.push(rs)
+      });
+      Promise.allSettled(promiseArr).then((all)=>{
+        console.log(all)
+        client.end() 
+        server.close()
+      })
     })
   })
 })
