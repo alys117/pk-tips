@@ -129,11 +129,12 @@ insert into dict (type,type_name,sub_id,sub_name)values(9,'签证类型',8,'D字
 insert into dict (type,type_name,sub_id,sub_name)values(9,'签证类型',9,'T字签证（停留签）');
 insert into dict (type,type_name,sub_id,sub_name)values(9,'签证类型',10,'其他签证');
 
-18	[{"1": "合同已签"}, {"2": "合同等盖章回传"}, {"3": "合同等待寄回"}, {"4": "合同协商中"}]	合同状态
+18	[{"1": "合同已签"}, {"2": "合同等盖章回传"}, {"3": "合同等待寄回"}, {"4": "合同协商中"}, {"5": "不合适合作"}]	合同状态
 insert into dict (type,type_name,sub_id,sub_name)values(18,'合同状态',1,'合同已签');
 insert into dict (type,type_name,sub_id,sub_name)values(18,'合同状态',2,'合同等盖章回传');
 insert into dict (type,type_name,sub_id,sub_name)values(18,'合同状态',3,'合同等待寄回');
 insert into dict (type,type_name,sub_id,sub_name)values(18,'合同状态',4,'合同协商中');
+insert into dict (type,type_name,sub_id,sub_name)values(18,'合同状态',5,'不合适合作');
 
 19	[{"1": "待推荐"}, {"2": "已推荐"}, {"3": "预约面试"}, {"4": "完成面试"}, {"5": "确认聘用"}, {"6": "已办签证"}, {"7": "已上岗"}, {"8": "已开票"}, {"9": "已付前款"}, {"10": "已付全款"}, {"11": "匹配不成功"}] 匹配阶段
 insert into dict (type,type_name,sub_id,sub_name)values(19,'匹配阶段',1,'待推荐');

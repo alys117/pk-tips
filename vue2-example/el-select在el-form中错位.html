@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>element-ui</title>
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <script src="https://unpkg.com/vue@2"></script>
+  <script src="https://unpkg.com/element-ui@2"></script>
+  <style>
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <!-- 我想修改select的el-select-dropdown的样式，想渲染必须放到 <div id="app"> 中，
+      查看elementui的文档说有个属性 popper-append-to-body可以用，但是发现有个dropdown错位的bug
+    -->
+    <div style="padding: 20px">
+      <span>不在el-form里的正常</span>
+      <el-select v-model="form.region" placeholder="请选择活动区域" :popper-append-to-body="false">
+        <el-option label="区域一" value="shanghai"></el-option>
+        <el-option label="区域二" value="beijing"></el-option>
+      </el-select>
+    </div>
+    <el-form :model="form" label-width="120px">
+      <el-form-item label="dropdown正常">
+        <el-select v-model="form.region" placeholder="请选择活动区域" :popper-append-to-body="true">
+          <el-option label="区域一" value="shanghai"></el-option>
+          <el-option label="区域二" value="beijing"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="dropdown错位">
+        <el-select v-model="form.name" placeholder="请选择活动区域" :popper-append-to-body="false"  class="selfdef">
+          <el-option label="区域一" value="shanghai"></el-option>
+          <el-option label="区域二" value="beijing"></el-option>
+        </el-select>
+      </el-form-item>
+    </el-form>
+  </div>
+</body>
+<script>
+  const app = new Vue({
+    data () {
+      return {
+        form:{
+          region: '',
+          name: ''
+        }
+      }
+    }
+  }).$mount('#app')
+</script>
+<style>
+/*   只能这样多写一句
+  .selfdef .el-select-dropdown.el-popper{
+    left: 0 !important;
+  } */
+</style>
+</html>
