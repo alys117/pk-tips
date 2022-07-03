@@ -115,7 +115,7 @@
 		    // 地图中心点，并设置级别
 		    mp.centerAndZoom(new BMap.Point(106.908, 28.1744), 10);
 		    // 地图类型，卫星地图
-		    mp.setMapType(BMAP_HYBRID_MAP);
+		    mp.setMapType(BMAP_NORMAL_MAP);
 		    // 地图缩放级别
 		    mp.setZoom(10)
 		    
@@ -225,18 +225,20 @@
 				enableDrawingTool: true,
 				drawingToolOptions: {
 					// 位置
-					anchor: BMAP_ANCHOR_TOP_RIGHT,
+					anchor: BMAP_ANCHOR_BOTTOM_LEFT,
 					// 偏离值
 					offset: new BMap.Size(5, 5),
 					// 画覆盖物工具栏上显示的可选项
 					drawingModes: [
-						BMAP_DRAWING_MARKER,
+            BMAP_DRAWING_MARKER,
 						BMAP_DRAWING_CIRCLE,
 						BMAP_DRAWING_POLYLINE,
 						BMAP_DRAWING_POLYGON,
 						BMAP_DRAWING_RECTANGLE
 					]
 				},
+        // 点的样式
+				markerOptions: styleOptions,
 				// 圆的样式
 				circleOptions: styleOptions,
 				// 线的样式
