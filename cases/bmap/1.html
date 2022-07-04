@@ -127,12 +127,13 @@
 
 		//添加鼠标绘制工具监听事件，用于获取绘制结果
 		var overlaycomplete = function (e) {
+      let boundary = e.overlay.getPath();
+      console.log(boundary);
 			overlays.push(e.overlay);
 			drawingManager.close();
-			console.log(drawingManager.getDrawingMode())
+			console.log(drawingManager.getDrawingMode(),overlays)
 		};
 		drawingManager.addEventListener('overlaycomplete', overlaycomplete);
-
 
 		map.addEventListener("rightclick", function (e) {
 			if (confirm(e.point.lng + "," + e.point.lat)) {
