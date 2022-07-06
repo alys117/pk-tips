@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    /*
+      首先们要知道：
+      not standard,它的特性是一个非标准的.尽量不要在生产平台上使用，在兼容上也存上很大不确定性，将来可能随时变化。
+      obsolete,废弃的。虽然它仍然可以在一些浏览器上使用，但并不鼓励。尽量避免使用它。
+      条件编译在IE 11标准模式和win8 apps store已经不支持。但是IE10，以及早期浏览器仍然可以使用。
+      所以@cc_on 是 IE10 及更旧版IE特有的条件编译语句，因此可以用来判断是否除 IE11 的其他IE版本
+    */
+    // ie11的话也不支持这个用法了，所以即使使用ie浏览器还是会认为是 gecko，所以要用到 userAgent
+    alert("浏览器userAgent " + navigator.userAgent);
+    // 特别注意： 只要使用过cc_on之后，后面的代码就可以直接用 /*@ alert('在ie低版本中会运行哦，在ie11或者非ie会被当做注释') @*/
+    /*@cc_on alert("使用了cc_on显示浏览器版本号:"+@_jscript_version) @*/
+
+    var IEVersion = 0;
+    /*@ IEVersion = @_jscript_version; @*/
+    alert(IEVersion)
+    if (IEVersion > 0) {
+      if (IEVersion < 11) {
+        // 除非真用的低版本的IE（非兼容性模式），否则下面的代码永远不会执行
+        alert('IE 11已经发布多年，不要再用祖传的IE' + IEVersion + '了！');
+      } else {
+        alert('IE 11');
+      }
+    } else {
+      alert('当前浏览器不是IE内核浏览器。或者是IE11');
+    }
+  </script>
+</body>
+
+</html>
