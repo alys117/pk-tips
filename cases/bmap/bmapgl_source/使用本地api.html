@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>鼠标绘制工具示例</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="./bmap.css">
+  <link rel="stylesheet"
+    href="https://mapopen.bj.bcebos.com/github/BMapGLLib/DrawingManager/src/DrawingManager.min.css">
+  <style>
+    html,
+    body,
+    #map {
+      height: 90%;
+      width: 100%;
+      margin: 0;
+    }
+  </style>
+  <script src="bmapgl.js"></script>
+  <script src="https://mapopen.bj.bcebos.com/github/BMapGLLib/DrawingManager/src/DrawingManager.min.js"></script>
+  <title>DrawingManager Example</title>
+</head>
+
+<body>
+  <div id="selectbox_Drawing" class="selectbox_Drawing"></div>
+  <div id="map"></div>
+  <button onclick="aaa()">infoWindow.isOpen()</button>
+
+  <script>
+    var map = new BMapGL.Map('map');
+    map.centerAndZoom(new BMapGL.Point(116.404, 39.915), 14);
+    map.enableScrollWheelZoom();
+
+    var styleOptions = {
+      strokeColor: '#5E87DB', // 边线颜色。
+      fillColor: '#5E87DB', // 填充颜色。当参数为空时，圆形将没有填充效果。
+      strokeWeight: 2, // 边线的宽度，以像素为单位。
+      strokeOpacity: 1, // 边线透明度，取值范围0 - 1。
+      fillOpacity: 0.2 // 填充的透明度，取值范围0 - 1。
+    };
+    var labelOptions = {
+      borderRadius: '2px',
+      background: '#FFFBCC',
+      border: '1px solid #E1E1E1',
+      color: '#703A04',
+      fontSize: '12px',
+      letterSpacing: '0',
+      padding: '5px'
+    };
+
+    // 实例化鼠标绘制工具
+    var drawingManager = new BMapGLLib.DrawingManager(map, {
+      // isOpen: true, //是否开启绘制模式
+      enableDrawingTool: true, // 是否显示工具栏
+      enableCalculate: true, // 绘制是否进行测距(画线时候)、测面(画圆、多边形、矩形) 
+      enableSorption: true,
+      drawingToolOptions: {
+        enableTips: true,
+        customContainer: 'selectbox_Drawing',
+        hasCustomStyle: true,
+        anchor: BMAP_ANCHOR_TOP_LEFT,
+        offset: new BMapGL.Size(15, 15), // 偏离值
+        scale: 1, // 工具栏缩放比例
+        drawingModes: [
+          BMAP_DRAWING_MARKER,
+          BMAP_DRAWING_POLYLINE,
+          BMAP_DRAWING_RECTANGLE,
+          BMAP_DRAWING_POLYGON,
+          BMAP_DRAWING_CIRCLE,
+        ]
+      },
+      enableSorption: true, // 是否开启边界吸附功能
+      sorptionDistance: 20, // 边界吸附距离
+      enableGpc: true, // 是否开启延边裁剪功能
+      enableLimit: true,  // 是否开启超限提示
+      limitOptions: {
+        area: 50000000, // 面积超限值
+        distance: 30000
+      },
+      circleOptions: styleOptions, // 圆的样式
+      polylineOptions: styleOptions, // 线的样式
+      polygonOptions: styleOptions, // 多边形的样式
+      rectangleOptions: styleOptions, // 矩形的样式
+      labelOptions: labelOptions // label的样式
+    });
+    let zoomControl = new BMapGL.ZoomControl();
+    map.addControl(zoomControl);
+
+    /* ---------------------------好用的代码----------------------------- */
+
+    const overlaycomplete = (e, type) => {
+      console.log(e, type);
+      type.overlay.addEventListener('click', p => {
+        var opts = {
+          width: 250, // 信息窗口宽度
+          height: 100, // 信息窗口高度
+          title: '区域信息' // 信息窗口标题
+        }
+        const dis = BMapGLLib.GeoUtils.getPolygonArea(type.overlay)
+        var infoWindow = new BMapGL.InfoWindow(`haha`, opts) // 创建信息窗口对象
+        map.openInfoWindow(infoWindow, p.latLng)
+        // console.log(infoWindow.isOpen());
+      })
+    }
+    // 添加鼠标绘制工具监听事件，用于获取绘制结果
+    drawingManager.addEventListener('overlaycomplete', overlaycomplete)
+
+
+
+    /* -----------------------下面是不好用的代码------------------------------*/
+    var polygon = new BMapGL.Polygon([
+      new BMapGL.Point(116.387112, 39.920977),
+      new BMapGL.Point(116.385243, 39.913063),
+      new BMapGL.Point(116.394226, 39.917988),
+      new BMapGL.Point(116.401772, 39.921364),
+      new BMapGL.Point(116.41248, 39.927893)
+    ], {
+      strokeColor: 'blue',
+      strokeWeight: 2,
+      strokeOpacity: 0.5
+    });
+    polygon.addEventListener('click', ev => {
+      // console.log('polygon', polygon);
+      var opts = {
+        width: 250, // 信息窗口宽度
+        height: 100, // 信息窗口高度
+        title: '路线信息' // 信息窗口标题
+      }
+
+      var infoWindow = new BMapGL.InfoWindow(`heihei`, opts) // 创建信息窗口对象
+      map.openInfoWindow(infoWindow, ev.latLng)
+
+      // setTimeout(() => {
+      //   map.openInfoWindow(infoWindow, ev.latLng)
+      // }, 100)
+      // Promise.resolve().then(()=>{
+      //   map.openInfoWindow(infoWindow, ev.latLng)
+      // })
+      // console.log(infoWindow.isOpen());
+    })
+
+    map.addOverlay(polygon);
+
+    window.infoWindow = []
+    function aaa () {
+      console.log(infoWindow);
+      if (window.infoWindow)
+        console.log(window.infoWindow.isOpen());
+    }
+  </script>
+</body>
+
+</html>

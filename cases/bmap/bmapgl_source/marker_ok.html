@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>maker的点弹出infoWindow</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://api.map.baidu.com/api?v=1.0&type=webgl&ak=Eul8g1mSUP8z9XHwh9Hql0EpctbrcEK9"></script>
+  <style>
+    html, body, #map {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="map"></div>
+  <script>
+    const map = new BMapGL.Map('map');
+    map.centerAndZoom(new BMapGL.Point(116.404, 39.915), 14);
+    map.enableScrollWheelZoom();
+    /* -----------------------marker 的click事件 弹出infoWindow是正常的------------------------------*/
+    const marker = new BMapGL.Marker( new BMapGL.Point(116.41248, 39.927893) )
+    marker.addEventListener('click', ev => {
+      var opts = {
+          width: 250, // 信息窗口宽度
+          height: 100, // 信息窗口高度
+          title: '单击marker' // 信息窗口标题
+        }
+        var infoWindow = new BMapGL.InfoWindow(`点击就弹出了`, opts) // 创建信息窗口对象
+        map.openInfoWindow(infoWindow, ev.latLng)
+    })
+    map.addOverlay(marker);
+  </script>
+</body>
+
+</html>

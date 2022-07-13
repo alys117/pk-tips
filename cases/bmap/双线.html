@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<base href="<%=basePath%>">
+
+<title>值班员主界面</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<style type="text/css">
+body,html {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	font-family: "微软雅黑";
+}
+
+#allmap {
+	height: 100%;
+	width: 100%;
+}
+</style>
+<script type="text/javascript"
+	src="http://api.map.baidu.com/api?v=2.0&ak=Tv58ayKXGwWUzEcg2WoBw1qQrIkVww9B"></script>
+<!-- ak表示的是百度地图的key值	-->
+</head>
+
+<body>
+	<div id="allmap"></div>
+</body>
+</html>
+
+
+<script type="text/javascript">
+	var routeLine = [ 
+		"114.402781,30.498467", "114.402759,30.498304",
+		"114.402723,30.498086", "114.402683,30.497872",
+		"114.402647,30.497627", "114.402543,30.49751",
+		"114.402341,30.497569", "114.402265,30.497592",
+		"114.401367,30.497751", "114.400917,30.497806",
+		"114.400792,30.497829", "114.400644,30.497849",
+		"114.400446,30.497872", "114.400194,30.497915",
+		"114.400096,30.497934", "114.400028,30.497771",
+		"114.40001,30.497569", "114.400001,30.497456",
+		"114.400006,30.49725", "114.399988,30.497106",
+		"114.399925,30.496946", "114.399898,30.49688",
+		"114.399884,30.496849", "114.399875,30.496818", ];
+		
+	var point_local = new BMap.Point(114.399916, 30.493214); //屏幕中心点坐标
+
+	// 初始化百度地图API功能
+	// 创建Map实例,并设置地图允许的最小/大级别(可选)
+	var map = new BMap.Map("allmap");
+	var localhost_Icon = new BMap.Icon("images/Point_local.png", 
+		new BMap.Size(32, 49), {anchor: new BMap.Size(16, 48)
+	});
+	//设置引用图标的名字以及大小，并设置图片相对于所加的点的位置
+	map.centerAndZoom(point_local, 16); // 初始化地图,设置中心点坐标(经度，纬度)和地图缩放级别
+	map.enableScrollWheelZoom(true); // 开启鼠标滚轮缩放
+	map.addOverlay(new BMap.Marker(point_local, {icon: localhost_Icon}));
+
+
+	drawRouteLine(routeLine); // 描绘轨迹线路
+
+	
+////////////////////////////////////////////////////	
+	
+	// 描绘轨迹线路
+	function drawRouteLine(routeLine) {
+		if(routeLine.length<2)	return;
+		var routeLineArray = [];
+		for ( var i = 0; i < routeLine.length; i++) {
+			var x = routeLine[i].split(",")[0];
+			var y = routeLine[i].split(",")[1];
+			routeLineArray[i] = new BMap.Point(x, y);
+		}
+		var polyline = new BMap.Polyline(routeLineArray, {strokeColor:"red", strokeWeight:2, strokeOpacity:0.5}); //创建折线
+		map.addOverlay(polyline); 
+		
+		var linePoint = polyline.getPath(); //线的坐标串  
+		
+		var length = 1;		//管子半径
+		var LinePointUp=new Array(), LinePointDown=new Array();
+		for (var i=0; i<linePoint.length; i++) {
+			var pixelStart;
+			var pixelEnd;
+			var PixelArr;
+				
+			if(i==0){
+				pixelStart = map.pointToPixel(linePoint[i+1]); //坐标转换为可视区域坐标
+				pixelEnd = map.pointToPixel(linePoint[i]);
+			}else {
+				pixelStart = map.pointToPixel(linePoint[i-1]);
+				pixelEnd = map.pointToPixel(linePoint[i]);
+			}
+			//计算偏差点坐标
+			PixelArr = getPixel(pixelStart, pixelEnd, length);
+			var pixelPointa = map.pixelToPoint(new BMap.Pixel(PixelArr[0],PixelArr[1]));
+			var pixelPointb = map.pixelToPoint(new BMap.Pixel(PixelArr[2],PixelArr[3]));
+			if(i==0){		//第一个点需要交换处理
+				var pixelPointTem = pixelPointa;
+				pixelPointa=pixelPointb;
+				pixelPointb=pixelPointTem;
+			}
+			LinePointUp[i] = pixelPointa;
+			LinePointDown[i] = pixelPointb;
+		}
+		var PixelLine1a = new BMap.Polyline(
+		    LinePointUp, {strokeColor:"green", strokeWeight:2, strokeOpacity:0.5});  
+		map.addOverlay(PixelLine1a); 
+		
+		var PixelLine2b = new BMap.Polyline(
+		    LinePointDown, {strokeColor:"green", strokeWeight:2, strokeOpacity:0.5});  
+		map.addOverlay(PixelLine2b); 
+	}
+	
+
+	
+	function getPixel(pixelStart, pixelEnd, length){
+		var r = length; 	//管子半径
+		var delta = 0; 		//主线斜率，垂直时无斜率  
+		var param = 0; 		//代码简洁考虑  
+		var pixelXa, pixelYa, pixelXb, pixelYb;
+		//计算偏差点坐标
+		if (pixelEnd.x - pixelStart.x == 0) { //斜率不存在是时  
+			if (pixelEnd.y > pixelStart.y) {
+				pixelXa = pixelEnd.x-r;
+				pixelXb = pixelEnd.x+r;
+			}else{
+				pixelXa = pixelEnd.x+r;
+				pixelXb = pixelEnd.x-r;
+			}
+			pixelYa = pixelEnd.y;	pixelYb = pixelEnd.y;
+		} else { //斜率存在时  
+			delta = (pixelEnd.y - pixelStart.y)/(pixelEnd.x-pixelStart.x);	//斜率
+			param = Math.sqrt(delta * delta + 1);
+			//已知直角三角形两个点坐标及其中一个角，求另外一个点坐标算法 
+			if (pixelEnd.x > pixelStart.x) {	//第一、四象限  
+				pixelXa = pixelEnd.x-r*delta/param;		pixelYa = pixelEnd.y+r/param; 
+				pixelXb = pixelEnd.x+r*delta/param;		pixelYb = pixelEnd.y-r/param;
+			}else{		//第二、三象限  
+				pixelXa = pixelEnd.x+r*delta/param;		pixelYa = pixelEnd.y-r/param;
+				pixelXb = pixelEnd.x-r*delta/param;		pixelYb = pixelEnd.y+r/param; 
+			}
+		}
+		return [pixelXa,pixelYa, pixelXb, pixelYb];
+	}
+////////////////////////////////////////////////////////
+</script>

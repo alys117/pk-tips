@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>maker的点弹出infoWindow</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://api.map.baidu.com/api?v=2.0&&ak=Eul8g1mSUP8z9XHwh9Hql0EpctbrcEK9"></script>
+  <style>
+    html, body, #map {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="map"></div>
+  <script>
+    const map = new BMap.Map('map');
+    map.centerAndZoom(new BMap.Point(116.404, 39.915), 14);
+    map.enableScrollWheelZoom();
+    
+    const polygon = new BMap.Polygon([
+      new BMap.Point(116.387112, 39.920977),
+      new BMap.Point(116.385243, 39.913063),
+      new BMap.Point(116.394226, 39.917988),
+      new BMap.Point(116.411772, 39.921364),
+      new BMap.Point(116.41248, 39.927893)
+    ], {
+      strokeColor: 'blue',
+      strokeWeight: 2,
+      strokeOpacity: 0.5
+    });
+    
+    polygon.addEventListener('click', ev => {
+      console.log(ev);
+      const opts = {
+        enableCloseOnClick: false,
+        width: 250, // 信息窗口宽度
+        height: 100, // 信息窗口高度
+        title: '单击polygon' // 信息窗口标题
+      }
+      const infoWindow = new BMap.InfoWindow(`单击多次才弹出`, opts) // 创建信息窗口对象
+      /* -----------------------直接调用不好使------------------------------*/
+      map.openInfoWindow(infoWindow, ev.point)
+      /* -----------------------只能用下面两种办法才能------------------------------*/
+      // setTimeout的方式
+      // setTimeout(() => {
+      //   map.openInfoWindow(infoWindow, ev.latLng)
+      // }, 100)
+
+      // Promise.resolve()的方式
+      // Promise.resolve().then(()=>{
+      //   map.openInfoWindow(infoWindow, ev.latLng)
+      // })
+    })
+    map.addOverlay(polygon);
+  </script>
+</body>
+
+</html>
