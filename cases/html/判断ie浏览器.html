@@ -24,13 +24,12 @@
 
     var IEVersion = 0;
     /*@ IEVersion = @_jscript_version; @*/
-    alert(IEVersion)
     if (IEVersion > 0) {
       if (IEVersion < 11) {
         // 除非真用的低版本的IE（非兼容性模式），否则下面的代码永远不会执行
         alert('IE 11已经发布多年，不要再用祖传的IE' + IEVersion + '了！');
       } else {
-        alert('IE 11');
+        alert('兼容模式下的IE 11');
       }
     } else {
       alert('当前浏览器不是IE内核浏览器。或者是IE11');
