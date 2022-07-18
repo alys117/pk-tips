@@ -7,8 +7,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <script src="https://api.map.baidu.com/api?v=1.0&type=webgl&ak=Eul8g1mSUP8z9XHwh9Hql0EpctbrcEK9"></script>
+  <script src="../../../cases/防抖/util.js"></script>
   <style>
-    html, body, #map {
+    html,
+    body,
+    #map {
       height: 100%;
       width: 100%;
       margin: 0;
@@ -20,9 +23,22 @@
   <div id="map"></div>
   <script>
     const map = new BMapGL.Map('map');
-    map.centerAndZoom(new BMapGL.Point(116.404, 39.915), 14);
+    const mPoint = new BMapGL.Point(116.404, 39.915)
+    map.centerAndZoom(mPoint, 14);
     map.enableScrollWheelZoom();
-    
+
+    var circle = new BMapGL.Circle(mPoint, 1000, { fillColor: "blue", strokeWeight: 1, fillOpacity: 0.3, strokeOpacity: 0.3, enableEditing: true });
+    map.addOverlay(circle);
+    console.log(circle.getBounds());
+    console.log(circle.getPath());
+    circle.addEventListener("lineupdate", debounce(function () {
+      console.log(circle.getRadius()); //返回圆形覆盖物的半径
+      console.log(circle.getPath()); //返回圆形覆盖物的半径
+    }, 1000, false));
+
+    var local = new BMapGL.LocalSearch(map, { renderOptions: { map: map, autoViewport: false } });
+    local.searchNearby('餐馆', mPoint, 1000);
+
     const polygon = new BMapGL.Polygon([
       new BMapGL.Point(116.387112, 39.920977),
       new BMapGL.Point(116.385243, 39.913063),
@@ -34,17 +50,21 @@
       strokeWeight: 2,
       strokeOpacity: 0.5
     });
-    
+    polygon.enableEditing()
+    polygon.addEventListener('lineupdate', function (e) {
+      console.log(1111);
+    });
+
     polygon.addEventListener('click', ev => {
       const opts = {
-        enableCloseOnClick: false,
+        // enableCloseOnClick: true,
         width: 250, // 信息窗口宽度
         height: 100, // 信息窗口高度
         title: '单击polygon' // 信息窗口标题
       }
       const infoWindow = new BMapGL.InfoWindow(`单击多次才弹出`, opts) // 创建信息窗口对象
       /* -----------------------直接调用不好使------------------------------*/
-      // map.openInfoWindow(infoWindow, ev.latLng)
+      map.openInfoWindow(infoWindow, ev.latLng)
       /* -----------------------只能用下面两种办法才能------------------------------*/
       // setTimeout的方式
       // setTimeout(() => {
@@ -52,11 +72,379 @@
       // }, 100)
 
       // Promise.resolve()的方式
-      Promise.resolve().then(()=>{
-        map.openInfoWindow(infoWindow, ev.latLng)
-      })
+      // Promise.resolve().then(()=>{
+      //   map.openInfoWindow(infoWindow, ev.latLng)
+      // })
     })
     map.addOverlay(polygon);
+
+
+    const path = [
+      {
+        "lng": 116.40399999999985,
+        "lat": 39.929387367561695
+      },
+      {
+        "lng": 116.4010650175055,
+        "lat": 39.929210200097934
+      },
+      {
+        "lng": 116.3982023486587,
+        "lat": 39.92868306286938
+      },
+      {
+        "lng": 116.39548252213132,
+        "lat": 39.92781894361363
+      },
+      {
+        "lng": 116.3929725410257,
+        "lat": 39.92663913207076
+      },
+      {
+        "lng": 116.39073422990674,
+        "lat": 39.92517269455849
+      },
+      {
+        "lng": 116.3888227104698,
+        "lat": 39.92345575675001
+      },
+      {
+        "lng": 116.38728504357374,
+        "lat": 39.92153061246368
+      },
+      {
+        "lng": 116.38615907114455,
+        "lat": 39.919444680573235
+      },
+      {
+        "lng": 116.38547248639533,
+        "lat": 39.917249335886986
+      },
+      {
+        "lng": 116.38524215506078,
+        "lat": 39.91499864293168
+      },
+      {
+        "lng": 116.38547370404989,
+        "lat": 39.91274802393649
+      },
+      {
+        "lng": 116.38616138726121,
+        "lat": 39.91055289389086
+      },
+      {
+        "lng": 116.3872882314349,
+        "lat": 39.90846729631106
+      },
+      {
+        "lng": 116.38882645802542,
+        "lat": 39.90654257328072
+      },
+      {
+        "lng": 116.39073817032006,
+        "lat": 39.90482610243809
+      },
+      {
+        "lng": 116.39297628858148,
+        "lat": 39.90336013189171
+      },
+      {
+        "lng": 116.3954857099928,
+        "lat": 39.90218074160486
+      },
+      {
+        "lng": 116.3982046647756,
+        "lat": 39.90131695665979
+      },
+      {
+        "lng": 116.4010662351603,
+        "lat": 39.900790034071896
+      },
+      {
+        "lng": 116.40399999999985,
+        "lat": 39.90061294056829
+      },
+      {
+        "lng": 116.40693376483941,
+        "lat": 39.900790034071896
+      },
+      {
+        "lng": 116.4097953352241,
+        "lat": 39.90131695665979
+      },
+      {
+        "lng": 116.41251429000692,
+        "lat": 39.90218074160486
+      },
+      {
+        "lng": 116.41502371141823,
+        "lat": 39.90336013189171
+      },
+      {
+        "lng": 116.41726182967965,
+        "lat": 39.90482610243809
+      },
+      {
+        "lng": 116.41917354197429,
+        "lat": 39.90654257328072
+      },
+      {
+        "lng": 116.42071176856481,
+        "lat": 39.90846729631106
+      },
+      {
+        "lng": 116.42183861273851,
+        "lat": 39.91055289389086
+      },
+      {
+        "lng": 116.42252629594982,
+        "lat": 39.91274802393649
+      },
+      {
+        "lng": 116.42275784493893,
+        "lat": 39.91499864293168
+      },
+      {
+        "lng": 116.42252751360438,
+        "lat": 39.917249335886986
+      },
+      {
+        "lng": 116.42184092885516,
+        "lat": 39.919444680573235
+      },
+      {
+        "lng": 116.42071495642597,
+        "lat": 39.92153061246368
+      },
+      {
+        "lng": 116.41917728952991,
+        "lat": 39.92345575675001
+      },
+      {
+        "lng": 116.41726577009297,
+        "lat": 39.92517269455849
+      },
+      {
+        "lng": 116.41502745897401,
+        "lat": 39.92663913207076
+      },
+      {
+        "lng": 116.41251747786839,
+        "lat": 39.92781894361363
+      },
+      {
+        "lng": 116.40979765134101,
+        "lat": 39.92868306286938
+      },
+      {
+        "lng": 116.4069349824942,
+        "lat": 39.929210200097934
+      },
+      {
+        "lng": 116.40399999999985,
+        "lat": 39.929387367561695
+      }
+    ]
+
+    const path2 = path.map((item, idx) => {
+      return new BMapGL.Point(item.lng, item.lat)
+    })
+
+    // const polygon2 = new BMapGL.Polygon(path2, {
+    //   strokeColor: 'blue',
+    //   strokeWeight: 2,
+    //   strokeOpacity: 0.5
+    // });
+    // map.addOverlay(polygon2);
+    path2.splice(0,0,...path2.splice(-6,6)) 
+    const polyline2 = new BMapGL.Polyline(path2.filter((item, i) => {
+      if (i>31) {
+        return false
+      } else{
+        return true
+      }
+    }), {
+      strokeColor: 'blue',
+      strokeWeight: 2,
+      strokeOpacity: 0.5
+    })
+    map.addOverlay(polyline2)
+
+    const path3 = [
+    {
+        "lng": 116.40399999999985,
+        "lat": 39.94152796973541
+    },
+    {
+        "lng": 116.39858739419195,
+        "lat": 39.94120124250906
+    },
+    {
+        "lng": 116.39330821655518,
+        "lat": 39.94022911516514
+    },
+    {
+        "lng": 116.38829259492701,
+        "lat": 39.938635551479564
+    },
+    {
+        "lng": 116.38366413920586,
+        "lat": 39.936459831975306
+    },
+    {
+        "lng": 116.37953688702008,
+        "lat": 39.93375558261663
+    },
+    {
+        "lng": 116.3760124889235,
+        "lat": 39.93058944921002
+    },
+    {
+        "lng": 116.37317770309478,
+        "lat": 39.92703945065821
+    },
+    {
+        "lng": 116.3711022614535,
+        "lat": 39.92319305217561
+    },
+    {
+        "lng": 116.36983715949823,
+        "lat": 39.91914500646789
+    },
+    {
+        "lng": 116.3694134112979,
+        "lat": 39.9149950165359
+    },
+    {
+        "lng": 116.36984129924382,
+        "lat": 39.91084527805128
+    },
+    {
+        "lng": 116.37111013571781,
+        "lat": 39.90679796207227
+    },
+    {
+        "lng": 116.37318854109037,
+        "lat": 39.90295270016886
+    },
+    {
+        "lng": 116.37602522975233,
+        "lat": 39.899404133790505
+    },
+    {
+        "lng": 116.37955028352138,
+        "lat": 39.89623958796057
+    },
+    {
+        "lng": 116.38367688003679,
+        "lat": 39.89353692617873
+    },
+    {
+        "lng": 116.38830343292591,
+        "lat": 39.891362638848385
+    },
+    {
+        "lng": 116.3933160908227,
+        "lat": 39.889770211742565
+    },
+    {
+        "lng": 116.39859153393954,
+        "lat": 39.888798814127796
+    },
+    {
+        "lng": 116.40399999999985,
+        "lat": 39.88847233834899
+    },
+    {
+        "lng": 116.4094084660602,
+        "lat": 39.888798814127796
+    },
+    {
+        "lng": 116.41468390917701,
+        "lat": 39.889770211742565
+    },
+    {
+        "lng": 116.4196965670738,
+        "lat": 39.891362638848385
+    },
+    {
+        "lng": 116.42432311996293,
+        "lat": 39.89353692617873
+    },
+    {
+        "lng": 116.42844971647833,
+        "lat": 39.89623958796057
+    },
+    {
+        "lng": 116.4319747702474,
+        "lat": 39.899404133790505
+    },
+    {
+        "lng": 116.43481145890934,
+        "lat": 39.90295270016886
+    },
+    {
+        "lng": 116.4368898642819,
+        "lat": 39.90679796207227
+    },
+    {
+        "lng": 116.43815870075589,
+        "lat": 39.91084527805128
+    },
+    {
+        "lng": 116.43858658870181,
+        "lat": 39.9149950165359
+    },
+    {
+        "lng": 116.43816284050149,
+        "lat": 39.91914500646789
+    },
+    {
+        "lng": 116.43689773854621,
+        "lat": 39.92319305217561
+    },
+    {
+        "lng": 116.43482229690493,
+        "lat": 39.92703945065821
+    },
+    {
+        "lng": 116.43198751107622,
+        "lat": 39.93058944921002
+    },
+    {
+        "lng": 116.42846311297964,
+        "lat": 39.93375558261663
+    },
+    {
+        "lng": 116.42433586079385,
+        "lat": 39.936459831975306
+    },
+    {
+        "lng": 116.4197074050727,
+        "lat": 39.938635551479564
+    },
+    {
+        "lng": 116.41469178344452,
+        "lat": 39.94022911516514
+    },
+    {
+        "lng": 116.40941260580776,
+        "lat": 39.94120124250906
+    },
+    {
+        "lng": 116.40399999999985,
+        "lat": 39.94152796973541
+    }
+]
+    path3.splice(0,0,...path3.splice(-6,6)) 
+    const polyline3 = new BMapGL.Polyline(path3.filter((item, i)=>{
+      if (i>31) {
+        return false
+      } else{
+        return true
+      }
+    }))
+    map.addOverlay(polyline3)
   </script>
 </body>
 

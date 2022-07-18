@@ -6,7 +6,7 @@
           #l-map{height:100%;width:78%;float:left;border-right:2px solid #bcbcbc;}
           #r-result{height:100%;width:20%;float:left;}
       </style>
-      <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.5&ak=E2e5a8af567e7bb2e3a9892e1006c505">
+      <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=E2e5a8af567e7bb2e3a9892e1006c505">
       </script>
       <title>
           圆形区域搜索
@@ -48,6 +48,7 @@
       }
   });
   var bounds = getSquareBounds(circle.getCenter(), circle.getRadius());
+  console.log(bounds, '123');
   var bounds1 = getSquareBounds(circle1.getCenter(), circle1.getRadius());
   function setMapEvent() {
       map.enableScrollWheelZoom();

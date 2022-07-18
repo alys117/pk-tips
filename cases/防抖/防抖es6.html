@@ -12,7 +12,7 @@
   <button id="btn">防抖</button>
 </body>
 <script type="module">
-  import { debounce } from './util.js'
+  import { debounce } from './util-es6.js'
   const obj = { tip: 'shooting star'}
   const handler = debounce(function(...args) {
     console.log('debounce',this?.tip, args)
