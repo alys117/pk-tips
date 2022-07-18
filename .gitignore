@@ -107,3 +107,5 @@ dist
 # java
 *.class
 tip.panke.js
+
+.DS_Store
