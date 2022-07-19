@@ -35,3 +35,7 @@
 目前山东现场的网格geojson更新后需要重启服务才能生效
 ### 13、帆软日志报错如何定位错误
 比如报错数据集配置错误，如何查定位到哪张模板哪个数据集
+
+### 14、seesion同步工具问题，报错找不到session 
+https://github.com/redisson/redisson/tree/master/redisson-tomcat
+

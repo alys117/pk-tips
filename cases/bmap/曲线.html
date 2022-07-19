@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+ 
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+        .main {
+            width: 1024px;
+            margin: 10px auto;
+            position: relative;
+        }
+        
+        #stylelist {
+            padding: 5px;
+            border: 1px solid #e3e3e3;
+        }
+        
+        #allmap {
+            width: 1024px;
+            height: 600px;
+            overflow: hidden;
+            font-family: "微软雅黑";
+            border: 1px solid #9E9E9E;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        
+        #point,
+        #line {
+            width: 1024px;
+            height: 600px;
+            z-index: 100;
+            background: transparent;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=jLZE4wcUhQKyFaDOGhBFcare"></script>
+    <title>地图展示</title>
+</head>
+ 
+<body>
+    <div class="main">
+        地图样式：
+        <select id="stylelist" onchange="changeStyle()">
+            <option value="normal">默认地图样式</option>
+            <option value="light">清新蓝风格</option>
+            <option value="dark">黑夜风格</option>
+            <option value="redalert">红色警戒风格</option>
+            <option value="googlelite">精简风格</option>
+            <option value="grassgreen">自然绿风格</option>
+            <option value="midnight" selected="selected">午夜蓝风格</option>
+            <option value="pink">浪漫粉风格</option>
+            <option value="darkgreen">青春绿风格</option>
+            <option value="bluish">清新蓝绿风格</option>
+            <option value="grayscale">高端灰风格</option>
+            <option value="hardedge">强边界风格</option>
+        </select> </div>
+    <div class="main">
+        <div id="allmap"></div>
+        <canvas id="line" width="600" height="600"></canvas>
+        <canvas id="point" width="600" height="600"></canvas>
+    </div>
+</body>
+ 
+</html>
+ 
+<script type="text/javascript">
+    // 百度地图
+    var map = new BMap.Map("allmap");
+    map.centerAndZoom(new BMap.Point(104.077506, 30.655077), 9); //中心位置：成都
+    map.addControl(new BMap.MapTypeControl({
+        mapTypes: [
+            BMAP_NORMAL_MAP,
+            BMAP_HYBRID_MAP
+        ]
+    }));
+    map.setCurrentCity("成都");
+    map.enableScrollWheelZoom(false);
+    var mapStyle = {
+        features: ["road", "building", "water", "land"],
+        style: "midnight",
+    };
+    map.setMapStyle(mapStyle);
+ 
+    //地图样式切换
+    function changeStyle() {
+        var stylectl = document.getElementById("stylelist");
+        var style = stylectl.options[stylectl.selectedIndex].value;
+        var mapStyle = {
+            features: ["road", "building", "water", "land"],
+            style: style,
+        };
+        map.setMapStyle(mapStyle);
+        switch (style) {
+            case "normal":
+            case "googlelite":
+            case "pink":
+                _linecolor = "#2196F3";
+                _titlecolor = "#FF5722";
+                break;
+ 
+            case "midnight":
+            case "redalert":
+                _linecolor = "#ffda4a";
+                _titlecolor = "#ff0";
+                break;
+            case "normal":
+                _linecolor = "#2196F3";
+                _titlecolor = "#FF5722";
+                break;
+            default:
+                _linecolor = "#FF9800";
+                break;
+        }
+        drawLine()
+    }
+</script>
+<script type="text/javascript">
+    var _linecolor = "#ffda4a";
+    var _titlecolor = "#ff0";
+    let _t = 0; //圆点滚动控制
+ 
+    //曲线1：成都->南充
+    var line1 = {
+        //成都
+        begin: {
+            x: 514,
+            y: 316
+        },
+        control1: {
+            x: 646,
+            y: 126
+        },
+        control2: {
+            x: 846,
+            y: 328
+        },
+        //南充
+        end: {
+            x: 958,
+            y: 251
+        },
+    };
+ 
+    //曲线2：内江->成都
+    var line2 = {
+        //内江
+        begin: {
+            x: 729,
+            y: 567
+        },
+        //成都
+        end: {
+            x: 514,
+            y: 316
+        },
+        control1: {
+            x: 666,
+            y: 333
+        },
+        control2: {
+            x: 508,
+            y: 528
+        },
+    };
+ 
+    //曲线3：雅安->成都
+    var line3 = {
+        //雅安
+        begin: {
+            x: 289,
+            y: 462
+        },
+        //成都
+        end: {
+            x: 514,
+            y: 316
+        },
+        control1: {
+            x: 391,
+            y: 293
+        },
+        control2: {
+            x: 389,
+            y: 402
+        },
+    };
+ 
+    //绘制曲线
+    function drawLine() {
+        let lineCanvas = document.getElementById("line");
+        let ctx = lineCanvas.getContext("2d");
+        lineCanvas.width = 1024;
+        lineCanvas.height = 600;
+        ctx.clearRect(0, 0, 1024, 600);
+ 
+        //左下角文字
+        ctx.beginPath();
+        ctx.moveTo(0, 580);
+        ctx.font = "18px bold 黑体";
+        ctx.fillStyle = _titlecolor;
+        ctx.fillText("流动人员人事档案转入转出示意图", 10, 30);
+        ctx.stroke();
+        ctx.closePath();
+ 
+        //曲线1：成都->南充
+        ctx.beginPath();
+        ctx.moveTo(line1.begin.x, line1.begin.y);
+        ctx.bezierCurveTo(line1.control1.x, line1.control1.y, line1.control2.x, line1.control2.y, line1.end.x, line1.end.y);
+        ctx.strokeStyle = _linecolor; //2196F3
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.closePath();
+ 
+        //曲线2：内江->成都
+        ctx.beginPath();
+        ctx.moveTo(line2.begin.x, line2.begin.y);
+        ctx.bezierCurveTo(line2.control1.x, line2.control1.y, line2.control2.x, line2.control2.y, line2.end.x, line2.end.y);
+        ctx.strokeStyle = _linecolor; //FF9800
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.closePath();
+ 
+        //曲线3：雅安->成都
+        ctx.beginPath();
+        ctx.moveTo(line3.begin.x, line3.begin.y);
+        ctx.bezierCurveTo(line3.control1.x, line3.control1.y, line3.control2.x, line3.control2.y, line3.end.x, line3.end.y);
+        ctx.strokeStyle = _linecolor;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.closePath();
+    }
+    drawLine();
+ 
+    //绘制某一时刻的点
+    function drawPoint(ctx, t, point1, text, textcolor) {
+ 
+        //根据三次贝塞尔曲线的公式，获取某时刻t[0-1]的贝塞尔曲线上的点     
+        let x = point1.begin.x * Math.pow((1 - _t), 3) + 3 * _t * point1.control1.x * Math.pow((1 - _t), 2) + 3 * point1.control2.x * Math.pow(_t, 2) * (1 - _t) + point1.end.x * Math.pow(_t, 3);
+        let y = point1.begin.y * Math.pow((1 - _t), 3) + 3 * _t * point1.control1.y * Math.pow((1 - _t), 2) + 3 * point1.control2.y * Math.pow(_t, 2) * (1 - _t) + point1.end.y * Math.pow(_t, 3);
+ 
+        //点移出曲线后，重新开始
+        let max_x = point1.end.x > point1.begin.x ? point1.end.x : point1.begin.x;
+        if (x > max_x) {
+            _t = 0;
+            x = point1.begin.x;
+            y = point1.begin.y;
+        }
+ 
+        ctx.beginPath();
+        //画小圆点
+        ctx.moveTo(point1.begin.x, point1.begin.y);
+        ctx.arc(x, y, 4, 0, 2 * Math.PI, false);
+        ctx.fillStyle = "#e95b55";
+        ctx.fill();
+ 
+        //显示文字
+        ctx.font = 'bold 12px Arial';
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'bottom';
+        ctx.fillStyle = textcolor;
+        ctx.fillText(text, x, y - 12);
+        //显示当前坐标
+        //ctx.fillText("x:" + parseInt(x), x, y - 24);
+        //ctx.fillText("y:" + parseInt(y), x, y - 12);
+        ctx.closePath();
+    }
+ 
+    //绘制某一时刻的点，连续绘制形成动图
+    function drawOneMoment() {
+        let pointCanvas = document.getElementById("point");
+        let ctx = pointCanvas.getContext("2d");
+        pointCanvas.width = 1024;
+        pointCanvas.height = 600;
+        //清除画布
+        ctx.clearRect(0, 0, 1024, 600);
+        //逐个绘点
+        drawPoint(ctx, _t, line1, "转出1000", '#0c79d0') //成都->南充
+        drawPoint(ctx, _t, line2, "转入600", "orangered") //内江->成都
+        drawPoint(ctx, _t, line3, "转入400", "orangered") //雅安->成都 
+        _t += 0.01;
+    }
+    setInterval(drawOneMoment, 60);
+</script>
