@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      padding: 10px;
+      margin: 25px;
+      background-color: #f1f1f1;
+    }
+    
+    .outer{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 400px;
+      height: 300px;
+      background: wheat;
+    }
+    .inner{
+      width: 200px;
+      height: 100px;
+      border-top: 25px solid red;
+      border-bottom: 15px solid red;
+      border-left: 10px solid red;
+      border-right: 10px solid red;
+      padding: 20px;
+      background-color: blueviolet;
+      /*  border-box: 背景被裁剪到边框盒;	padding-box:	背景被裁剪到内边距框; content-box: 背景被裁剪到内容框。 */
+      background-clip: content-box; 
+      display: flex;
+      /* justify-items: stretch; */
+      flex-direction: column;
+      overflow: auto;
+    }
+    .content{
+      background: yellow;
+      /* overflow: scroll; */
+    }
+  </style>
+</head>
+<body>
+  <div class="outer">
+    <div class="inner">
+      <div class="content">
+        <div style="display:inline-block; background-color:aqua;white-space: nowrap; width: 400px;">大幅度范德辅导费萨分地市范德萨发第三方</div>
+      </div>
+      <div class="content">456</div>
+    </div>
+  </div>
+</body>
+<script>
+  const divInner = document.querySelector('.inner')
+  console.log('inner的 clientTop 应该是border-top的高度',divInner.clientTop); // 不常用
+  console.log('inner的 clientLeft 应该是border-left的高度',divInner.clientLeft); // 不常用
+  console.log('inner的 clientHeight 应该是contnet+上下padding的高度，如果有滚动条，就再减去滚动条的高度，比如windows上的chrome是17px',divInner.clientHeight);
+  console.log('inner的 clientWidth 应该是contnet+左右padding的宽度',divInner.clientWidth);
+
+  console.log('inner的 offsetWidth 应该是contnet+左右padding+左右border的宽度',divInner.offsetWidth);
+  console.log('inner的 offsetWidth 应该是contnet+上下padding+上下border的高度',divInner.offsetHeight);
+  console.log('offsetTop是 当前元素 上边框 外边缘 到 最近的已定位父级（offsetparent） 上边框 内边缘的 距离。如果父级都没有定位，则分别是到body 顶部 和左边的距离',divInner.offsetTop);
+  console.log('offsetLeft是 当前元素 左边框 外边缘 到 最近的已定位父级（offsetparent） 左边框 内边缘的 距离。如果父级都没有定位，则分别是到body 顶部 和左边的距离',divInner.offsetLeft);
+
+
+  console.log('scrollWidth是 获取指定标签内容层的真实宽度（可视区域宽度+被隐藏区域宽度）',divInner.scrollWidth);
+
+</script>
+</html>
