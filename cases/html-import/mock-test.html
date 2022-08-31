@@ -5,25 +5,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <script src="http://mockjs.com/dist/mock.js"></script>
+    <!-- 官网挂了 -->
+    <!-- <script src="http://mockjs.com/dist/mock.js"></script> --> 
+    <script src="https://cdn.bootcdn.net/ajax/libs/Mock.js/1.0.0/mock-min.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.1/axios.js"></script>
   </head>
   <body>
     <script>
       const res = Mock.mock({
         status: 200,
-        data: [
+        'data|10': [
           {
             id: '@increment(1)',
             name: '@cword(2,4)',
             count: '@natural(100,999)',
             img: '@dataImage(100x100)',
+            goodsName: "@ctitle(10)",
           },
         ],
       })
       console.log(res)
-      const { data: mydata } = res
-      console.log(mydata)
 
       Mock.mock('/a1.json', 'get', {
         status: 200,

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.js"></script>
+</head>
+
+<body>
+  <script>
+    window.onload = function () {
+      console.log(123);
+    }
+    window.onload = function () {
+      console.log(456); // 不会输出123，被下面的 window.onload覆盖
+    }
+
+    $(document).ready(function () {
+      // 执行代码
+      console.log('jquery ready :>> ', 'jquery ready');
+    })
+    $(function () {
+      // 执行代码
+      console.log('$(function(){}) :>> ', '函数$(function(){})');
+    })
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>slot-simple</title>
+  <script src="https://unpkg.com/vue@2"></script>
+  <script src="https://unpkg.com/element-ui@2"></script>
+</head>
+
+<body>
+  <div id="app">
+    <Test>
+      <div slot="footer" slot-scope="scope">这里是尾部 {{ scope.duiying }}</div>
+      <div slot="header">这里是头部</div><!-- 具名插槽使用，顺序无所谓 -->
+    </Test>
+  </div>
+  <template id="test">
+    <div> 
+      <slot name="header"></slot><!-- 具名插槽 -->
+      <h3>这里是Test组件</h3>
+      <slot name="footer" :duiying="msg"></slot>
+    </div>
+  </template>
+</body>
+<script>
+  Vue.component(
+    'Test', {
+    template: "#test",
+    data() {
+      return {
+        msg: '这里是Test组件111'
+      }
+    }
+  });
+  new Vue({
+    el: "#app"
+  })
+
+</script>
+
+
+</html>
