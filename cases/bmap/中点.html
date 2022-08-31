@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="//api.map.baidu.com/api?type=webgl&v=1.0&ak=eW6pGAAUT8KnuTDv6oxOoyVk0wBsGYHy"></script>
+  <script src="../../node_modules/coordtransform/index.js"></script>
+  <title>geoconv-api</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="allmap" style="overflow:hidden;zoom:1;position:relative; width: 100vw;height: 100vh;">
+    <div id="map" style="height:100%;-webkit-transition: all 0.5s ease-in-out;transition: all 0.5s ease-in-out;"></div>
+  </div>
+  <script>
+    // 百度地图API功能
+    var map = new BMapGL.Map('map');
+    var poi = new BMapGL.Point(120.239454,36.010623);
+    var poi2 = new BMapGL.Point(120.238448,36.00939);
+    map.centerAndZoom(poi, 16);//设置中心点坐标和地图级别
+    map.enableScrollWheelZoom(); //启用鼠标滚动对地图放大缩
+
+    //添加gps marker和label
+    var markergg = new BMapGL.Marker(poi);
+    map.addOverlay(markergg); 
+    var markergg2 = new BMapGL.Marker(poi2);
+    map.addOverlay(markergg2);
+    //添加GPS marker
+    // var labelgg = new BMapGL.Label("未转换的GPS坐标（错误）", { offset: new BMapGL.Size(10, -10) });
+    // markergg.setLabel(labelgg); //添加GPS label
+    // 已知的两个坐标点
+    
+    pointArr = [new BMapGL.Point(120.239454,36.010623), new BMapGL.Point(120.238448,36.00939)];
+    // 获取两个坐标点之间的位置
+    function getMidpoiont() {
+      const lngca =
+        (Math.max(parseFloat(this.pointArr[0].lng), parseFloat(this.pointArr[1].lng)) -
+          Math.min(parseFloat(this.pointArr[0].lng), parseFloat(this.pointArr[1].lng))) /
+        2;
+      const latca =
+        (Math.max(parseFloat(this.pointArr[0].lat), parseFloat(this.pointArr[1].lat)) -
+          Math.min(parseFloat(this.pointArr[0].lat), parseFloat(this.pointArr[1].lat))) /
+        2;
+      const lngcenter = Math.min(parseFloat(this.pointArr[0].lng), parseFloat(this.pointArr[1].lng)) + lngca;
+      const latcenter = Math.min(parseFloat(this.pointArr[0].lat), parseFloat(this.pointArr[1].lat)) + latca;
+      const pointcenter = new BMapGL.Point(lngcenter, latcenter);
+      return pointcenter;
+    }
+    var markergg3 = new BMapGL.Marker(getMidpoiont());
+    map.addOverlay(markergg3);
+    console.log(getAngle());
+
+    function getAngle(p,p2) {
+    const next = {
+      point: {
+        latitude: 120.239454,
+        longitude: 36.010623,
+      },
+    };
+    // 船头 116.549516,39.930539
+    const n = {
+      point: {
+        latitude: 120.238448,
+        longitude: 36.00939,
+      },
+    };
+    let ret;
+    const w1 = (n.point.latitude / 180) * Math.PI;
+    const j1 = (n.point.longitude / 180) * Math.PI;
+    const w2 = (next.point.latitude / 180) * Math.PI;
+    const j2 = (next.point.longitude / 180) * Math.PI;
+    ret = 4 * Math.pow(Math.sin((w1 - w2) / 2), 2) - Math.pow(Math.sin((j1 - j2) / 2) * (Math.cos(w1) - Math.cos(w2)), 2);
+    ret = Math.sqrt(ret);
+    const temp = Math.sin((j1 - j2) / 2) * (Math.cos(w1) + Math.cos(w2));
+    ret = ret / temp;
+    ret = (Math.atan(ret) / Math.PI) * 180;
+    ret += 90;
+    if (j1 - j2 < 0) {
+      if (w1 - w2 < 0) {
+        // tslint:disable-next-line:no-unused-expression
+        ret;
+      } else {
+        ret = -ret + 180;
+      }
+    } else {
+      if (w1 - w2 < 0) {
+        ret = 180 + ret;
+      } else {
+        ret = -ret;
+      }
+    }
+    return 180 - ret;
+  }
+  </script>
+
+</html>
