@@ -39,3 +39,5 @@
 ### 14、seesion同步工具问题，报错找不到session 
 https://github.com/redisson/redisson/tree/master/redisson-tomcat
 
+### 15、alphaFine 断网查询仍然缓慢
+

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>sortable.js 多组拖动排序例子</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
+    <script src="https://www.itxst.com/package/sortable/sortable.min.js"></script>
+    <style>
+        .box {
+        } 
+        .itxst {
+            margin: 10px auto;
+            width: 30%;
+            float: left;
+            margin-right: 10px;
+            min-height:120px
+        }
+        .itxst div {
+                padding: 6px;
+                background-color: #fdfdfd;
+                border: solid 1px #eee;
+                margin-bottom: 10px;
+                cursor: move;
+            }
+        #msg {
+        clear:both;
+        width:100%;
+        }
+    </style>
+</head>
+<body> 
+<div class="box">
+    <div id="g1" class="itxst">
+        <div>A组</div>
+        <div class="item" data-id="1">item 1</div>
+        <div class="item" data-id="2">item 2</div>
+        <div class="item" data-id="3">item 3</div>
+    </div>
+    <div id="g2" class="itxst">
+        <div>B组</div>
+        <div class="item" data-id="4">www.itxst.com</div>
+        <div class="item" data-id="5">www.google.com</div>
+        <div class="item" data-id="6">www.baidu.com</div>
+    </div>
+    <div id="g3"  class="itxst">
+        <div>C组</div>
+        <div class="item" data-id="7">杭州</div>
+        <div class="item" data-id="8">山景城</div>
+        <div class="item" data-id="9">北京</div>
+    </div>
+</div>
+<div id="msg"></div>
+<script>
+    //第一组
+    var g1 = document.getElementById('g1');
+    var ops1 = {
+        animation: 100,
+        draggable: ".item",
+        group: { name: "itxst.com", pull: true, put: true },
+        //拖动结束
+        onEnd: function (evt) {
+            console.log(evt);
+            //获取拖动后的排序
+            var arr = sortable1.toArray();
+            document.getElementById("msg").innerHTML = "A组排序结果：" + JSON.stringify(arr);
+        },
+    };
+    var sortable1 = Sortable.create(g1, ops1);
+    //第二组
+    var g2 = document.getElementById('g2');
+    var ops2 = {
+        animation: 100,
+        draggable: ".item",
+        group: { name: "itxst.com", pull: true, put: true },
+        //拖动结束
+        onEnd: function (evt) {
+            console.log(evt);
+            //获取拖动后的排序
+            var arr = sortable2.toArray();
+            document.getElementById("msg").innerHTML ="B组排序结果："+ JSON.stringify(arr);
+        },
+    };
+    var sortable2 = Sortable.create(g2, ops2);
+    //第三组
+    var g3 = document.getElementById('g3');
+    var ops3 = {
+        animation: 100,
+        draggable: ".item",
+        //拖动结束
+        onEnd: function (evt) {
+            console.log(evt);
+            //获取拖动后的排序
+            var arr = sortable3.toArray();
+            document.getElementById("msg").innerHTML = "C组排序结果：" + JSON.stringify(arr);
+        },
+    };
+    var sortable3 = Sortable.create(g3, ops3);
+</script>
+</body>
+</html>

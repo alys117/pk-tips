@@ -6,9 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>element-ui</title>
-  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-  <script src="https://unpkg.com/vue@2"></script>
-  <script src="https://unpkg.com/element-ui@2"></script>
+  <!-- <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css"> -->
+  <link crossorigin="anonymous" integrity="sha512-CEgKdmYu1OEKKa8xShOajRH/iuKFfGoSv3BowI99pJLkeOZh+xtpMDD+7/eVeWI2M+SLOR8oqfSfGjoLlFFaSA==" href="https://lib.baomitu.com/element-ui/2.15.10/theme-chalk/index.css" rel="stylesheet">  <!-- <script src="https://unpkg.com/vue@2"></script> -->
+  <script crossorigin="anonymous" integrity="sha512-qma673DUBcOHhiuCqK/26szmI2k9hKp/v/g1uhXOrmLFURF3Pws/YesCtLa918K8kpVW+05FDWcqFHqOz6RpRQ==" src="https://lib.baomitu.com/vue/2.7.7/vue.js"></script>
+  <!-- <script src="https://unpkg.com/element-ui@2"></script> -->
+  <script crossorigin="anonymous" integrity="sha512-BUA4cDZ7FobRei+UGlYlPSNKPlYoHlw3nanEKPGeotSUvfPTDk9mHparLe4R0gfW1vi6FvowpgflsFYwsXkwwA==" src="https://lib.baomitu.com/element-ui/2.15.10/index.js"></script>
   <style>
   </style>
 </head>
@@ -35,6 +37,12 @@
             <i class="el-icon-picture"></i> 选项三(饿了吗)
           </el-menu-item>
       </el-menu>
+      
+      <div style="background:red ;width: 350px;height:200px;">
+        <el-scrollbar style="height: 100%;width: 100%;">
+          <div style="height: 600px;width: 500px;"></div>
+        </el-scrollbar> 
+      </div>
       <span
         style="display: inline-block;width: 14px;height: 14px;background: red;border-radius: 50%;font-size: 6px;color:#fff;line-height: 14px;text-align: center;">2</span>
       <ifm></ifm>
@@ -84,7 +92,10 @@
   }).$mount('#app')
 </script>
 <style>
-
+.el-scrollbar__wrap{
+  overflow-x: auto;
+  height: calc(100% + 20px);
+}
 </style>
 
 </html>
