@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>element-ui</title>
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <script src="https://unpkg.com/vue@2"></script>
+  <script src="https://unpkg.com/element-ui@2"></script>
+  <style>
+  </style>
+</head>
+<body>
+  <div id="app">
+      <el-select @change="change" v-model="aa">
+        <el-option label="选项一" key="1" :value="{value:1,label:'选项一'}"></el-option>
+        <el-option label="选项二" key="2" :value="{value:2,label:'选项二'}"></el-option>
+      </el-select>
+      <el-select @change="change" v-model="bb">
+        <el-option label="选项3" key="3" :value="{value:3,label:'选项3'}"></el-option>
+        <el-option label="选项4" key="4" :value="{value:4,label:'选项4'}"></el-option>
+        <el-option label="选项5" key="5" :value="{value:5,label:'选项5'}"></el-option>
+      </el-select>
+      <el-button @click="submit">提交</el-button>
+      <el-divider></el-divider>
+      <div v-for="item in list" style="display: inline-block">
+        <span style="border: 1px solid red;padding: 5px; margin-right: 5px;">{{item.value}} <i class="el-icon-delete" @click="del(item)"></i></span>
+      </div>
+  </div>
+</body>
+<script>
+  const app = new Vue({
+    data () {
+      return {
+        aa: {
+          value: 1,
+          label: '选项一'
+        },
+        bb: {
+          value: 3,
+          label: '选项3'
+        },
+        list: []
+      };
+    },
+    mounted () { },
+    methods: {
+      del(val) {
+        console.log('del',val)
+        this.list = this.list.filter(item => item.idx != val.idx)
+        console.log(this.list);
+      },
+      change(params){
+        const { value, label } = params;
+		    console.log(value, label)
+        this.list.push({key:value,value:label,idx:this.list.length})
+      },
+      submit(){
+        console.log(this.list)
+        const arrKey = this.list.map(item => item.key)
+        const arrVal = this.list.map(item => item.value)
+        console.log(arrKey)
+        console.log(arrVal)
+      }
+    }
+  }).$mount('#app')
+</script>
+<style>
+
+</style>
+
+</html>

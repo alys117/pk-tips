@@ -5,44 +5,61 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <script src="http://mockjs.com/dist/mock.js"></script>
+    <!-- <script src="http://mockjs.com/dist/mock.js"></script> -->
+    <!-- <script src="https://cdn.bootcdn.net/ajax/libs/Mock.js/1.0.0/mock.js"></script> -->
+    <script crossorigin="anonymous" integrity="sha384-5MwLLhZtPw+Fq6sQHTnXQ0FcS9UhPLyH3/cL0HldXotLnd65HX213VHV6imvAok+" src="https://lib.baomitu.com/Mock.js/latest/mock-min.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.1/axios.js"></script>
   </head>
   <body>
     <script>
       const res = Mock.mock({
         status: 200,
-        data: [
+        'items|10': [
           {
             id: '@increment(1)',
-            name: '@cword(2,4)',
+            id1: '@id',
+            title: '@sentence(10, 15)',
+            content: '@csentence(5, 10)',
+            'fee|3000-50000': 30,
+            'status|1': ['published', 'draft', 'deleted'],
+            author: '@name',
+            'state|1': ['正常', '异常'],
+            name: '@cname',
+            contacts: '@cword(3, 5)',
+            'sex|1': ['男', '女'],
+            label: ['已沟通', '已报价'],
+            county: '@county(true)',
+            phone: /^1[385][1-9]\d{8}/,
+            display_time: '@date',
+            oper_time: '@datetime',
+            pageviews: '@integer(300, 5000)',
             count: '@natural(100,999)',
             img: '@dataImage(100x100)',
           },
-        ],
+        ]
       })
       console.log(res)
       const { data: mydata } = res
       console.log(mydata)
 
-      Mock.mock('/a1.json', 'get', {
-        status: 200,
-        data: [
-          {
-            id: '@increment(1)',
-            name: '@cword(2,4)',
-            date: '@date(yyyy-MM-dd hh:mm:ss)',
-            count: '@natural(100,999)',
-            img: '@dataImage(100x100)',
-            img2: "@Image(100x100,#f1fa76,red,jpg,菜菜)",
-          },
-        ],
-      })
-      axios({
-        url: '/a1.json',
-      }).then((res) => {
-        console.log(res)
-      })
+      // Mock.mock('/a1.json', 'get', {
+      //   status: 200,
+      //   data: [
+      //     {
+      //       id: '@increment(1)',
+      //       name: '@cword(2,4)',
+      //       date: '@date(yyyy-MM-dd hh:mm:ss)',
+      //       count: '@natural(100,999)',
+      //       img: '@dataImage(100x100)',
+      //       img2: "@Image(100x100,#f1fa76,red,jpg,菜菜)",
+      //     },
+      //   ],
+      // })
+      // axios({
+      //   url: '/a1.json',
+      // }).then((res) => {
+      //   console.log(res)
+      // })
     </script>
   </body>
 </html>

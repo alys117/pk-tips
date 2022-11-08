@@ -39,6 +39,15 @@
         style="display: inline-block;width: 14px;height: 14px;background: red;border-radius: 50%;font-size: 6px;color:#fff;line-height: 14px;text-align: center;">2</span>
       <ifm></ifm>
       <comp :title="title"></comp>
+      <el-divider></el-divider>
+      <el-select @change="change" v-model="aa">
+        <el-option label="选项一" key="1" :value="{value:1,label:'选项一'}"></el-option>
+        <el-option label="选项二" key="2" :value="{value:2,label:'选项二'}"></el-option>
+      </el-select>
+      <el-divider></el-divider>
+      <div v-for="item in list" style="display: inline-block">
+        <span style="border: 1px solid red;padding: 5px; margin-right: 5px;" :data-key="item.key" >{{item.value}}</span>
+      </div>
     </div>
   </div>
 </body>
@@ -75,11 +84,22 @@
     data () {
       return {
         count: 1,
-        title: 'Functional Component'
+        title: 'Functional Component',
+        tijiao: '123',
+        aa: {
+          value: 1,
+          label: '选项一'
+        },
+        list: [{key:1,value:'apple'},{key:2,value:'banana'}]
       };
     },
     mounted () { },
     methods: {
+      change(params){
+        const { value, label } = params;
+		    console.log(value, label)
+        this.list.push({key:value,value:label})
+      }
     }
   }).$mount('#app')
 </script>

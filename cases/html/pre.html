@@ -10,8 +10,13 @@
 </head>
 
 <body>
+  <span onclick="aaa(event)">231231</span>
   1.js
   <script type="text/javascript" src="./1.js"></script>
 </body>
-
+<script>
+  function aaa(event){
+    console.log(event.target.textContent);
+  }
+</script>
 </html>
