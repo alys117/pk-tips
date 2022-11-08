@@ -35,12 +35,11 @@
             pageviews: '@integer(300, 5000)',
             count: '@natural(100,999)',
             img: '@dataImage(100x100)',
+            goodsName: "@ctitle(10)",
           },
         ]
       })
       console.log(res)
-      const { data: mydata } = res
-      console.log(mydata)
 
       // Mock.mock('/a1.json', 'get', {
       //   status: 200,

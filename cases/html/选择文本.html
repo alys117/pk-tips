@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      user-select: none;
+      outline: none;
+    }
+    span {
+      border: 1px solid #000;
+      padding: 5px;
+    }
+  </style>
+</head>
+<body>
+  <textarea name="bb" id="aa" cols="100" rows="5" onclick="ad(event)" onchange="ad(event)" placeholder="请输入">dfdsfdsfdsfdsa</textarea>
+  <div style="margin-top: 10px;">
+    <span onclick="clickVariable('$(foo)')">$(foo)</span>
+    <span onclick="clickVariable('$(bar)')">$(bar)</span>
+  </div>
+  <script>
+    window['rangeData'] = { unlocated: true, text: '', start: 0, end: 0 }
+    window['warningContent']= document.getElementById('aa').value
+    console.log('rangeData :>> ', rangeData);
+    console.log('warningContent :>> ', warningContent);
+    function ad(e){
+      const textarea = e.target
+      var rangeData = { text: '', start: 0, end: 0 }
+
+      if (textarea.setSelectionRange) {
+        textarea.focus()
+        rangeData.start = textarea.selectionStart
+        rangeData.end = textarea.selectionEnd
+        rangeData.text = (rangeData.start !== rangeData.end) ? textarea.value.substring(rangeData.start, rangeData.end) : ''
+      } else if (document.selection) { // IE
+        textarea.focus()
+        let i
+        const oS = document.selection.createRange()
+        // Don't: oR = textarea.createTextRange()
+        const oR = document.body.createTextRange()
+        oR.moveToElementText(textarea)
+
+        rangeData.text = oS.text
+        rangeData.bookmark = oS.getBookmark()
+
+        // object.moveStart(sUnit [, iCount])
+        // Return Value: Integer that returns the number of units moved.
+        for (i = 0; oR.compareEndPoints('StartToStart', oS) < 0 && oS.moveStart('character', -1) !== 0; i++) {
+          // Why? You can alert(textarea.value.length)
+          if (textarea.value.charAt(i) === '\r') {
+            i++
+          }
+        }
+        rangeData.start = i
+        rangeData.end = rangeData.text.length + rangeData.start
+      }
+      console.log(rangeData);
+      window['rangeData'] = rangeData
+      window['warningContent']= textarea.value
+    }
+
+
+    function clickVariable (data) {
+      if (rangeData.unlocated) {
+        rangeData.start = warningContent.length
+        rangeData.end = warningContent.length
+      }
+      warningContent = warningContent.substring(0, this.rangeData.start) + data + warningContent.substring(this.rangeData.end)
+      document.getElementById('aa').value = warningContent
+    }
+  </script>
+</body>
+</html>

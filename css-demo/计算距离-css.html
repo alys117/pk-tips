@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .item:hover {
+      background-color: seagreen !important;
+    }
+    .container{
+      margin: 60px auto;
+      background-color:burlywood;
+      width: 200px;
+      height: 150px;
+      overflow-x: auto; 
+      /* display: flex;
+      flex-direction: column; */
+    }
+    .item{
+      color: white;
+      background-color: cadetblue;
+      border: 3px solid red;
+      padding: 0 5px;
+      white-space: nowrap;
+      line-height: 32px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div style="display: inline-flex;flex-direction: column">
+      <div id="s1" class="item" >
+        这是一段一段繁琐的描述啦啦啦啦啦啦啦啊又臭又长
+      </div>
+      <div id="s2" class="item" >
+        简要描述
+      </div>
+    </div>
+  </div>
+
+  
+  <div style="display: flex;height: 50px; background-color: aliceblue; width: 200px;">
+    <div style="background-color: red;width: 100px;">1</div>
+    <div style="background-color: green;width: 200px;">2</div>
+    <div style="background-color: grey;width: 100px;">3</div>
+  </div>
+  <div style="display: flex;height: 50px; background-color: aliceblue;">
+    <div style="background-color: red;width: 100px;">1</div>
+    <div style="background-color: green;width: 200px;">2</div>
+    <div style="background-color: grey;width: 100px;">3</div>
+  </div>
+  <div style="display: inline-flex;height: 50px; background-color: aliceblue;">
+    <div style="background-color: red;width: 100px;">1</div>
+    <div style="background-color: green;width: 200px;">2</div>
+    <div style="background-color: grey;width: 100px;">3</div>
+  </div>
+  <div style="display: inline-flex;height: 50px; background-color: aliceblue;width: 200px;">
+    <div style="background-color: red;width: 100px;">1</div>
+    <div style="background-color: green;width: 200px;">2</div>
+    <div style="background-color: grey;width: 100px;">3</div>
+  </div>
+</body>
+
+</html>

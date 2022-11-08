@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>slot-simple</title>
+  <script src="https://unpkg.com/vue@2"></script>
+  <script src="https://unpkg.com/element-ui@2"></script>
+</head>
+
+<body>
+  <div id="app">
+    <Test :redval="fval">
+      <template v-slot:header="scope"><!-- v-slot指令使用插槽 -->
+        <h2>slot头部内容</h2>
+        {{ scope.duiying }}
+      </template>
+
+      <p>直接插入组件的内容</p>
+
+      <template v-slot="scope">
+        <h2>匿名内容~~{{ scope.niming }}</h2>
+      </template>
+
+      <template v-slot:footer>
+        <h2>slot尾部内容</h2>
+      </template>
+    </Test>
+  </div>
+
+  <template id='test'>
+    <div class="container">
+      <header>
+        <!-- 我们希望把页头放这里 -->
+        <slot name="header" :duiying="msg"></slot><!-- 具名插槽 -->
+      </header>
+      <section>
+        主体内容部分~~{{redval}}
+        <slot :niming="msg2"></slot>
+      </section>
+      <footer>
+        <!-- 我们希望把页脚放这里 -->
+        <slot name='footer'></slot>
+      </footer>
+    </div>
+  </template>
+
+</body>
+
+<script>
+  Vue.component('Test', {
+    template: "#test",
+    props: ['redval'],
+    data() {
+      return {
+        msg: '一段内容',
+        msg2: '一段内容2'
+      }
+    }
+  });
+  new Vue({
+    el: "#app",
+    data(){
+      return {
+        fval: '传给Test组件'
+      }
+    }
+  })
+</script>
+
+</html>
