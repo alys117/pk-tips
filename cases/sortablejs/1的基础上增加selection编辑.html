@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>sortable.js 多组拖动排序例子</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
+  <script src="./Sortable.min.js"></script>
+  <style>
+    .box {
+      display: flex;
+      gap: 10px;
+    }
+
+    .itxst {
+      margin: 10px 0;
+      width: 280px;
+    }
+
+    .itxst2 {
+      margin: 10px 0;
+      width: 600px;
+    }
+
+    .itxst div {
+      padding: 6px;
+      background-color: #fdfdfd;
+      border: solid 1px #eee;
+      margin-bottom: 10px;
+      cursor: move;
+    }
+
+    .itxst2 div {
+      padding: 6px;
+      margin-bottom: 10px;
+      background-color: #eee !important;
+      /* height: 65px; */
+      outline: none;
+    }
+    #g2{
+      border: solid 1px red;
+      min-height: 100px;
+    }
+    #g2 div{
+      margin-bottom: 10px;
+      background-color: aqua !important;
+    }
+    #msg {
+      margin-top: 10px;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <div  class="itxst">
+      <div>A组</div>
+      <div style="display: flex;flex-wrap: wrap; gap: 10px;" id="g1">
+        <div class="item" data-id="a1" data-info="this is detail of item 1">item 1</div>
+        <div class="item" data-id="a2" data-info="this is detail of item 2">item 2</div>
+        <div class="item" data-id="a3" data-info="this is detail of item 3">item 3</div>
+        <div class="item" data-id="a4" data-info="this is detail of item 4">item 4</div>
+        <div class="item" data-id="a5" data-info="this is detail of item 5">item 5</div>
+      </div>
+    </div>
+
+    <div class="itxst2">
+      <div style="height: 21px;">B组 <span style="font-size: 12px;">(单击进入编辑)</span></div>
+      <div id="g2"></div>
+    </div>
+  </div>
+  <div style="margin-top: 10px;">
+    <span onclick="clickVariable('$(foo)')" style="border: 1px solid #000; padding: 5px;">$(foo)</span>
+    <span onclick="clickVariable('$(bar)')" style="border: 1px solid #000; padding: 5px;">$(bar)</span>
+  </div>
+  <div id="msg"></div>
+  <script>
+    function sss(){
+      console.log('sss');
+    }
+    //第一组
+    var g1 = document.getElementById('g1');
+    var ops1 = {
+      animation: 100,
+      draggable: ".item",
+      group: { name: "itxst.com", pull: 'clone', put: false },
+      sort: false,
+
+      //拖动结束
+      onEnd: function (evt) {
+        // console.log(evt, 1);
+        //获取拖动后的排序
+        var arr = sortable1.toArray();
+        document.getElementById("msg").innerHTML = "A组排序结果：" + JSON.stringify(arr);
+      },
+    };
+    var sortable1 = Sortable.create(g1, ops1);
+    //第二组
+    var g2 = document.getElementById('g2');
+    var ops2 = {
+      animation: 100,
+      draggable: ".item",
+      group: { name: "itxst.com", pull: true, put: true },
+      onAdd(evt) {
+        // console.log('onAdd', evt);
+        var div1=document.createElement('div');
+        div1.id = evt.item.dataset.id;
+        var fb=ad.bind(this,evt.item.dataset.id)
+        div1.addEventListener('click',fb)
+        div1.contentEditable = true;
+        div1.innerText = evt.item.dataset.info
+        var div2=document.createElement('div');
+        div2.id = 'shadow_'+ evt.item.dataset.id;
+        div2.innerText = evt.item.dataset.info
+        evt.item.innerHTML = ''
+        evt.item.appendChild(div1);
+        evt.item.appendChild(div2);
+        if(!window[evt.item.dataset.id]) window[evt.item.dataset.id] = {}
+        window[evt.item.dataset.id]['rangeData'] = { text: '', start: 0, end: 0 }
+        window[evt.item.dataset.id]['content']= evt.item.innerText
+      },
+      //拖动结束
+      onEnd: function (evt) {
+        console.log(evt, 2);
+        //获取拖动后的排序
+        var arr = sortable2.toArray();
+        document.getElementById("msg").innerHTML = "B组排序结果：" + JSON.stringify(arr);
+      },
+    };
+    var sortable2 = Sortable.create(g2, ops2);
+  </script>
+  <script>
+    function clickVariable (data) {
+      if (document.getSelection().type === 'None') {
+        rangeData.start = warningContent.length
+        rangeData.end = warningContent.length
+      }
+      warningContent = warningContent.slice(0, rangeData.start) + data + warningContent.slice(rangeData.end) || ''
+      // warningContent = warningContent.substring(0, rangeData.start) + data + warningContent.substring(rangeData.end) || '' // 效果一样，也可以
+      document.getElementById('custom_content').innerText = warningContent
+      document.getElementById('custom_content_fake').innerHTML = warningContent.replaceAll('$(foo)', '<span class="innerspan">$(foo)</span>').replaceAll('$(bar)', '<span class="innerspan">$(bar)</span>')
+      window['rangeData'] = { text: '', start: warningContent.length, end: warningContent.length }
+    }
+
+    function ad(param, e){
+      console.log('e :>> ', param, e);
+      console.log('document.getSelection() :>> ', document.getSelection());
+      var rangeData = { text: '', start: 0, end: 0 }
+      var selection = document.getSelection()
+      if(selection){
+        rangeData.start = Math.min(selection.focusOffset, selection.anchorOffset)
+        rangeData.end = Math.max(selection.focusOffset, selection.anchorOffset)
+        rangeData.text = (rangeData.start !== rangeData.end) ? selection.anchorNode.data.substring(rangeData.start, rangeData.end) : ''
+      }
+      window[param]['rangeData'] = rangeData
+      window[param]['content']= selection.anchorNode.data || ''
+      // document.getElementById('custom_content_fake').innerHTML = warningContent.replaceAll('$(foo)', '<span class="innerspan">$(foo)</span>').replaceAll('$(bar)', '<span class="innerspan">$(bar)</span>')
+    }
+  </script>
+</body>
+
+</html>
