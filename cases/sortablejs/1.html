@@ -26,6 +26,10 @@
         clear:both;
         width:100%;
         }
+        .itxstfake div{
+          background-color: aquamarine !important;
+        }
+
     </style>
 </head>
 <body> 
@@ -36,7 +40,7 @@
         <div class="item" data-id="2">item 2</div>
         <div class="item" data-id="3">item 3</div>
     </div>
-    <div id="g2" class="itxst">
+    <div id="g2" class="itxst itxstfake">
         <div>B组</div>
         <div class="item" data-id="4">www.itxst.com</div>
         <div class="item" data-id="5">www.google.com</div>
@@ -59,7 +63,7 @@
         group: { name: "itxst.com", pull: true, put: true },
         //拖动结束
         onEnd: function (evt) {
-            console.log(evt);
+            console.log(evt,1);
             //获取拖动后的排序
             var arr = sortable1.toArray();
             document.getElementById("msg").innerHTML = "A组排序结果：" + JSON.stringify(arr);
@@ -74,7 +78,7 @@
         group: { name: "itxst.com", pull: true, put: true },
         //拖动结束
         onEnd: function (evt) {
-            console.log(evt);
+            console.log(evt,2);
             //获取拖动后的排序
             var arr = sortable2.toArray();
             document.getElementById("msg").innerHTML ="B组排序结果："+ JSON.stringify(arr);

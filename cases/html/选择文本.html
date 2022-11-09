@@ -17,7 +17,7 @@
   </style>
 </head>
 <body>
-  <textarea name="bb" id="aa" cols="100" rows="5" onclick="ad(event)" onchange="ad(event)" placeholder="请输入">dfdsfdsfdsfdsa</textarea>
+  <textarea name="bb" id="aa" cols="100" rows="5" onclick="ad(event)" onchange="ad(event)" placeholder="请输入">abcd1234</textarea>
   <div style="margin-top: 10px;">
     <span onclick="clickVariable('$(foo)')">$(foo)</span>
     <span onclick="clickVariable('$(bar)')">$(bar)</span>
@@ -36,7 +36,7 @@
         rangeData.start = textarea.selectionStart
         rangeData.end = textarea.selectionEnd
         rangeData.text = (rangeData.start !== rangeData.end) ? textarea.value.substring(rangeData.start, rangeData.end) : ''
-      } else if (document.selection) { // IE
+      } else if (document.selection) { // IE低版本
         textarea.focus()
         let i
         const oS = document.selection.createRange()
@@ -69,7 +69,7 @@
         rangeData.start = warningContent.length
         rangeData.end = warningContent.length
       }
-      warningContent = warningContent.substring(0, this.rangeData.start) + data + warningContent.substring(this.rangeData.end)
+      warningContent = warningContent.substring(0, rangeData.start) + data + warningContent.substring(rangeData.end)
       document.getElementById('aa').value = warningContent
     }
   </script>

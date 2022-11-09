@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      user-select: none;
+      outline: none;
+    }
+    span {
+      border: 1px solid #000;
+      padding: 5px;
+    }
+    .edit {
+      box-sizing: border-box;
+      width: 300px; 
+      height: 100px;
+      border: 1px solid rgb(93, 0, 255);
+      padding: 5px;
+      display: none;
+    }
+    .fake {
+      background-color: #f1f1f1;
+      display: block;
+      word-break:break-all;
+    }
+    .innerspan{
+      color: red;
+      border: none;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+  <div style="display: flex; flex-direction: column; align-items: flex-end ;width: 302px;" > 
+    <div id="custom_content_fake" class="edit fake" ondblclick="fakeClick()">select * from mytale where 1=1</div>
+    <div id="custom_content" tabindex="0" class="edit" contenteditable onclick="ad(event)" onchange="ad(event)" oninput="ad(event)" onfocus='console.log(111);' onblur="showfake()" >select * from mytale where 1=1</div>
+    <div ondblclick="fakeClick()" style="font-size: 12px;">双击进入编辑</div>
+  </div>
+  <div style="margin-top: 10px;">
+    <span onclick="clickVariable('$(foo)')">$(foo)</span>
+    <span onclick="clickVariable('$(bar)')">$(bar)</span>
+  </div>
+  <script>
+    window['rangeData'] = { text: '', start: 0, end: 0 }
+    window['warningContent']= document.getElementById('custom_content').innerText
+    console.log('rangeData :>> ', rangeData);
+    console.log('warningContent :>> ', warningContent);
+    function showfake(){
+      console.log('blur...........'); 
+      document.getElementById('custom_content_fake').style.display = 'block'
+      document.getElementById('custom_content').style.display = 'none'
+    }
+    showfake()
+    function fakeClick(){
+      document.getElementById('custom_content_fake').style.display = 'none'
+      document.getElementById('custom_content').style.display = 'block'
+      document.getElementById('custom_content').focus()
+    }
+    function ad(e){
+      console.log('event :>> ', event);
+      console.log('document.getSelection() :>> ', document.getSelection());
+      var rangeData = { text: '', start: 0, end: 0 }
+      var selection = document.getSelection()
+      if(selection){
+        rangeData.start = Math.min(selection.focusOffset, selection.anchorOffset)
+        rangeData.end = Math.max(selection.focusOffset, selection.anchorOffset)
+        rangeData.text = (rangeData.start !== rangeData.end) ? selection.anchorNode.data.substring(rangeData.start, rangeData.end) : ''
+      }
+      window['rangeData'] = rangeData
+      window['warningContent']= selection.anchorNode.data || ''
+      document.getElementById('custom_content_fake').innerHTML = warningContent.replaceAll('$(foo)', '<span class="innerspan">$(foo)</span>').replaceAll('$(bar)', '<span class="innerspan">$(bar)</span>')
+    }
+
+
+    function clickVariable (data) {
+      if (document.getSelection().type === 'None') {
+        rangeData.start = warningContent.length
+        rangeData.end = warningContent.length
+      }
+      warningContent = warningContent.slice(0, rangeData.start) + data + warningContent.slice(rangeData.end) || ''
+      // warningContent = warningContent.substring(0, rangeData.start) + data + warningContent.substring(rangeData.end) || '' // 效果一样，也可以
+      document.getElementById('custom_content').innerText = warningContent
+      document.getElementById('custom_content_fake').innerHTML = warningContent.replaceAll('$(foo)', '<span class="innerspan">$(foo)</span>').replaceAll('$(bar)', '<span class="innerspan">$(bar)</span>')
+      window['rangeData'] = { text: '', start: warningContent.length, end: warningContent.length }
+    }
+  </script>
+</body>
+</html>

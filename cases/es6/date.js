@@ -1,3 +1,4 @@
+// js里关于日期的操作
 const d1 = new Date('2022-01-31 03:12:32.325')
 console.log('d1.getDate() :>> ', d1.getDate());
 console.log('d1.getMonth() :>> ', d1.getMonth());
