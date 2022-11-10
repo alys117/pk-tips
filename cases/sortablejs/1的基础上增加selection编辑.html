@@ -12,39 +12,48 @@
       display: flex;
       gap: 10px;
     }
-
-    .itxst {
-      margin: 10px 0;
-      width: 280px;
+    .left-container {
+      width: 225px;
+      flex-shrink: 0;
+    }
+    .right-container {
+      min-width: 600px;
+      flex: 1;
     }
 
-    .itxst2 {
-      margin: 10px 0;
-      width: 600px;
-    }
-
-    .itxst div {
+    .left-container > div {
       padding: 6px;
-      background-color: #fdfdfd;
       border: solid 1px #eee;
       margin-bottom: 10px;
+    }
+    #g1 div {
+      background-color: #fdfdfd;
+      border: solid 1px #eee;
+      padding: 6px;
       cursor: move;
     }
 
-    .itxst2 div {
+    .right-container div{
       padding: 6px;
-      background-color: #eee;
-      /* height: 65px; */
       outline: none;
+    }
+    .right-container pre {
+      margin: 0 20px 0 0;
+      min-height: 20px;
+      outline: none;
+      font-size: 16px;
+      padding: 6px;
+      overflow: auto;
     }
 
     #g2{
       border: solid 1px darkgray;
       min-height: 100px;
-      background-color: white;
+      padding: 10px;
     }
     #g2 >div{
       margin-bottom: 10px;
+      background-color: #eee;
       word-break: break-all;
     }
     #msg {
@@ -61,7 +70,7 @@
 
 <body>
   <div class="box">
-    <div  class="itxst">
+    <div  class="left-container">
       <div>A组</div>
       <div style="display: flex;flex-wrap: wrap; gap: 10px;" id="g1">
         <div class="item" data-id="a1" data-info="this is detail of item 1">item 1</div>
@@ -72,7 +81,7 @@
       </div>
     </div>
 
-    <div class="itxst2">
+    <div class="right-container">
       <div style="height: 21px;margin-bottom: 10px;">B组 <span style="font-size: 12px;">(单击进入编辑)</span> <button style="float: right;" onclick="quitEdit()">退出编辑</button></div>
       <div id="g2">
         <div id="ph" style="text-align: center;background-color: white;">请拖入选项</div>
@@ -115,28 +124,21 @@
         // console.log('onAdd', evt);
         document.getElementById("ph").style.display = 'none'; // 隐藏占位符
         var uniq = new Date().getTime();
-        var div1=document.createElement('div');
-        div1.id = evt.item.dataset.id + '_' + uniq;
-        var fb=ad.bind(this,div1.id)
-        var fc=showNoEditDiv.bind(this,div1.id)
-        div1.addEventListener('click',fb)
-        div1.addEventListener('input',fb)
-        // div1.addEventListener('blur',fc)
-        div1.style.backgroundColor = '#fff';
-        div1.style.display = 'none';
-        div1.style.backgroundColor = 'white';
-        div1.style.paddingRight = '20px';
-        div1.contentEditable = true;
-        div1.tabIndex = 1;
-        div1.innerText = evt.item.dataset.info
-        var div2=document.createElement('div');
-        var fd=showEditDiv.bind(this,div1.id)
-        div2.addEventListener('click',fd)
-        div2.id = 'shadow_'+ evt.item.dataset.id + '_' + uniq;
-        div2.innerText = evt.item.dataset.info
-        div1.style.paddingRight = '20px';
+        var pre=document.createElement('pre');
+        pre.id = evt.item.dataset.id + '_' + uniq;
+        var fe = showEditDiv.bind(this,pre.id)
+        pre.addEventListener('click',fe)
+        var fb=ad.bind(this,pre.id)
+        var fc=showNoEditDiv.bind(this,pre.id)
+        pre.addEventListener('click',fb)
+        pre.addEventListener('input',fb)
+        // pre.addEventListener('blur',fc) // 不使用失去焦点事件，体验不好
+        pre.addEventListener('keydown',keydown)
+        pre.tabIndex = 1;
+        pre.innerText = evt.item.dataset.info
         evt.item.innerHTML = ''
-        evt.item.appendChild(div1);
+        evt.item.appendChild(pre);
+
         var divx=document.createElement('div');
         divx.style.position = 'absolute';
         divx.style.right = 0;
@@ -144,13 +146,16 @@
         divx.innerText = 'x';
         divx.onclick = function(){
           this.parentNode.parentNode.removeChild(this.parentNode)
+          console.log(document.getElementById("g2").children[1]);
+          if( document.getElementById("g2").children[1] == undefined){
+            document.getElementById("ph").style.display = 'block'; // 显示占位符
+          }
         }
         evt.item.appendChild(divx);
-        evt.item.appendChild(div2);
         evt.item.style.position = 'relative';
-        // if(!window[div1.id]) window[div1.id] = {} // 因为有这里给元素设置了id，所以window[div1.id]肯定不为undefined了
-        window[div1.id]['rangeData'] = { text: '', start: 0, end: 0 }
-        window[div1.id]['content']= evt.item.innerText
+        // if(!window[pre.id]) window[pre.id] = {} // 因为有这里给元素设置了id，所以window[pre.id]肯定不为undefined了
+        window[pre.id]['rangeData'] = { text: '', start: 0, end: 0 }
+        window[pre.id]['content']= evt.item.innerText
       },
       //拖动结束
       onEnd: function (evt) {
@@ -165,20 +170,17 @@
   <script>
     function quitEdit(){
       document.querySelectorAll('#g2 .item').forEach(i=>{
-        i.firstChild.style.display = 'none'
-        i.lastChild.style.display = 'block'
+        i.firstChild.contentEditable = false
+        i.firstChild.style.backgroundColor = '#f1f1f1'
       })
+      window['selectionId'] = undefined
     }
     function showNoEditDiv(id){
-      console.log('blur...........'); 
-      document.getElementById(id).style.display = 'none'
-      document.getElementById('shadow_'+id).style.display = 'block'
+      console.log('blur..........废弃'); 
     }
     function showEditDiv(id){
-      console.log('focus...........'); 
-      document.getElementById(id).style.display = 'block'
-      document.getElementById(id).focus()
-      document.getElementById('shadow_'+id).style.display = 'none'
+      document.getElementById(id).style.backgroundColor = 'white'
+      document.getElementById(id).contentEditable = true
     }
     function clickVariable (data) {
       if(!window['selectionId']) {alert('请先拖入一个选项，并进入编辑状态');return}
@@ -187,9 +189,8 @@
         rangeData.end = warningContent.length
       }
       window[selectionId]['content'] = window[selectionId]['content'].slice(0, window[selectionId]['rangeData'].start) + data + window[selectionId]['content'].slice(window[selectionId]['rangeData'].end) || ''
-      window[selectionId].innerText = window[selectionId]['content']
+      window[selectionId].innerHTML = window[selectionId]['content']
       // window['shadow_' + selectionId].innerText = window[selectionId]['content']
-      window['shadow_' + selectionId].innerHTML = window[selectionId]['content'].replaceAll('$(foo)', '<span class="innerspan">$(foo)</span>').replaceAll('$(bar)', '<span class="innerspan">$(bar)</span>')
       window[selectionId]['rangeData'] = { text: '', start: window[selectionId]['content'].length, end: window[selectionId]['content'].length }
     }
 
@@ -198,16 +199,61 @@
       console.log('document.getSelection() :>> ', document.getSelection());
       var rangeData = { text: '', start: 0, end: 0 }
       var selection = document.getSelection()
-      if(selection){
+      if(selection.type !== 'None') {
         rangeData.start = Math.min(selection.focusOffset, selection.anchorOffset)
         rangeData.end = Math.max(selection.focusOffset, selection.anchorOffset)
         rangeData.text = (rangeData.start !== rangeData.end) ? selection.anchorNode.data.substring(rangeData.start, rangeData.end) : ''
+
+        window[param]['rangeData'] = rangeData
+        window[param]['content']= selection.anchorNode.data || ''
+        window['selectionId'] = param
+        console.log(selection.anchorNode,1111);
       }
-      window[param]['rangeData'] = rangeData
-      window[param]['content']= selection.anchorNode.data || ''
-      window['selectionId'] = param
-      window['shadow_' + param].innerHTML = window[param]['content'].replaceAll('$(foo)', '<span class="innerspan">$(foo)</span>').replaceAll('$(bar)', '<span class="innerspan">$(bar)</span>')
+
     }
+    function keydown($event){
+      var keycode = window.event ? $event.keyCode : $event.which;
+      var evt = $event || window.event;
+      // 回车-->发送消息
+      if (keycode == 13 && !(evt.ctrlKey)) {
+          // 发送消息的代码
+          $event.preventDefault();
+          return false;
+      }
+      // ctrl+回车-->换行
+      if (evt.ctrlKey && evt.keyCode == 13) {
+          insertContent('\r')
+          return false;
+      }
+    }
+    
+    function insertContent(content){
+    if (!content) {//如果插入的内容为空则返回
+        return
+    }
+    var sel = null;
+    if (document.selection) {//IE9以下
+        sel = document.selection;
+        sel.createRange().pasteHTML(content);
+    } else {
+        sel = window.getSelection();
+        if (sel.rangeCount > 0) {
+            var range = sel.getRangeAt(0);      //获取选择范围
+            range.deleteContents();             //删除选中的内容
+            var el = document.createElement("div"); //创建一个空的div外壳
+            el.innerHTML = content;                 //设置div内容为我们想要插入的内容。
+            var frag = document.createDocumentFragment();//创建一个空白的文档片段，便于之后插入dom树
+            var node = el.firstChild;
+            var lastNode = frag.appendChild(node);
+            range.insertNode(frag);                 //设置选择范围的内容为插入的内容
+            var contentRange = range.cloneRange();  //克隆选区
+            contentRange.setStartAfter(lastNode);          //设置光标位置为插入内容的末尾
+            contentRange.collapse(true);                   //移动光标位置到末尾
+            sel.removeAllRanges();                  //移出所有选区
+            sel.addRange(contentRange);             //添加修改后的选区
+        }
+    }
+}
   </script>
 </body>
 
