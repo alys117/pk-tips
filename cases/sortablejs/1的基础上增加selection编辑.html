@@ -5,7 +5,8 @@
   <meta charset="utf-8" />
   <title>sortable.js 多组拖动排序例子</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
-  <script src="./Sortable.min.js"></script>
+  <!-- <script src="./Sortable.min.js"></script> -->
+  <script src="https://www.itxst.com/package/sortable/sortable.min.js"></script>
   <style>
     .box {
       display: flex;
@@ -32,22 +33,28 @@
 
     .itxst2 div {
       padding: 6px;
-      margin-bottom: 10px;
-      background-color: #eee !important;
+      background-color: #eee;
       /* height: 65px; */
       outline: none;
     }
+
     #g2{
-      border: solid 1px red;
+      border: solid 1px darkgray;
       min-height: 100px;
+      background-color: white;
     }
-    #g2 div{
+    #g2 >div{
       margin-bottom: 10px;
-      background-color: aqua !important;
+      word-break: break-all;
     }
     #msg {
       margin-top: 10px;
       width: 100%;
+    }
+    .innerspan{
+      color: red;
+      border: none;
+      padding: 0;
     }
   </style>
 </head>
@@ -66,13 +73,15 @@
     </div>
 
     <div class="itxst2">
-      <div style="height: 21px;">B组 <span style="font-size: 12px;">(单击进入编辑)</span></div>
-      <div id="g2"></div>
+      <div style="height: 21px;margin-bottom: 10px;">B组 <span style="font-size: 12px;">(单击进入编辑)</span> <button style="float: right;" onclick="quitEdit()">退出编辑</button></div>
+      <div id="g2">
+        <div id="ph" style="text-align: center;background-color: white;">请拖入选项</div>
+      </div>
     </div>
   </div>
   <div style="margin-top: 10px;">
-    <span onclick="clickVariable('$(foo)')" style="border: 1px solid #000; padding: 5px;">$(foo)</span>
-    <span onclick="clickVariable('$(bar)')" style="border: 1px solid #000; padding: 5px;">$(bar)</span>
+    <span onclick="clickVariable('$(foo)')" style="border: 1px solid #000; padding: 5px;cursor: pointer;">$(foo)</span>
+    <span onclick="clickVariable('$(bar)')" style="border: 1px solid #000; padding: 5px;cursor: pointer;">$(bar)</span>
   </div>
   <div id="msg"></div>
   <script>
@@ -104,21 +113,44 @@
       group: { name: "itxst.com", pull: true, put: true },
       onAdd(evt) {
         // console.log('onAdd', evt);
+        document.getElementById("ph").style.display = 'none'; // 隐藏占位符
+        var uniq = new Date().getTime();
         var div1=document.createElement('div');
-        div1.id = evt.item.dataset.id;
-        var fb=ad.bind(this,evt.item.dataset.id)
+        div1.id = evt.item.dataset.id + '_' + uniq;
+        var fb=ad.bind(this,div1.id)
+        var fc=showNoEditDiv.bind(this,div1.id)
         div1.addEventListener('click',fb)
+        div1.addEventListener('input',fb)
+        // div1.addEventListener('blur',fc)
+        div1.style.backgroundColor = '#fff';
+        div1.style.display = 'none';
+        div1.style.backgroundColor = 'white';
+        div1.style.paddingRight = '20px';
         div1.contentEditable = true;
+        div1.tabIndex = 1;
         div1.innerText = evt.item.dataset.info
         var div2=document.createElement('div');
-        div2.id = 'shadow_'+ evt.item.dataset.id;
+        var fd=showEditDiv.bind(this,div1.id)
+        div2.addEventListener('click',fd)
+        div2.id = 'shadow_'+ evt.item.dataset.id + '_' + uniq;
         div2.innerText = evt.item.dataset.info
+        div1.style.paddingRight = '20px';
         evt.item.innerHTML = ''
         evt.item.appendChild(div1);
+        var divx=document.createElement('div');
+        divx.style.position = 'absolute';
+        divx.style.right = 0;
+        divx.style.top = 0;
+        divx.innerText = 'x';
+        divx.onclick = function(){
+          this.parentNode.parentNode.removeChild(this.parentNode)
+        }
+        evt.item.appendChild(divx);
         evt.item.appendChild(div2);
-        if(!window[evt.item.dataset.id]) window[evt.item.dataset.id] = {}
-        window[evt.item.dataset.id]['rangeData'] = { text: '', start: 0, end: 0 }
-        window[evt.item.dataset.id]['content']= evt.item.innerText
+        evt.item.style.position = 'relative';
+        // if(!window[div1.id]) window[div1.id] = {} // 因为有这里给元素设置了id，所以window[div1.id]肯定不为undefined了
+        window[div1.id]['rangeData'] = { text: '', start: 0, end: 0 }
+        window[div1.id]['content']= evt.item.innerText
       },
       //拖动结束
       onEnd: function (evt) {
@@ -131,16 +163,34 @@
     var sortable2 = Sortable.create(g2, ops2);
   </script>
   <script>
+    function quitEdit(){
+      document.querySelectorAll('#g2 .item').forEach(i=>{
+        i.firstChild.style.display = 'none'
+        i.lastChild.style.display = 'block'
+      })
+    }
+    function showNoEditDiv(id){
+      console.log('blur...........'); 
+      document.getElementById(id).style.display = 'none'
+      document.getElementById('shadow_'+id).style.display = 'block'
+    }
+    function showEditDiv(id){
+      console.log('focus...........'); 
+      document.getElementById(id).style.display = 'block'
+      document.getElementById(id).focus()
+      document.getElementById('shadow_'+id).style.display = 'none'
+    }
     function clickVariable (data) {
+      if(!window['selectionId']) {alert('请先拖入一个选项，并进入编辑状态');return}
       if (document.getSelection().type === 'None') {
         rangeData.start = warningContent.length
         rangeData.end = warningContent.length
       }
-      warningContent = warningContent.slice(0, rangeData.start) + data + warningContent.slice(rangeData.end) || ''
-      // warningContent = warningContent.substring(0, rangeData.start) + data + warningContent.substring(rangeData.end) || '' // 效果一样，也可以
-      document.getElementById('custom_content').innerText = warningContent
-      document.getElementById('custom_content_fake').innerHTML = warningContent.replaceAll('$(foo)', '<span class="innerspan">$(foo)</span>').replaceAll('$(bar)', '<span class="innerspan">$(bar)</span>')
-      window['rangeData'] = { text: '', start: warningContent.length, end: warningContent.length }
+      window[selectionId]['content'] = window[selectionId]['content'].slice(0, window[selectionId]['rangeData'].start) + data + window[selectionId]['content'].slice(window[selectionId]['rangeData'].end) || ''
+      window[selectionId].innerText = window[selectionId]['content']
+      // window['shadow_' + selectionId].innerText = window[selectionId]['content']
+      window['shadow_' + selectionId].innerHTML = window[selectionId]['content'].replaceAll('$(foo)', '<span class="innerspan">$(foo)</span>').replaceAll('$(bar)', '<span class="innerspan">$(bar)</span>')
+      window[selectionId]['rangeData'] = { text: '', start: window[selectionId]['content'].length, end: window[selectionId]['content'].length }
     }
 
     function ad(param, e){
@@ -155,7 +205,8 @@
       }
       window[param]['rangeData'] = rangeData
       window[param]['content']= selection.anchorNode.data || ''
-      // document.getElementById('custom_content_fake').innerHTML = warningContent.replaceAll('$(foo)', '<span class="innerspan">$(foo)</span>').replaceAll('$(bar)', '<span class="innerspan">$(bar)</span>')
+      window['selectionId'] = param
+      window['shadow_' + param].innerHTML = window[param]['content'].replaceAll('$(foo)', '<span class="innerspan">$(foo)</span>').replaceAll('$(bar)', '<span class="innerspan">$(bar)</span>')
     }
   </script>
 </body>

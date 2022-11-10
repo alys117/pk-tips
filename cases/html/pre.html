@@ -5,18 +5,47 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="./1.js" rel="preload" as="script">
+  <!-- <link href="./1.js" rel="preload" as="script"> -->
   <title>Document</title>
+  <style>
+    span {
+      padding: 3px;
+      border: 1px solid #ccc;
+    }
+  </style>
 </head>
 
 <body>
-  <span onclick="aaa(event)">231231</span>
-  1.js
-  <script type="text/javascript" src="./1.js"></script>
+  <div id="myid">
+    console.log('window.myid :=', window.myid)
+    
+    <div id="c1">c1</div>  <!--控制台可以用 window.c1 或者 window['c1'] 找到元素（与document.getElementById('c1') 的效果一样） -->
+    <div id="c2">c2</div>
+    <div id="99">99</div>  
+    <!--
+      window[99] 
+      window['99']  
+      document.getElementById('99') 
+      document.getElementById(99) 
+      四种全部好用 
+    -->
+  </div>
+  <br>
+  <span onclick="aaa(123,234,event)">aaa</span>
+  <span onclick="bbb(event)">bbb</span>
+  <!-- <script type="text/javascript" src="./1.js"></script> -->
 </body>
 <script>
-  function aaa(event){
+  function aaa(p1,p2,e){
+    console.log(p1, p2,e, '--', event); // e 也是PointerEvent
     console.log(event.target.textContent);
   }
+  function bbb(p){
+    console.log(p,'--',event); // 打印的都是 PointerEvent
+  }
+
+  // 总结：event总是生效的,如果写成onclick="myfunc(123,,234,event)" 
+  // 即：最后一个参数显示的传了event, 那么function myfunc(p1,p2,e){} 中的e就会指向event（这里就是PointerEvent）；
+  // 如果没有显示传event，那么在函数里就只可使用event
 </script>
 </html>
