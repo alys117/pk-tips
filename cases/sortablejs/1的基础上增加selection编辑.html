@@ -5,6 +5,8 @@
   <meta charset="utf-8" />
   <title>sortable.js 多组拖动排序例子</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
+  <!-- <link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"> -->
+  <link href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/4.7.0/css/font-awesome.css" type="text/css" rel="stylesheet" />
   <!-- <script src="./Sortable.min.js"></script> -->
   <script src="https://www.itxst.com/package/sortable/sortable.min.js"></script>
   <style>
@@ -143,7 +145,8 @@
         divx.style.position = 'absolute';
         divx.style.right = 0;
         divx.style.top = 0;
-        divx.innerText = 'x';
+        divx.style.cursor = 'pointer';
+        divx.innerHTML = '<span class="fa fa-trash-o sc_dw"></span>';
         divx.onclick = function(){
           this.parentNode.parentNode.removeChild(this.parentNode)
           console.log(document.getElementById("g2").children[1]);
@@ -188,9 +191,10 @@
         rangeData.start = warningContent.length
         rangeData.end = warningContent.length
       }
+      console.log(window[selectionId].innerHTML);
+      console.log(window[selectionId].innerHTML.indexOf(/(\n|\r|\r\n|↵)/g));
       window[selectionId]['content'] = window[selectionId]['content'].slice(0, window[selectionId]['rangeData'].start) + data + window[selectionId]['content'].slice(window[selectionId]['rangeData'].end) || ''
       window[selectionId].innerHTML = window[selectionId]['content']
-      // window['shadow_' + selectionId].innerText = window[selectionId]['content']
       window[selectionId]['rangeData'] = { text: '', start: window[selectionId]['content'].length, end: window[selectionId]['content'].length }
     }
 
