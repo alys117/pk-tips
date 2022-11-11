@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    pre {
+      width: 300px;
+      height: 200px;
+      overflow: auto;
+      outline: none;
+      border: 1px solid #aaa;
+      padding: 10px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+
+<body>
+  <pre contenteditable="true" onkeydown="keydown(event)" onclick="ad('##',event)" oninput="ad('@@', event)"></pre>
+  <pre onclick="console.log(123)"></pre>
+  <script>
+    function ad(param, e){
+      // console.log('e :>> ', param, e);
+      console.log('document.getSelection() :>> ', document.getSelection());
+      var rangeData = { text: '', start: 0, end: 0 }
+
+      var selection = window.getSelection()
+      var fNode = selection.focusNode
+      if(fNode.nodeName !== '#text') return
+      var aNode = selection.anchorNode
+      var ntanchorlist = []
+      next(aNode, ntanchorlist)
+      console.log('ntanchorlist :>> ', ntanchorlist);
+      var psanchorlist = []
+      previous(aNode, psanchorlist)
+      console.log('psanchorlist :>> ', psanchorlist);
+
+
+      var ntfocuslist = []
+      next(fNode, ntfocuslist)
+      console.log('ntfocuslist :>> ', ntfocuslist);
+      var psfocuslist = []
+      previous(fNode, psfocuslist)
+      console.log('psfocuslist :>> ', psfocuslist);
+      
+    }
+    function next(node, list){
+      list.push(node.data)
+      if(node.nextSibling){
+        next(node.nextSibling, list)
+      }
+    }
+    function previous(node, list){
+      list.unshift(node.data)
+      if(node.previousSibling){
+        previous(node.previousSibling, list)
+      }
+    }
+    function keydown ($event) {
+      var keycode = window.event ? $event.keyCode : $event.which;
+      var evt = $event || window.event;
+      // 回车-->发送消息
+      if (keycode == 13 && !(evt.ctrlKey)) {
+        // 发送消息的代码
+        console.log('回车 :>> ', keycode, evt.keyCode);
+        $event.preventDefault();
+        return false;
+      }
+      // ctrl+回车-->换行
+      if (evt.ctrlKey && evt.keyCode == 13) {
+        console.log('ctrl回车 :>> ', evt.ctrlKey, evt.keyCode);
+        insertContent('\r\n')
+        return false;
+      }
+    }
+
+    function insertContent (content) {
+      if (!content) {//如果插入的内容为空则返回
+        return
+      }
+      var sel = null;
+      if (document.selection) {//IE9以下
+        sel = document.selection;
+        sel.createRange().pasteHTML(content);
+      } else {
+        sel = window.getSelection();
+        if (sel.rangeCount > 0) {
+          var range = sel.getRangeAt(0);      //获取选择范围
+          range.deleteContents();             //删除选中的内容
+          var el = document.createElement("div"); //创建一个空的div外壳
+          el.innerHTML = content;                 //设置div内容为我们想要插入的内容。
+          var frag = document.createDocumentFragment();//创建一个空白的文档片段，便于之后插入dom树
+          var node = el.firstChild;
+          var lastNode = frag.appendChild(node);
+          range.insertNode(frag);                 //设置选择范围的内容为插入的内容
+          var contentRange = range.cloneRange();  //克隆选区
+          contentRange.setStartAfter(lastNode);          //设置光标位置为插入内容的末尾
+          contentRange.collapse(true);                   //移动光标位置到末尾
+          sel.removeAllRanges();                  //移出所有选区
+          sel.addRange(contentRange);             //添加修改后的选区
+        }
+      }
+    }
+  </script>
+</body>
+
+</html>

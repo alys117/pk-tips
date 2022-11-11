@@ -94,6 +94,8 @@
     <span onclick="clickVariable('$(foo)')" style="border: 1px solid #000; padding: 5px;cursor: pointer;">$(foo)</span>
     <span onclick="clickVariable('$(bar)')" style="border: 1px solid #000; padding: 5px;cursor: pointer;">$(bar)</span>
   </div>
+  <br>
+  <div style="font-size: 12px;">点击变量插入指定位置</div>
   <div id="msg"></div>
   <script>
     function sss(){
@@ -221,12 +223,14 @@
       // 回车-->发送消息
       if (keycode == 13 && !(evt.ctrlKey)) {
           // 发送消息的代码
+          console.log('回车 :>> ', keycode, evt.keyCode);
           $event.preventDefault();
           return false;
       }
       // ctrl+回车-->换行
       if (evt.ctrlKey && evt.keyCode == 13) {
-          insertContent('\r')
+          console.log('ctrl回车 :>> ', evt.ctrlKey, evt.keyCode);
+          insertContent('\r\n')
           return false;
       }
     }
