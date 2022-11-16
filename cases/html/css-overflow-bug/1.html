@@ -22,9 +22,18 @@
 
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      /* 使用下面的 justify-content居中，会有在页面高度小于内容高度时候上面部分被隐藏的可能 */
+      /* justify-content: center; */ 
       align-items: center;
     }
+    /* -------使用如下伪类完美解决居中，并且高度小于内容的时候滚动条正常滑动显示所有，不会出现隐藏的------- */
+    #father :first-child{
+      margin-top: auto;
+    }
+    #father :last-child{
+      margin-bottom: auto;
+    }
+    /* -------小山的视频：https://www.bilibili.com/video/BV1HP411g7ZL/?vd_source=93581eb7bfb6dedc74fd2baddff1049d------ */
 
     .son {
       background: #7985d4;
