@@ -21,6 +21,7 @@
 
 <body>
   <pre contenteditable="true" onkeydown="keydown(event)" onclick="ad('##',event)" oninput="ad('@@', event)"></pre>
+  <button onclick="insertContent('$(foo)')">插入参数$(foo)</button>
   <pre onclick="console.log(123)"></pre>
   <script>
     function ad(param, e){

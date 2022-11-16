@@ -91,16 +91,13 @@
     </div>
   </div>
   <div style="margin-top: 10px;">
-    <span onclick="clickVariable('$(foo)')" style="border: 1px solid #000; padding: 5px;cursor: pointer;">$(foo)</span>
-    <span onclick="clickVariable('$(bar)')" style="border: 1px solid #000; padding: 5px;cursor: pointer;">$(bar)</span>
+    <button onclick="insertContent('$(foo)')" style="border: 1px solid #000; padding: 5px;cursor: pointer;">$(foo)</button>
+    <button onclick="insertContent('$(bar)')" style="border: 1px solid #000; padding: 5px;cursor: pointer;">$(bar)</button>
   </div>
   <br>
   <div style="font-size: 12px;">点击变量插入指定位置</div>
   <div id="msg"></div>
   <script>
-    function sss(){
-      console.log('sss');
-    }
     //第一组
     var g1 = document.getElementById('g1');
     var ops1 = {
@@ -187,18 +184,6 @@
       document.getElementById(id).style.backgroundColor = 'white'
       document.getElementById(id).contentEditable = true
     }
-    function clickVariable (data) {
-      if(!window['selectionId']) {alert('请先拖入一个选项，并进入编辑状态');return}
-      if (document.getSelection().type === 'None') {
-        rangeData.start = warningContent.length
-        rangeData.end = warningContent.length
-      }
-      console.log(window[selectionId].innerHTML);
-      console.log(window[selectionId].innerHTML.indexOf(/(\n|\r|\r\n|↵)/g));
-      window[selectionId]['content'] = window[selectionId]['content'].slice(0, window[selectionId]['rangeData'].start) + data + window[selectionId]['content'].slice(window[selectionId]['rangeData'].end) || ''
-      window[selectionId].innerHTML = window[selectionId]['content']
-      window[selectionId]['rangeData'] = { text: '', start: window[selectionId]['content'].length, end: window[selectionId]['content'].length }
-    }
 
     function ad(param, e){
       console.log('e :>> ', param, e);
@@ -213,7 +198,6 @@
         window[param]['rangeData'] = rangeData
         window[param]['content']= selection.anchorNode.data || ''
         window['selectionId'] = param
-        console.log(selection.anchorNode,1111);
       }
 
     }
