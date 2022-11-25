@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- 测试用iframe方式打开，操作cookie，不起作用 -->
+  <button onclick="goiframe()">显示iframe2</button><br>
+  <iframe width="100%" height="200" src="http://localhost:8002/player/index.html?source=10086&osid=sdbass&serialno=22052916232066720831026" frameborder="0"></iframe>
+  <iframe width="100%" height="700"  frameborder="0" src="http://localhost:8080/audio-platform/entry.html"></iframe>
+  <br>
+  <script>
+    document.cookie = "foo=bar";
+    function goiframe(){  
+      // document.querySelector('#iframe2').src = "http://localhost:8080/audio-platform/session-get.jsp"
+    }
+  </script>
+</body>
+</html>
