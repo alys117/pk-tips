@@ -109,3 +109,6 @@ dist
 tip.panke.js
 
 .DS_Store
+
+# intellij idea
+.idea
