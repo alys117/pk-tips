@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="jquery.fSelect.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/1.8.3/jquery.js"></script>
+    <script src="jquery.fSelect.js"></script>    
+</head>
+<body>
+<select name="demo" class="demo" multiple="multiple">  
+    <optgroup label="Languages">  
+        <option value="cp">C++</option>  
+        <option value="cs">C#</option>  
+        <option value="oc">Object C</option>  
+        <option value="c">C</option>  
+    </optgroup>  
+    <optgroup label="Scripts">  
+        <option value="js">JavaScript</option>  
+        <option value="php">PHP</option>  
+        <option value="asp">ASP</option>  
+        <option value="jsp">JSP</option>  
+    </optgroup>  
+</select> 
+<button onclick="set1('asp,jsp')">aaa</button> 
+<button onclick="set1()">清空</button> 
+<script>
+  function set1(arr) {
+    //第一步，先给select标签赋值
+    if(!arr) arr = ''
+    var tmp = arr.split(',');
+    $("select[name='demo']").val(tmp);
+    //第二步，给fs-optgroup下对应的option添加样式selected
+    $(".fs-option").each(function () {
+      console.log($(this)['context']['dataset']['value'],arr);
+      if(tmp.indexOf($(this)['context']['dataset']['value']) != -1){
+          $(this).addClass("selected");
+      }else{
+          $(this).removeClass("selected");
+      }
+    });
+    //第三步，重新加载下拉框，使得添加了selected样式的option处于被勾选状态
+    $("select[name='demo']").fSelect('reloadDropdownLabel');
+  }
+  $(function() {
+    $('.demo').fSelect();
+    //获取选中的值
+    console.log($("select[name='demo']").val());
+    //初始化值，假设选中了'cp,c,js'
+    var arr = 'cp,c,js';
+    if(arr !=""){
+      arr = arr.split(',');
+      //第一步，先给select标签赋值
+      $("select[name='demo']").val(arr);
+      //第二步，给fs-optgroup下对应的option添加样式selected
+      $(".fs-option").each(function () {
+          if(arr.indexOf($(this)['context']['dataset']['value']) != -1){
+              $(this).addClass("selected");
+          }
+      });
+      //第三步，重新加载下拉框，使得添加了selected样式的option处于被勾选状态
+      $("select[name='demo']").fSelect('reloadDropdownLabel');
+    };            
+  });
+</script>
+</body>
+</html>
