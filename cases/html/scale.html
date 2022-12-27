@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    .box {
+      position: relative;
+      margin: 20px auto;
+      box-sizing: border-box;
+      width: 400px;
+      border: 1px dashed #777;
+      background-color: #ccc;
+    }
+
+    .dv {
+      position: relative; 
+      left: 50%;
+      transform: translateX(-50%);
+
+      width: 550px;
+      height: 300px;
+      background-color: skyblue;
+      font-size: 12px;
+    }
+
+    #btn {
+      width: 150px;
+      height: 50px;
+      border: none;
+      color: '#333';
+      font-size: 16px;
+      background-color: #0ff;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <div class="dv"><span>我的天空</span></div>
+  </div>
+  <button id="btn">点击切换</button>
+
+  <script>
+    function $ (name) {
+      return document.querySelector(name)
+    }
+
+    const boxWidth = $('.box').offsetWidth,
+      dvWidth = $('.dv').offsetWidth,
+      boxHeight = $('.box').offsetHeight,
+      dvHeight = $('.dv').offsetHeight
+
+    const scale = boxWidth / dvWidth
+    console.log(scale);
+
+    // 关键部位 高度缩放 对父盒子进行高度缩放，这样就不会有留白的
+    // dv缩放后实际的高度
+    const dvScaleHeight = dvHeight * scale
+
+    // 父盒子缩放的高度
+    const boxScale = dvScaleHeight / boxHeight
+
+
+    $('#btn').onclick = function () {
+      $('.dv').style.transform = `scale(${scale}) translateX(-50%)`
+      $('.dv').style.transformOrigin = `0 top`
+
+      $('.box').style.height = boxHeight * boxScale + 'px'
+    }  
+  </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>element-ui</title>
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <script src="https://unpkg.com/vue@2"></script>
+  <script src="https://unpkg.com/element-ui@2"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <div ref="tableContainer" :style="{width: '125%',height: height+'px'}">
+      <el-table ref="table1" :data="tableData" style="width: 100%">
+        <el-table-column prop="date" label="日期" width="150">
+        </el-table-column>
+        <el-table-column label="配送信息">
+          <el-table-column prop="name" label="姓名" width="120">
+          </el-table-column>
+          <el-table-column label="地址">
+            <el-table-column prop="province" label="省份" width="60">
+            </el-table-column>
+            <el-table-column prop="city" label="市区" width="120">
+            </el-table-column>
+            <el-table-column prop="address" label="地址">
+            </el-table-column>
+            <el-table-column prop="zip" label="邮编" width="120">
+            </el-table-column>
+          </el-table-column>
+        </el-table-column>
+      </el-table>
+    </div>
+    <div>
+      123
+    </div>
+  </div>
+</body>
+<script>
+  const app = new Vue({
+    data () {
+      return {
+        height: '0',
+        tableData: [{
+          date: '2016-05-03',
+          name: '王小虎',
+          province: '上海',
+          city: '普陀区',
+          address: '上海市普陀区金沙江路 1518 弄',
+          zip: 200333
+        }, {
+          date: '2016-05-07',
+          name: '王小虎',
+          province: '上海',
+          city: '普陀区',
+          address: '上海市普陀区金沙江路 1518 弄',
+          zip: 200333
+        }]
+      };
+    },
+    mounted () {
+      axios({ url: './多级表头数据.json' }).then(res => {
+        this.tableData = res.data
+      })
+      this.$nextTick(() => {
+        const tableHeight = this.$refs?.table1?.$el.offsetHeight
+        this.height = tableHeight * 0.8
+        console.log(this.$refs?.table1?.$el.offsetHeight)
+        console.log(window.getComputedStyle(this.$refs.table1.$el).height);
+        // setTimeout(() => {
+        //   const tableHeight = this.$refs?.table1?.$el.offsetHeight
+        //   console.log(tableHeight, 'nextTick')
+        //   this.height = tableHeight * 0.8
+        // }, 0)
+      })
+      console.log(window.getComputedStyle(this.$refs.table1.$el));
+    },
+    methods: {
+      showNow () {
+        console.log(this.tabledatas)
+      }
+    }
+  }).$mount('#app')
+</script>
+<style>
+  .el-table {
+    font-size: 12px;
+    transform: scale(0.8);
+    transform-origin: 0 top;
+  }
+
+  .el-table td.el-table__cell div {
+    /* transform: scale(0.8); */
+  }
+
+  .el-table .cell {
+    padding: 0;
+  }
+
+  .el-table .el-table__cell {
+    padding: 0;
+  }
+</style>
+
+</html>
