@@ -22,13 +22,13 @@
           <el-table-column prop="name" label="姓名" width="120">
           </el-table-column>
           <el-table-column label="地址">
-            <el-table-column prop="province" label="省份" width="60">
+            <el-table-column prop="province" label="省份">
             </el-table-column>
             <el-table-column prop="city" label="市区" width="120">
             </el-table-column>
             <el-table-column prop="address" label="地址">
             </el-table-column>
-            <el-table-column prop="zip" label="邮编" width="120">
+            <el-table-column prop="zip" label="邮编">
             </el-table-column>
           </el-table-column>
         </el-table-column>
@@ -64,19 +64,26 @@
     mounted () {
       axios({ url: './多级表头数据.json' }).then(res => {
         this.tableData = res.data
+        this.$nextTick(() => {
+          const tableHeight = this.$refs?.table1?.$el.offsetHeight
+          console.log(tableHeight, 'axios')
+          this.height = tableHeight * 0.8
+        })
       })
+      Promise.resolve().then(() => {})
+
       this.$nextTick(() => {
         const tableHeight = this.$refs?.table1?.$el.offsetHeight
         this.height = tableHeight * 0.8
-        console.log(this.$refs?.table1?.$el.offsetHeight)
-        console.log(window.getComputedStyle(this.$refs.table1.$el).height);
+        // console.log(this.$refs?.table1?.$el.offsetHeight)
+        // console.log(window.getComputedStyle(this.$refs.table1.$el).height);
         // setTimeout(() => {
         //   const tableHeight = this.$refs?.table1?.$el.offsetHeight
         //   console.log(tableHeight, 'nextTick')
         //   this.height = tableHeight * 0.8
         // }, 0)
+
       })
-      console.log(window.getComputedStyle(this.$refs.table1.$el));
     },
     methods: {
       showNow () {
