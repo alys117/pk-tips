@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/1.8.3/jquery.js"></script>
+</head>
+
+<body>
+  <div id="mydiv" style="width: 200px;height: 300px;background-color: antiquewhite;"></div>
+  <ul>
+    <li class="tip">1</li>
+    <li id="ppp" data-id="ppp11" class="tip">2</li>
+    <li class="tip">3</li>
+  </ul>
+  <div style="border: 1px solid #234567;width: 100px;height: 100px;">
+  </div>
+  <button onclick="invokePlugin()">变</button>
+  <script>
+    (function ($) {
+      $.fn.highlight = function (color) {
+        return this.css("background", color);
+      }
+    })(jQuery)
+
+    function invokePlugin () {
+      $("div").highlight("red");
+    }
+
+    (function ($) {
+      $.fn.myPlugin = function () {
+
+        // 没有必要再作 $(this) ，因为"this"已经是 jQuery 对象了
+        // $(this) 与 $($('#element')) 是相同的
+        console.log(this, 'this1');
+        this.fadeOut('normal', function () {
+          // 在这里 this 关键字指向 DOM 元素
+          console.log(this, 'this2');
+        });
+      };
+    })(jQuery);
+
+
+    $('#mydiv').myPlugin();
+
+
+
+    console.log(document.querySelectorAll('li'));
+    console.log(document.getElementsByTagName('li'));
+    console.log(document.getElementsByClassName('tip'));
+
+    console.log(document.getElementsByTagName('li')['ppp']);
+    console.log(document.querySelectorAll('li')[0] === document.getElementsByTagName('li')[0]);
+
+
+    console.log('-------------------');
+    console.log($('#ppp')[0]);
+    console.log(document.getElementById('ppp'));
+
+    console.log('-------------------');
+    $.each(document.querySelectorAll('li'), function (index, item) {
+      console.log(this === item); // true 这里可以用this，而且它就是item ；item是原生dom对象，不是jquery包装的对象
+    })
+  </script>
+</body>
+
+</html>

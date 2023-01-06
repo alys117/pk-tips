@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <ul>
+    <li>13</li>
+    <li></li>
+    <li></li>
+    <li>🤣</li>
+    <li></li>
+  </ul>
+  <script>
+    var oldUl = document.querySelectorAll('ul')[0]
+    var oldLi = document.querySelectorAll('li')
+
+    var children = oldUl.childNodes
+    var children2 = oldUl.children
+    console.log(children);
+    console.log(children2);
+
+    console.log(oldUl) // NodeList [body]
+    console.log(oldLi.length) // 5
+
+    var newLi = document.createElement('li')
+    oldUl.appendChild(newLi)
+
+    console.log(oldLi.length) // 5
+    oldLi[oldLi.length - 1].innerHTML = '🤐'
+    console.log(oldLi[oldLi.length - 1].innerHTML) //  🤐
+
+  </script>
+</body>
+
+</html>
