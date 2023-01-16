@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- <meta name="viewport" content="width=device-width,initial-scale=1"> -->
+  <link rel="stylesheet" href="./elementui/index.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    #app {
+      height: 100vh;
+    }
+
+    .content {
+      background-color: white;
+      border-radius: 60px;
+      border: 1px solid skyblue;
+      width: 96%;
+      margin-left: auto;
+      margin-right: auto;
+      overflow: hidden;
+    }
+
+    .head {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      align-items: center;
+      padding: 20px 20px;
+      height: 80px;
+    }
+
+    .title {
+      font-size: 45px;
+      font-weight: 400;
+      line-height: 70px;
+      color: white;
+      padding: 0 20px;
+      border-radius: 40px;
+      background-color: #2692e6;
+    }
+
+    .description {
+      font-size: 18px;
+      line-height: 24px;
+      color: #2692e6;
+      padding: 10px 20px;
+    }
+
+    .el-table {
+      font-size: 20px;
+      transform: scale(0.8);
+      transform-origin: 0 top;
+    }
+
+    .el-table td.el-table__cell div {
+      /* transform: scale(0.8); */
+    }
+
+    .el-table .cell {
+      padding: 2px;
+    }
+
+    .el-table .el-table__cell {
+      padding: 2px;
+    }
+
+    .el-table--border .el-table__cell:first-child .cell {
+      padding-left: 2px;
+    }
+
+    .el-table th.el-table__cell>.cell {
+      padding: 2px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <div class="container">
+      <div class="content">
+        <div class="head">
+          <div class="title">一</div>
+          <div class="title">分渠道发展情况</div>
+        </div>
+        <div class="description">
+          <p>
+            <span style="color: red">·分地市看：</span>日照、滨州、德州、临沂等地市政企收入年累计完成进度较慢;威海、临沂、日照等8个地市木本业务收入占比未突破50%
+          </p>
+        </div>
+        <div ref="tableContainer"
+          :style="{marginRight: 'auto',marginLeft: 'auto',width: '120%',height: height+'px',padding:'2%'}">
+          <el-table ref="table1" :row-style="selectedRowStyle" :header-cell-style="{'text-align':'center'}"
+            :cell-style="{'text-align':'center'}" :data="tableData">
+            <el-table-column prop="cityname" label="地市" width="60">
+            </el-table-column>
+            <el-table-column label="政企收入">
+              <el-table-column prop="name" label="政企收入年累计完成进度" width="130">
+              </el-table-column>
+              <el-table-column prop="col1" label="其中本业务收入占比" width="130">
+                <template slot-scope="scope">
+                  <div
+                    :style="{backgroundColor: color(scope.row.sn),fontWeight: scope.row.cityname === '全省'?'bold':'normal'}">
+                    {{ (scope.row.col1*100).toFixed(1)+'%'}}</div>
+                </template>
+              </el-table-column>
+            </el-table-column>
+            <el-table-column label="重点产品发展情况">
+              <el-table-column prop="name" label="畅享版企宽">
+              </el-table-column>
+              <el-table-column prop="sn" label="尊享版企宽">
+              </el-table-column>
+              <el-table-column prop="province" label="商务快线">
+              </el-table-column>
+              <el-table-column prop="province" label="千里眼">
+              </el-table-column>
+              <el-table-column prop="province" label="视频彩铃">
+              </el-table-column>
+              <el-table-column prop="province" label="互联网专线">
+              </el-table-column>
+            </el-table-column>
+          </el-table>
+        </div>
+        <div style="height: 10px;">10</div>
+        <div style="height: 30px;">30</div>
+      </div>
+      <div style="height: 30px;">
+      </div>
+    </div>
+  </div>
+  <!-- <script src="https://unpkg.com/vue@2"></script> -->
+  <!-- <script src="https://unpkg.com/element-ui@2"></script> -->
+  <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+  <script src="./vue2/2.7.14.js"></script>
+  <script src="./elementui/index.js"></script>
+  <script src="./axios/1.1.2.js"></script>
+  <script src="./dayjs/dayjs.min.js"></script>
+  <script>
+    new Vue({
+      el: "#app",
+      data: function () {
+        return {
+          xhz: ['aa', 'dd', 'ee', 'fd', 'df'],
+          date: dayjs().format('M月D日'),
+          height: '0',
+          tableData: [
+          {
+    "date": "2016-05-03",
+    "cityname": "济南",
+    "cityid": 1,
+    "col1": 0.136,
+    "name": "王小虎",
+    "province": "上海",
+    "city": "普陀区",
+    "address": "上海市普陀区金沙江路 1518 弄",
+    "zip": 200333,
+    sn:2
+  },
+  {
+    "date": "2016-05-04",
+    "cityname": "青岛",
+    "cityid": 2,
+    "col1": 0.147,
+    "name": "王小虎",
+    "province": "上海",
+    "city": "普陀区",
+    "address": "上海市普陀区金沙江路 1518 弄",
+    "zip": 200333,
+    sn:1
+  },
+  {
+    "date": "2016-05-04",
+    "cityname": "青岛",
+    "cityid": 2,
+    "col1": 0.147,
+    "name": "王小虎",
+    "province": "上海",
+    "city": "普陀区",
+    "address": "上海市普陀区金沙江路 1518 弄",
+    "zip": 200333,
+    sn:1
+  }
+          ],
+        }
+      },
+      methods: {
+        selectedRowStyle ({ row, rowIndex }) {
+          if (row.cityid === 999) {
+            return { 'font-weight': '700' }
+          }
+        },
+      },
+      computed: {
+        color () {
+          return sn => {
+            if (sn !== 18 && sn > 14) {
+              return '#deebf7'
+            } else if (sn < 4) {
+              return '#ffc7ce'
+            } else {
+              return 'rgba(0,0,0,0)'
+            }
+          }
+        }
+      },
+      mounted () {
+        // axios({ url: './多级表头数据.json' }).then(res => {
+        //   this.tableData = res.data
+        //   this.tableData.sort((a, b) => {
+        //     if (a.cityid === 999) {
+        //       return true;
+        //     } else {
+        //       return a.col1 - b.col1;
+        //     }
+        //   })
+        //   this.tableData.map(item => {
+        //     item.sn = this.tableData.indexOf(item) + 1;
+        //   })
+        //   this.tableData.reduce(function (prev, next) {
+        //     if (prev.col1 === next.col1) {
+        //       next.sn = prev.sn;
+        //     }
+        //     return next;
+        //   })
+        //   this.tableData.sort(function (a, b) {
+        //     return a.cityid - b.cityid;
+        //   });
+        //   this.$nextTick(() => {
+        //     const tableHeight = this.$refs?.table1?.$el.offsetHeight
+        //     console.log(tableHeight, 'axios')
+        //     this.height = tableHeight * 0.8
+        //   })
+        // })
+          this.$nextTick(() => {
+            const tableHeight = this.$refs?.table1?.$el.offsetHeight
+            console.log(tableHeight, 'axios')
+            this.height = tableHeight * 0.8
+          })
+      },
+      created: function () {
+        console.log('created')
+      }
+    })
+  </script>
+</body>
+
+</html>

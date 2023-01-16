@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    const str = 'abababab';
+    const reg = /ab/g
+
+    console.log('reg.lastIndex :>> ', reg.lastIndex);
+    console.log('reg.exec (str) :>> ', reg.exec (str));
+
+    console.log('reg.lastIndex :>> ', reg.lastIndex);
+    console.log('reg.exec (str) :>> ', reg.exec (str));
+
+    console.log('reg.lastIndex :>> ', reg.lastIndex);
+    console.log('reg.exec (str) :>> ', reg.exec (str));
+
+    console.log('--------------------');
+
+    // 像下面这种重叠匹配的情况下，需要手动重置 lastIndex 才能匹配到重叠部分的内容
+
+    const reg2 = /aba/g
+    const str2 = 'ababababa';
+    console.log('reg2.lastIndex :>> ', reg2.lastIndex);
+    console.log('reg2.exec (str2) :>> ', reg2.exec (str2));
+
+    console.log('reg2.lastIndex :>> ', reg2.lastIndex);
+    console.log('reg2.exec (str2) :>> ', reg2.exec (str2));
+
+    reg2.lastIndex = 1
+    console.log('reg2.exec (str2) :>> ', reg2.exec (str2));
+    console.log('reg2.lastIndex :>> ', reg2.lastIndex);
+
+
+    console.log('--------------------');
+    // 下面这种不带 g 的情况下，lastIndex 会自动重置为 0
+    const reg3 = /ab/
+    const mystr = 'ababababa';
+    console.log('reg3.lastIndex :>> ', reg3.lastIndex);
+    console.log('reg3.exec (mystr) :>> ', reg3.exec (mystr));
+    console.log('reg3.lastIndex :>> ', reg3.lastIndex);
+    console.log('reg3.exec (mystr) :>> ', reg3.exec (mystr));
+  </script>
+</body>
+</html>

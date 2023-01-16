@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <!-- <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css"> -->
+  <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
   <link rel="stylesheet" href="./elementui/index.css">
   <style>
     * {
@@ -10,28 +10,8 @@
       padding: 0;
     }
 
-    body {
-      /* background-color: #5b9bd5 ; */
-      background: linear-gradient(to top right, #d4e7f6, skyblue 10px, #e6f1e0);
-    }
-
     #app {
       height: 100vh;
-      background: #5b9bd5 url(./图片2.jpg) no-repeat;
-      background-size: 100%;
-    }
-
-    .container {
-      /* position: relative; */
-    }
-
-    .data-date {
-      position: absolute;
-      top: 200px;
-      right: 12%;
-      font-size: 45px;
-      color: red;
-      font-weight: 700;
     }
 
     .content {
@@ -103,8 +83,6 @@
 <body>
   <div id="app">
     <div class="container">
-      <div style="height: 590px;"></div>
-      <div class="data-date">{{ date }}</div>
       <div class="content">
         <div class="head">
           <div class="title">一</div>
@@ -148,48 +126,6 @@
           </el-table>
         </div>
         <div style="height: 10px;"></div>
-        <div class="head">
-          <div class="title">二</div>
-          <div class="title">1+N微企拓展团队情况</div>
-        </div>
-        <div class="description">
-          <p>
-            <span style="color: red">·分产能看：</span>截至1月5日，日照、威海、临沂、莱芜等9个地市微企经理产能较低;济宁、枣庄、泰安、菏泽、潍坊直销员产能当前未破零
-          </p>
-        </div>
-        <div ref="tableContainer2" :style="{marginRight: 'auto',marginLeft: 'auto',width: '95%',height: '680px'}">
-          <!-- <el-table ref="table2" :header-cell-style="{'text-align':'center'}" :cell-style="{'text-align':'center'}"
-            :data="tableData">
-            <el-table-column prop="cityname" label="地市" width="60">
-            </el-table-column>
-            <el-table-column label="1+N (微企市场团队)">
-              <el-table-column prop="name" label="微企经理产能">
-              </el-table-column>
-              <el-table-column prop="col1" label="直销员产能">
-                <template slot-scope="scope">
-                  <div style="background-color:#ffc7ce">{{ (scope.row.col1*100).toFixed(1)+'%'}}</div>
-                </template>
-              </el-table-column>
-            </el-table-column>
-            <el-table-column label="重点产品发展情况">
-              <el-table-column prop="name" label="畅享版企宽">
-              </el-table-column>
-              <el-table-column prop="province" label="尊享版企宽">
-              </el-table-column>
-              <el-table-column prop="province" label="商务快线">
-              </el-table-column>
-              <el-table-column prop="province" label="千里眼">
-              </el-table-column>
-              <el-table-column prop="province" label="视频彩铃">
-              </el-table-column>
-              <el-table-column prop="province" label="互联网专线">
-              </el-table-column>
-            </el-table-column>
-          </el-table> -->
-          <iframe src="http://192.168.13.125:8075/webroot/decision/view/form?op=h5&viewlet=Form123.frm" width="100%"
-            height="680px" marginwidth="0" marginheight="0" scrolling="yes" allowtransparency="yes" frameborder="0"
-            style="display:block;"></iframe>
-        </div>
         <div style="height: 30px;"></div>
       </div>
       <div style="height: 30px;">
@@ -286,38 +222,6 @@
         })
       }
     })
-  </script>
-  <script>
-    // 禁用缩放
-    function addMeta () {
-      var headHTML = document.getElementsByTagName('head')[0].innerHTML;
-      // headHTML  += '<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />';
-      headHTML  += '<meta name="viewport" content="user-scalable=no" />';
-      document.getElementsByTagName('head')[0].innerHTML = headHTML;
-    }
-    addMeta();
-
-    // 禁用双指放大
-    document.documentElement.addEventListener('touchstart', function (event) {
-      if (event.touches.length > 1) {
-        event.preventDefault();
-      }
-    }, {
-      passive: false
-    });
-
-    // 禁用双击放大
-    var lastTouchEnd = 0;
-    document.documentElement.addEventListener('touchend', function (event) {
-      var now = Date.now();
-      if (now - lastTouchEnd <= 300) {
-        event.preventDefault();
-      }
-      lastTouchEnd = now;
-    }, {
-      passive: false
-    });
-
   </script>
 </body>
 
