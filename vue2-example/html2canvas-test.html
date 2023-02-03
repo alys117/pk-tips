@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="../node_modules/html2canvas/dist/html2canvas.min.js"></script>
+  <script src="../node_modules/dom-to-image/dist/dom-to-image.min.js"></script>
+</head>
+
+<body>
+  <div id="father">
+    <div id="son">
+      <div style="height: 200px;width: 100%; background-color:burlywood;">html2canvas</div>
+      <div style="background-color: azure;">
+        <iframe id="grandson" src="./hashchange.html" frameborder="0" width="100%" height="300px"></iframe>
+      </div>
+      <div style="background-color: blue;">123</div>
+    </div>
+  </div>
+</body>
+<script>
+  (async function () {
+    // 生成快照
+    const convertToImage = (container, options = {}) => {
+      // 设置放大倍数
+      const scale = window.devicePixelRatio;
+
+      // 传入节点原始宽高
+      const _width = container.offsetWidth;
+      const _height = container.offsetHeight;
+
+      let { width, height } = options;
+      width = width || _width;
+      height = height || _height;
+
+
+      // html2canvas配置项
+      const ops = {
+        scale,
+        // width,
+        // height,
+        useCORS: true,
+        allowTaint: false,
+        ...options
+      };
+
+      return html2canvas(container, ops).then(canvas => {
+        // 返回图片的二进制数据
+        return canvas.toDataURL("image/png");
+      });
+    }
+    const downloadImage = (url) => {
+      // 如果是在网页中可以直接创建一个 a 标签直接下载 
+      let a = document.createElement('a')
+      a.href = url
+      a.download = '截图'
+      a.click()
+    }
+    // 调用函数，取到截图的二进制数据，对图片进行处理（保存本地、展示等）
+    const imgBlobData = await convertToImage(document.querySelector('#son'));
+
+    // downloadImage(imgBlobData)
+
+    // dom-to-image
+
+    domtoimage.toJpeg(document.getElementById('son'), { quality: 0.95 })
+    .then(function (dataUrl) {
+        var link = document.createElement('a');
+        link.download = 'my-image-name.jpeg';
+        link.href = dataUrl;
+        link.click();
+    });
+  })()
+</script>
+
+</html>

@@ -1,0 +1,16 @@
+{
+  "servers": {
+    "total": 7,
+    "generation": 2,
+    "http": [
+      {"index": 0, "upstream": "FR.com", "name": "192.195.19.27:8080", "status": "up", "rise": 7900, "fall": 0, "type": "http", "port": 0},
+      {"index": 1, "upstream": "FR.com", "name": "134.84.22.84:8080", "status": "up", "rise": 67865, "fall": 0, "type": "http", "port": 0},
+      {"index": 2, "upstream": "FR.com", "name": "134.84.22.85:8080", "status": "up", "rise": 82901, "fall": 0, "type": "http", "port": 0},
+      {"index": 3, "upstream": "FR.com", "name": "134.84.22.86:8080", "status": "up", "rise": 46384, "fall": 0, "type": "http", "port": 0},
+      {"index": 4, "upstream": "FR.com", "name": "134.84.22.87:8080", "status": "up", "rise": 243298, "fall": 0, "type": "http", "port": 0},
+      {"index": 5, "upstream": "BASS.com", "name": "192.195.19.9:8080", "status": "up", "rise": 19518, "fall": 0, "type": "http", "port": 0},
+      {"index": 6, "upstream": "BASS.com", "name": "192.195.19.10:8080", "status": "up", "rise": 142608, "fall": 0, "type": "http", "port": 0}
+    ],
+    "stream": []
+  }
+}

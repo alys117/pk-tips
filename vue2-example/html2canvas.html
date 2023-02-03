@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="./elementui/index.css">
+</head>
+
+<body>
+  <div id="app">
+    <!-- 页面所在截图范围内的父级添加ref属性,方便canvas找到父级计算宽高从而截屏 -->
+    <div class="container" ref="imageTofile">
+      <el-button class="button-dalod" size="mini" title="生成图片" @click="screenImage()" icon="el-icon-download"></el-button>
+      <div>
+        <div style="background: darkcyan;width: 100%;height: 500px;display: flex;">
+          <div style="flex:1;background-color: antiquewhite;height: 100px;"></div>
+          <div style="background-color: blue;height: 100px;width: 300px;"></div>
+          <div style="background-color: red;height: 100px;width: 100px;"></div>
+        </div>
+        <div style="background: darkcyan;width: 100%;height: 500px;display: flex;">
+          <img src="./图片1.jpg" alt="">
+          <div>
+            <img src="https://images-cn.ssl-images-amazon.com/images/I/41Jptto1bQL._AA200_.jpg" alt="">
+          </div>
+        </div>
+      </div>
+      
+      <div class="content">
+        <div ref="tableContainer" :style="{marginRight: 'auto',marginLeft: 'auto',width: '95%',height: height+'px'}">
+          <el-table ref="table1" :row-style="selectedRowStyle" :header-cell-style="{'text-align':'center'}"
+            :cell-style="{'text-align':'center'}" :data="tableData">
+            <el-table-column prop="cityname" label="地市" width="60">
+            </el-table-column>
+            <el-table-column label="政企收入">
+              <el-table-column prop="name" label="政企收入年累计完成进度" width="130">
+              </el-table-column>
+              <el-table-column prop="col1" label="其中本业务收入占比" width="130">
+                <template slot-scope="scope">
+                  <div
+                    :style="{backgroundColor: color(scope.row.sn),fontWeight: scope.row.cityname === '全省'?'bold':'normal'}">
+                    {{ (scope.row.col1*100).toFixed(1)+'%'}}</div>
+                </template>
+              </el-table-column>
+            </el-table-column>
+            <el-table-column label="重点产品发展情况">
+              <el-table-column prop="name" label="畅享版企宽">
+              </el-table-column>
+              <el-table-column prop="sn" label="尊享版企宽">
+              </el-table-column>
+              <el-table-column prop="province" label="商务快线">
+              </el-table-column>
+              <el-table-column prop="province" label="千里眼">
+              </el-table-column>
+              <el-table-column prop="province" label="视频彩铃">
+              </el-table-column>
+              <el-table-column prop="province" label="互联网专线">
+              </el-table-column>
+            </el-table-column>
+          </el-table>
+        </div>
+        <div ref="tableContainer2" :style="{marginRight: 'auto',marginLeft: 'auto',width: '95%',height: '680px',backgroundColor: 'pink'}">
+          <!-- <iframe src="http://192.168.13.125:8075/webroot/decision/view/form?op=h5&viewlet=GettingStarted.cpt" width="100%"
+            height="680px" marginwidth="0" marginheight="0" scrolling="yes" allowtransparency="yes" frameborder="0"
+            style="display:block;"></iframe> -->
+          <!-- <iframe src="http://localhost/xhz4/test3.json" width="100%" style="width: 600px;height: 400px; background-color: aqua;"
+            height="680px" marginwidth="0" marginheight="0" scrolling="yes" allowtransparency="yes" frameborder="0"
+            style="display:block;"></iframe> -->
+
+          <iframe src="./hashchange.html" width="100px" style="width: 300px;height: 400px; background-color: aqua;"
+            height="680px" marginwidth="0" marginheight="0" scrolling="yes" allowtransparency="yes" frameborder="0"
+            style="display:block;"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="./vue2/2.7.14.js"></script>
+  <script src="./elementui/index.js"></script>
+  <script src="./axios/1.1.2.js"></script>
+  <script src="./dayjs/dayjs.min.js"></script>
+  <script src="../node_modules/html2canvas/dist/html2canvas.min.js"></script>
+  <script>
+    new Vue({
+      el: "#app",
+      data: function () {
+        return {
+          xhz: ['aa', 'dd', 'ee', 'fd', 'df'],
+          date: dayjs().format('M月D日'),
+          height: '0',
+          tableData: [{
+            date: '2016-05-03',
+            cityname: "济南",
+            name: '王小虎',
+            province: '上海',
+            city: '普陀区',
+            address: '上海市普陀区金沙江路 1518 弄',
+            zip: 200333
+          }, {
+            date: '2016-05-07',
+            cityname: "济南",
+            name: '王小虎',
+            province: '上海',
+            city: '普陀区',
+            address: '上海市普陀区金沙江路 1518 弄',
+            zip: 200333
+          }]
+        }
+      },
+      methods: {
+        selectedRowStyle ({ row, rowIndex }) {
+          if (row.cityid === 999) {
+            return { 'font-weight': '700' }
+          }
+        },
+        // 页面元素转图片
+        screenImage () {
+          // 手动创建一个 canvas 标签
+          const canvas = document.createElement("canvas")
+          // 获取父标签，意思是这个标签内的 DOM 元素生成图片
+          // imageTofile是给截图范围内的父级元素自定义的ref名称
+          let canvasBox = this.$refs.imageTofile
+          // 获取父级的宽高
+          const width = parseInt(window.getComputedStyle(canvasBox).width)
+          const height = parseInt(window.getComputedStyle(canvasBox).height)
+          // 宽高 * 2 并放大 2 倍 是为了防止图片模糊
+          canvas.width = width*2
+          canvas.height = height*2
+          canvas.style.width = width + 'px'
+          canvas.style.height = height + 'px'
+          const context = canvas.getContext("2d");
+          context.scale(1, 1);
+          const options = {
+            backgroundColor: null,
+            canvas: canvas,
+            useCORS: true
+          }
+          html2canvas(canvasBox, options).then((canvas) => {
+            // toDataURL 图片格式转成 base64
+            let dataURL = canvas.toDataURL("image/png")
+            console.log(dataURL)
+            this.downloadImage(dataURL)
+          })
+        },
+        //下载图片
+        downloadImage (url) {
+          // 如果是在网页中可以直接创建一个 a 标签直接下载 
+          let a = document.createElement('a')
+          a.href = url
+          a.download = '截图'
+          a.click()
+        },
+      },
+
+      computed: {
+        color () {
+          return sn => {
+            if (sn !== 18 && sn > 14) {
+              return '#deebf7'
+            } else if (sn < 4) {
+              return '#ffc7ce'
+            } else {
+              return 'rgba(0,0,0,0)'
+            }
+          }
+        }
+      },
+      mounted () {
+        axios({ url: './多级表头数据.json' }).then(res => {
+          this.tableData = res.data
+          this.tableData.sort((a, b) => {
+            if (a.cityid === 999) {
+              return true;
+            } else {
+              return a.col1 - b.col1;
+            }
+          })
+          this.tableData.map(item => {
+            item.sn = this.tableData.indexOf(item) + 1;
+          })
+          this.tableData.reduce(function (prev, next) {
+            if (prev.col1 === next.col1) {
+              next.sn = prev.sn;
+            }
+            return next;
+          })
+          this.tableData.sort(function (a, b) {
+            return a.cityid - b.cityid;
+          });
+          this.$nextTick(() => {
+            const tableHeight = this.$refs?.table1?.$el.offsetHeight
+            console.log(tableHeight, 'axios')
+            this.height = tableHeight * 1
+          })
+        })
+      }
+    })
+  </script>
+</body>
+
+</html>
