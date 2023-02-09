@@ -8,32 +8,7 @@ const express=require("express");
 var app=express();
 app.use(jsonParser)
 app.use(urlencodedParser)
-// app.use(cors())
-// var allowCrossDomain = function(req, res, next) {
-//   res.header('Access-Control-Allow-Origin', '*');
-//   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-//   res.header('Access-Control-Allow-Headers', 'Content-Type');
-//   res.header('Access-Control-Allow-Credentials','true');
-//   next();
-// };
-// app.use(allowCrossDomain); // 可代替 cors 模块
-// app.all('*', (req, res, next) => {
-//   // google需要配置，否则报错cors error
-//   // res.setHeader('Access-Control-Allow-Credentials', 'true')
-//   // 允许的地址,http://127.0.0.1:9000这样的格式
-//   res.header('Access-Control-Allow-Origin', req.get('Origin'))
-//   // 允许跨域请求的方法
-//   // res.header(
-//   //   'Access-Control-Allow-Methods',
-//   //   'POST, GET, OPTIONS, DELETE, PUT'
-//   // )
-//   // 允许跨域请求header携带哪些东西
-//   res.header(
-//     'Access-Control-Allow-Headers',
-//     'Origin, X-Requested-With, Content-Type, Accept, If-Modified-Since'
-//   )
-//   next()
-// })
+
 app.options('/cross/:name/:age', cors())
 app.post('/cross/:name/:age',cors(),function(req,res){ 
   res.header('Content-Type','application/json;charset=utf-8') //”XML 解析错误：格式不佳“ 因为ajax请求指定了数据类型是json，后台返回数据如果不指定内容类型是文本，默认就是html类型，这样返回到前端就会自动调用html的解析器对文件进行解析，因此报这个异常（在Chrome没有这个错误）。

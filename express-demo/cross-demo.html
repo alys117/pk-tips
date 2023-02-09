@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="../vue2-example/axios/1.1.2.js"></script>
+</head>
+
+<body>
+  <script>
+    axios({
+      url: 'http://127.0.0.1:8000/cross/jack/178',
+      // url: 'http://127.0.0.1:8080/audio-platform/migu',  // 语音平台
+      method: 'POST',
+      data: {
+        sql: "select * from t_city"
+      }
+    }).then(res => {
+      console.log(res.data, '跨域成功');
+    }).catch(err => {
+      console.log(err);
+    })
+  </script>
+</body>
+
+</html>

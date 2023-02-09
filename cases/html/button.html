@@ -104,6 +104,23 @@
   
   <div contenteditable="true">fdsfsdfsdafdsa</div>
   <div style="background-color: aqua;"><img src="./image/1.png" alt=""></div>
+  <br>
+  <div style="height: 0.5px;background: black;"></div>
+  <br>
+  <div style="height: 1px;background: black;transform: scale(0.5);"></div>
+<style>
+  .a {
+    width: 0;
+    height: 0;
+    border-width: 100px;
+    border-style: solid;
+    border-color: transparent #0099CC transparent transparent;
+    transform: rotate(90deg); /*顺时针旋转90°*/
+}
+</style>
+
+<div class="a"></div>
+
 </body>
 <script>
   function insertContent (content) {
