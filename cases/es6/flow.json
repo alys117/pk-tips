@@ -1,0 +1,314 @@
+[
+  {
+    "direction": "normal",
+    "content1": "支持使用图标",
+    "content2": "支持使用图标",
+    "circleType": "circle",
+    "nodeType": "start",
+    "circleColor": "#f56c6c",
+    "frontLineColor": "#f56c6c",
+    "endLineColor": "#e1e2fc",
+    "popovers": [
+      {
+        "title": "标题1:xxxx申请单",
+        "tableData": [
+          { "姓名": "张三", "年龄": 18 },
+          { "姓名": "李四", "年龄": 52 }
+        ]
+      },
+      {
+        "title": "标题2: 一段描述",
+        "tableData": [
+          { "自定义1": "张三1", "自定义2": "张三2", "custom1": 18 },
+          { "自定义1": "李四", "自定义2": "李四2", "custom1": 52 }
+        ]
+      }
+    ]
+  },
+  {
+    "direction": "normal",
+    "content1": "支持使用图标",
+    "content2": "支持使用图标",
+    "circleType": "circle",
+    "nodeType": "process",
+    "circleColor": "#f56c6c",
+    "frontLineColor": "#f56c6c",
+    "endLineColor": "#e1e2fc",
+    "popovers": [
+      {
+        "title": "标题1:xxxx申请单",
+        "tableData": [
+          { "姓名": "张三", "年龄": 18 },
+          { "姓名": "李四", "年龄": 52 }
+        ]
+      },
+      {
+        "title": "标题2: 一段描述",
+        "tableData": [
+          { "自定义1": "张三1", "自定义2": "张三2", "custom1": 18 },
+          { "自定义1": "李四", "自定义2": "李四2", "custom1": 52 }
+        ]
+      }
+    ]
+  },
+  {
+    "direction": "normal",
+    "content1": "支持使用图标",
+    "content2": "支持使用图标",
+    "circleType": "circle",
+    "nodeType": "process",
+    "circleColor": "#f56c6c",
+    "frontLineColor": "#f56c6c",
+    "endLineColor": "#e1e2fc",
+    "popovers": [
+      {
+        "title": "标题1:xxxx申请单",
+        "tableData": [
+          { "姓名": "张三", "年龄": 18 },
+          { "姓名": "李四", "年龄": 52 }
+        ]
+      },
+      {
+        "title": "标题2: 一段描述",
+        "tableData": [
+          { "自定义1": "张三1", "自定义2": "张三2", "custom1": 18 },
+          { "自定义1": "李四", "自定义2": "李四2", "custom1": 52 }
+        ]
+      }
+    ]
+  },
+  {
+    "direction": "normal",
+    "content1": "支持使用图标",
+    "content2": "支持使用图标",
+    "circleType": "circle",
+    "nodeType": "process",
+    "circleColor": "#f56c6c",
+    "frontLineColor": "#f56c6c",
+    "endLineColor": "#e1e2fc",
+    "popovers": [
+      {
+        "title": "标题1:xxxx申请单",
+        "tableData": [
+          { "姓名": "张三", "年龄": 18 },
+          { "姓名": "李四", "年龄": 52 }
+        ]
+      },
+      {
+        "title": "标题2: 一段描述",
+        "tableData": [
+          { "自定义1": "张三1", "自定义2": "张三2", "custom1": 18 },
+          { "自定义1": "李四", "自定义2": "李四2", "custom1": 52 }
+        ]
+      }
+    ]
+  },
+  {
+    "direction": "normal",
+    "content1": "支持使用图标",
+    "content2": "支持使用图标",
+    "circleType": "circle",
+    "nodeType": "process",
+    "circleColor": "pink",
+    "frontLineColor": "darkgray",
+    "endLineColor": "#e1e2fc",
+    "popovers": [
+      {
+        "title": "标题1:xxxx申请单",
+        "tableData": [
+          { "姓名": "张三", "年龄": 18 },
+          { "姓名": "李四", "年龄": 52 }
+        ]
+      },
+      {
+        "title": "标题2: 一段描述",
+        "tableData": [
+          { "自定义1": "张三1", "自定义2": "张三2", "custom1": 18 },
+          { "自定义1": "李四", "自定义2": "李四2", "custom1": 52 }
+        ]
+      }
+    ]
+  },
+  {
+    "direction": "reverse",
+    "content1": "支持使用图标",
+    "content2": "支持使用图标",
+    "circleType": "circle",
+    "nodeType": "process",
+    "circleColor": "#f56c6c",
+    "frontLineColor": "yellow",
+    "endLineColor": "blue",
+    "popovers": [
+      {
+        "title": "标题1:xxxx申请单",
+        "tableData": [
+          { "姓名": "张三", "年龄": 18 },
+          { "姓名": "李四", "年龄": 52 }
+        ]
+      },
+      {
+        "title": "标题2: 一段描述",
+        "tableData": [
+          { "自定义1": "张三1", "自定义2": "张三2", "custom1": 18 },
+          { "自定义1": "李四", "自定义2": "李四2", "custom1": 52 }
+        ]
+      }
+    ]
+  },
+  {
+    "direction": "reverse",
+    "content1": "支持使用图标",
+    "content2": "支持使用图标",
+    "circleType": "circle",
+    "nodeType": "process",
+    "circleColor": "#f56c6c",
+    "frontLineColor": "#f56c6c",
+    "endLineColor": "#e1e2fc",
+    "popovers": [
+      {
+        "title": "标题1:xxxx申请单",
+        "tableData": [
+          { "姓名": "张三", "年龄": 18 },
+          { "姓名": "李四", "年龄": 52 }
+        ]
+      },
+      {
+        "title": "标题2: 一段描述",
+        "tableData": [
+          { "自定义1": "张三1", "自定义2": "张三2", "custom1": 18 },
+          { "自定义1": "李四", "自定义2": "李四2", "custom1": 52 }
+        ]
+      }
+    ]
+  },
+  {
+    "direction": "reverse",
+    "content1": "支持使用图标",
+    "content2": "支持使用图标",
+    "circleType": "circle",
+    "nodeType": "process",
+    "circleColor": "#f56c6c",
+    "frontLineColor": "#f56c6c",
+    "endLineColor": "#e1e2fc",
+    "popovers": [
+      {
+        "title": "标题1:xxxx申请单",
+        "tableData": [
+          { "姓名": "张三", "年龄": 18 },
+          { "姓名": "李四", "年龄": 52 }
+        ]
+      },
+      {
+        "title": "标题2: 一段描述",
+        "tableData": [
+          { "自定义1": "张三1", "自定义2": "张三2", "custom1": 18 },
+          { "自定义1": "李四", "自定义2": "李四2", "custom1": 52 }
+        ]
+      }
+    ]
+  },
+  {
+    "direction": "reverse",
+    "content1": "支持使用图标",
+    "content2": "支持使用图标",
+    "circleType": "circle-shadow",
+    "nodeType": "process",
+    "circleColor": "#f56c6c",
+    "frontLineColor": "#f56c6c",
+    "endLineColor": "#e1e2fc",
+    "popovers": [
+      {
+        "title": "标题1:xxxx申请单",
+        "tableData": [
+          { "姓名": "张三", "年龄": 18 },
+          { "姓名": "李四", "年龄": 52 }
+        ]
+      },
+      {
+        "title": "标题2: 一段描述",
+        "tableData": [
+          { "自定义1": "张三1", "自定义2": "张三2", "custom1": 18 },
+          { "自定义1": "李四", "自定义2": "李四2", "custom1": 52 }
+        ]
+      }
+    ]
+  },
+  {
+    "direction": "reverse",
+    "content1": "支持使用图标",
+    "content2": "支持使用图标",
+    "circleType": "circle",
+    "nodeType": "process",
+    "circleColor": "#f56c6c",
+    "frontLineColor": "#f56c6c",
+    "endLineColor": "#e1e2fc",
+    "popovers": [
+      {
+        "title": "标题1:xxxx申请单",
+        "tableData": [
+          { "姓名": "张三", "年龄": 18 },
+          { "姓名": "李四", "年龄": 52 }
+        ]
+      },
+      {
+        "title": "标题2: 一段描述",
+        "tableData": [
+          { "自定义1": "张三1", "自定义2": "张三2", "custom1": 18 },
+          { "自定义1": "李四", "自定义2": "李四2", "custom1": 52 }
+        ]
+      }
+    ]
+  },
+  {
+    "direction": "normal",
+    "content1": "支持使用图标",
+    "content2": "支持使用图标",
+    "circleType": "circle-shadow",
+    "nodeType": "process",
+    "circleColor": "#f56c6c",
+    "frontLineColor": "#f56c6c",
+    "endLineColor": "#e1e2fc",
+    "popovers": [
+      {
+        "title": "标题1:xxxx申请单",
+        "tableData": [
+          { "姓名": "张三", "年龄": 18 },
+          { "姓名": "李四", "年龄": 52 }
+        ]
+      },
+      {
+        "title": "标题2: 一段描述",
+        "tableData": [
+          { "自定义1": "张三1", "自定义2": "张三2", "custom1": 18 },
+          { "自定义1": "李四", "自定义2": "李四2", "custom1": 52 }
+        ]
+      }
+    ]
+  },
+  {
+    "direction": "normal",
+    "content1": "支持使用图标",
+    "content2": "支持使用图标",
+    "circleType": "circle-shadow",
+    "nodeType": "end",
+    "circleColor": "#f56c6c",
+    "frontLineColor": "#f56c6c",
+    "endLineColor": "#e1e2fc",
+    "popovers": [
+      {
+        "title": "标题1:xxxx申请单",
+        "tableData": [
+          { "姓名": "张三", "年龄": 18 },
+          { "姓名": "李四", "年龄": 52 }
+        ]
+      },
+      {
+        "title": "标题2: 一段描述",
+        "tableData": [
+          { "自定义1": "张三1", "自定义2": "张三2", "custom1": 18 },
+          { "自定义1": "李四", "自定义2": "李四2", "custom1": 52 }
+        ]
+      }
+    ]
+  }
+]

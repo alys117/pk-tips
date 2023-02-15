@@ -7,42 +7,54 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
 </head>
-
+<style>
+  pre{
+    border: 1px solid #cccccc;
+    padding: 5px;
+  }
+  xmp{
+    margin: 0px;
+    color: slateblue;
+    font-size: 14px;
+  }
+</style>
 <body>
+  <pre><xmp id="code1"><JavaScript class="com.fr.js.JavaScriptImpl">
+  <Parameters/>
+  <Content>
+  <![CDATA[var supplier = this.options.form.getWidgetByName("countyId");
+  supplier.setValue(999);  
+  
+  console.log(1213);supplier.setText('全市') ]]></Content>
+  </JavaScript>
+  
+  <JavaScript class="com.fr.js.JavaScriptImpl">
+  <Parameters/>
+  <Content>
+  <![CDATA[var supplier = this.options.form.getWidgetByName("countyId");
+  supplier.setValue("999"); console.log(5555);supplier.setText("全市") ]]></Content>
+  </JavaScript>
+  
+  <JavaScript class="com.fr.js.JavaScriptImpl">
+  <Parameters/>
+  <Content>
+  <![CDATA[var supplier = this.options.form.getWidgetByName("unitId");
+      supplier.setValue("999"); 
+    console.log(1565656213);   ;supplier.setText("全部营销区域") ]]></Content>
+</JavaScript></xmp></pre>
+<pre><xmp id="code2"></xmp></pre>
   <script>
-    const str = `<JavaScript class="com.fr.js.JavaScriptImpl">
-<Parameters/>
-<Content>
-<![CDATA[var supplier = this.options.form.getWidgetByName("countyId");
-supplier.setValue(999);  
-
-console.log(1213);supplier.setText('全市') ]]></Content>
-</JavaScript>
-
-<JavaScript class="com.fr.js.JavaScriptImpl">
-<Parameters/>
-<Content>
-<![CDATA[var supplier = this.options.form.getWidgetByName("countyId");
-supplier.setValue("999"); console.log(5555);supplier.setText("全市") ]]></Content>
-</JavaScript>
-
-<JavaScript class="com.fr.js.JavaScriptImpl">
-<Parameters/>
-<Content>
-<![CDATA[var supplier = this.options.form.getWidgetByName("unitId");
-		supplier.setValue("999"); 
- console.log(1565656213);   ;supplier.setText("全部营销区域") ]]></Content>
-</JavaScript>`;
-
+    const str = document.getElementById('code1').innerText;
     const reg = /(\w*)\.setValue\(["|']?999["|']?\)(((?!CDATA)[\S\s])*?)\1\.setText\(["|']?全市["|']?\)/g
     // const r = /Promise\.resolve\(\)\.then\(function\(\){ $1.setValue\(999\)$2$1.setText\('全市'\) }\)/g
-
 
     const tmp1 = str.replace(reg, "Promise\.resolve\(\)\.then\(function\(\){ $1.setValue\(999\)$2$1.setText\('全市'\) }\)")
     console.log(tmp1);
     const reg2 = /(\w*)\.setValue\(["|']?999["|']?\)(((?!CDATA)[\S\s])*?)\1\.setText\(["|']?全部营销区域["|']?\)/g
     const tmp2 = tmp1.replace(reg2, "Promise\.resolve\(\)\.then\(function\(\){ $1.setValue\(999\)$2$1.setText\('全部营销区域'\) }\)")
+    
     console.log(tmp2);
+    document.getElementById('code2').innerText = tmp2;
   </script>
 </body>
 

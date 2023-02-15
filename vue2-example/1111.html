@@ -1,176 +1,192 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-        <title>Vue.js computed练习——计算购物车总价</title>
-        <!--通过cdn引入Vue.js  -->
-        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-        <style type="text/css">
-            .container {
-                display: flex;
-                flex-direction: column;
-            }
 
-            .item {
-                display: flex;
-                border: 1px solid #5F9EA0;
-                border-radius: 4px;
-                width: 95%;
-                height: 100px;
-                /* 垂直方向居中 */
-                align-items: center;
-                /* 水平方向居中
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Vue.js computed练习——计算购物车总价</title>
+  <link rel="stylesheet" href="./elementui/index.css">
+  <!--通过cdn引入Vue.js  -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
+  <script src="./vue2/2.7.14.js"></script>
+  <script src="./elementui/index.js"></script>
+  <style type="text/css">
+    .container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .item {
+      display: flex;
+      border: 1px solid #5F9EA0;
+      border-radius: 4px;
+      width: 95%;
+      height: 100px;
+      /* 垂直方向居中 */
+      align-items: center;
+      /* 水平方向居中
             justify-content:center ; */
-                margin-bottom: 10px;
-                padding-left: 20px;
-                padding-right: 20px;
-            }
+      margin-bottom: 10px;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
 
-            .item-id {
-                flex: 1 1 10%;
-            }
+    .item-id {
+      flex: 1 1 10%;
+    }
 
-            .item-img {
-                flex: 1 1 20%;
-            }
+    .item-img {
+      flex: 1 1 20%;
+    }
 
-            .item-img img {
-                width: 30%;
-                height: 30%;
-            }
+    .item-img img {
+      width: 30%;
+      height: 30%;
+    }
 
-            .item-name {
-                flex: 1 1 25%;
-                font-size: 14px;
-            }
+    .item-name {
+      flex: 1 1 25%;
+      font-size: 14px;
+    }
 
-            .item-price {
-                flex: 1 1 20%;
-                color: crimson
-            }
+    .item-price {
+      flex: 1 1 20%;
+      color: crimson
+    }
 
-            .item-count {
-                flex: 1 1 30%;
-            }
+    .item-count {
+      flex: 1 1 30%;
+    }
 
-            .goods-count {
-                width: 15px;
-                text-align: center;
-            }
+    .goods-count {
+      width: 15px;
+      text-align: center;
+    }
 
-            .settlement {
-                width: 95%;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
+    .settlement {
+      width: 95%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-            .btn {
-                width: 100px;
-                height: 40px;
-                background-color: #FF5000;
-                border-radius: 10px;
-                border: none;
-                outline: none;
-                color: #FFF;
-                font-size: 16px;
-            }
+    .btn {
+      width: 100px;
+      height: 40px;
+      background-color: #FF5000;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      color: #FFF;
+      font-size: 16px;
+    }
 
-            a:link {
-                color: black;
-                text-decoration: none;
-            }
-        </style>
-    </head>
-    <body>
-        <!-- Vue-app的根容器 -->
-        <div id="app">
-            <div class="container">
-                <div class="item" v-for="goods in goodsList">
-                    <div class="item-id">
-                        {{goods.id}}
-                    </div>
-                    <div class="item-img">
-                        <img :src="goods.pic">
-                    </div>
+    a:link {
+      color: black;
+      text-decoration: none;
+    }
+  </style>
+</head>
 
-                    <div class="item-name">
-                        <a :href="goods.url">{{goods.name}}</a>
-                    </div>
-                    <div class="item-price">
-                        ￥{{goods.price}}
-                    </div>
-                    <div class="item-count">
-                        <button type="button" @click="goods.count-=1" :disabled="goods.count ===0">-</button>
-                        <input type="text" class="goods-count" v-model="goods.count" />
-                        <button type="button" @click="goods.count+=1">+</button>
-                    </div>
-                </div>
-                <hr>
-                <div class="settlement">
-                    <h3>Total Price:&nbsp;&nbsp;￥{{totalPrice}}</h3>
-                    <button type="button" class="btn" @click="settlement()">结算</button>
-                </div>
-                <div v-if="show">
-                    你购买了{{settlement}}件商品，需要支付总价为：{{totalPrice}}元
-                </div>
-            </div>
+<body>
+  <!-- Vue-app的根容器 -->
+  <div id="app">
+    <div class="container">
+      <div class="item" v-for="goods in goodsList">
+        <div class="item-id">
+          {{goods.id}}
         </div>
-        <script type="text/javascript">
-            //实例化一个Vue对象
-            var app = new Vue({
-                el: '#app',
-                data: {
-                    show: false,
-                    goodsList: [{
-                            id: 1,
-                            name: '蓝牙无线耳机',
-                            pic: 'https://images-cn.ssl-images-amazon.com/images/I/4118+OyzLgL._AA200_.jpg',
-                            price: 729,
-                            url: 'https://www.amazon.cn/dp/B01M032X28/ref=lp_1397649071_1_4?s=music-players&ie=UTF8&qid=1552439873&sr=1-4',
-                            count: 1
-                        },
-                        {
-                            id: 2,
-                            name: '数码相框',
-                            pic: 'https://images-cn.ssl-images-amazon.com/images/I/41Jptto1bQL._AA200_.jpg',
-                            price: 359,
-                            url: 'https://www.amazon.cn/dp/B00F5HHSIA/ref=lp_1994998051_1_2?s=music-players&ie=UTF8&qid=1552440081&sr=1-2',
-                            count: 1
-                        },
-                        {
-                            id: 3,
-                            name: 'USB连接线',
-                            pic: 'https://images-cn.ssl-images-amazon.com/images/I/41lPp5aprnL._AA200_.jpg',
-                            price: 60,
-                            url: 'https://www.amazon.cn/dp/B006GWO5NE/ref=lp_760238051_1_3?s=music-players&ie=UTF8&qid=1552440314&sr=1-3',
-                            count: 1
-                        },
-                    ]
-                },
-                methods: {
+        <div class="item-img">
+          <img :src="goods.pic">
+        </div>
 
-                },
-                computed: {
-                    totalPrice() {
-                        var totalPrice = 0;
-                        for (var i = 0, len = this.goodsList.length; i < len; i++) {
-                            totalPrice += this.goodsList[i].price * this.goodsList[i].count;
-                        }
-                        return totalPrice;
-                    },
-                    settlement: function() {
-                        this.show = true;
-                        var totalCount = 0;
-                        var len = this.goodsList.length;
-                        for (var i = 0; i < len; i++) {
-                            totalCount += this.goodsList[i].count;
-                        }
-                        return totalCount;
-                    }
-                }
-            })
-        </script>
-    </body>
+        <div class="item-name">
+          <a :href="goods.url">{{goods.name}}</a>
+        </div>
+        <div class="item-price">
+          ￥{{goods.price}}
+        </div>
+        <div class="item-count">
+          <button type="button" @click="goods.count-=1" :disabled="goods.count ===0">-</button>
+          <input type="text" class="goods-count" v-model="goods.count" />
+          <button type="button" @click="goods.count+=1">+</button>
+        </div>
+      </div>
+      <hr>
+      <div class="settlement">
+        <h3>Total Price:&nbsp;&nbsp;￥{{totalPrice}}</h3>
+        <button type="button" class="btn" @click="settlement()">结算</button>
+      </div>
+      <div v-if="show">
+        你购买了{{settlement}}件商品，需要支付总价为：{{totalPrice}}元
+      </div>
+      <div>
+        <el-statistic @finish="hilarity" :value="deadline" time-indices title="一寸光阴一寸金" />
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    //实例化一个Vue对象
+    var app = new Vue({
+      el: '#app',
+      data: {
+        show: false,
+        deadline: Date.now() + 1000 * 60 * 60 * 24 * 2,
+        goodsList: [{
+          id: 1,
+          name: '蓝牙无线耳机',
+          pic: 'https://images-cn.ssl-images-amazon.com/images/I/4118+OyzLgL._AA200_.jpg',
+          price: 729,
+          url: 'https://www.amazon.cn/dp/B01M032X28/ref=lp_1397649071_1_4?s=music-players&ie=UTF8&qid=1552439873&sr=1-4',
+          count: 1
+        },
+        {
+          id: 2,
+          name: '数码相框',
+          pic: 'https://images-cn.ssl-images-amazon.com/images/I/41Jptto1bQL._AA200_.jpg',
+          price: 359,
+          url: 'https://www.amazon.cn/dp/B00F5HHSIA/ref=lp_1994998051_1_2?s=music-players&ie=UTF8&qid=1552440081&sr=1-2',
+          count: 1
+        },
+        {
+          id: 3,
+          name: 'USB连接线',
+          pic: 'https://images-cn.ssl-images-amazon.com/images/I/41lPp5aprnL._AA200_.jpg',
+          price: 60,
+          url: 'https://www.amazon.cn/dp/B006GWO5NE/ref=lp_760238051_1_3?s=music-players&ie=UTF8&qid=1552440314&sr=1-3',
+          count: 1
+        },
+        ]
+      },
+      methods: {
+        hilarity () {
+          this.$notify({
+            title: '提示',
+            message: '时间已到，你可知寸金难买寸光阴？',
+            duration: 0
+          });
+        }
+      },
+      computed: {
+        totalPrice () {
+          var totalPrice = 0;
+          for (var i = 0, len = this.goodsList.length; i < len; i++) {
+            totalPrice += this.goodsList[i].price * this.goodsList[i].count;
+          }
+          return totalPrice;
+        },
+        settlement: function () {
+          this.show = true;
+          var totalCount = 0;
+          var len = this.goodsList.length;
+          for (var i = 0; i < len; i++) {
+            totalCount += this.goodsList[i].count;
+          }
+          return totalCount;
+        }
+      }
+    })
+  </script>
+</body>
+
 </html>

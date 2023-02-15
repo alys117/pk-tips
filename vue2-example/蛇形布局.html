@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- 引入样式 -->
+  <link rel="stylesheet" href="./elementui/index.css">
+  <title>DIV蛇形布局/盒子S形布局</title>
+  <style>
+    div#app {
+      text-align: center;
+    }
+    #app ul li {
+      list-style: none;
+    }
+
+    .list-li {
+      display: flex;
+      justify-content: start;
+      margin: 0 auto;
+    }
+    .reverse-li {
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: end;
+      margin: 0 auto;
+    }
+    i.arrow-down {
+      transform: rotateZ(90deg);
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -8px;
+    }
+    .li-box {
+      display: flex;
+      align-items: center;
+    }
+    .box {
+      position: relative;
+      padding: 20px;
+    }
+    .sub-box {
+      border: 1px solid;
+      width: 200px;
+      line-height: 64px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <ul>
+      <!-- 根据奇偶行设置特定的类名，还需算出一行所占宽度，为了让下一行的盒子能够对应上 -->
+      <li :class="{'list-li':(index+1)%2!==0, 'reverse-li':(index+1)%2===0}" :style="{width: maxLen===3?'988px':'1016px'}" v-for="(item, index) in list" :key="index">
+        <!-- 正向行 -->
+        <template v-if="(index+1)%2!==0">
+          <div class="li-box" v-for="(i, key) in item" :key="key+index">
+            <div class="box">
+              <!-- 自定义盒子内容 -->
+              <div class="sub-box">{{i}}</div>
+              <!-- 不为第一个，当前项为最后一个，当前项为最大值，总数大于最大值 -->
+              <i v-if="key!==0&&key === maxLen-1 && key%(maxLen-1)===0 && originArray.length > maxLen" :class="{'el-icon-d-arrow-right':true, 'arrow-down':true}"></i>
+            </div>
+            <i v-if="key!==item.length-1" class="el-icon-d-arrow-right"></i>
+          </div>
+        </template>
+        <!-- 反向行 -->
+        <template v-else-if="(index+1)%2===0">
+          <div class="li-box" v-for="(i, key) in item" :key="key+index">
+            <div class="box">
+              <div class="sub-box">{{i}}</div>
+              <i v-if="key!==0&&key === maxLen-1 && key%(maxLen-1)===0 && originArray.length > maxLen" :class="{'el-icon-d-arrow-right':true, 'arrow-down':true}"></i>
+            </div>
+            <i v-if="key!==0" class="el-icon-d-arrow-left"></i>
+          </div>
+        </template>
+      </li>
+    </ul>
+  </div>
+</body>
+<!-- import Vue before Element -->
+<script src="./vue2/2.7.14.js"></script>
+<!-- import JavaScript -->
+<script src="./elementui/index.js"></script>
+<script>
+  new Vue({
+    el: '#app',
+    data() {
+      return {
+        originArray: [1,2,3,4,5,6,7,8,9,10,11,12,13], // 未处理的数组
+        list: [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13]], // 处理后的二维数组
+        maxLen: 4 // 设定一行多少个
+      }
+    }
+  })
+</script>
+</html>

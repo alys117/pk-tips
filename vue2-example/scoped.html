@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Vue.js computed练习——计算购物车总价</title>
+  <link rel="stylesheet" href="./elementui/index.css">
+  <!--通过cdn引入Vue.js  -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
+  <script src="./vue2/2.7.14.js"></script>
+  <script src="./elementui/index.js"></script>
+  <style type="text/css">
+    .container {
+      color: red;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Vue-app的根容器 -->
+  <div id="app">
+    <div class="container">123</div>
+    <el-popover placement="bottom" trigger="click" v-scoped="this">
+      <span>内容部分</span>
+      <div slot="reference" style="display: inline-block;">
+        <el-button>点我</el-button>
+      </div>
+    </el-popover>
+
+    <el-tooltip placement="bottom" v-scoped="this">
+      <div slot="content">
+        <h1>world</h1>
+      </div>
+      <div style="display: inline-block;">
+        点我
+      </div>
+    </el-tooltip>
+  </div>
+  <script type="text/javascript">
+    Vue.directive('scoped', function (element, binding) {
+      const scopedId = binding.value.$options._scopeId
+      const componentTag = element.__vue__.$vnode.tag
+      const target = [] // 需要添加scopedId的元素
+
+      console.log(componentTag, element)
+
+      if (componentTag.indexOf('ElPopover') !== -1) {
+        // popover组件
+        target.push(element.children[0])
+      } else {
+        target.push(element)
+      }
+      target.forEach(item => {
+        // setTimeout(() => console.log(item.getAttribute('aria-describedby')), 1000)
+        Promise.resolve().then(() => {
+          const a = item.getAttribute('aria-describedby')
+          // console.log(a)
+          // console.log(document.querySelector('[aria-describedby=' + a + ']'), 1)
+          // console.log(document.getElementById(a))
+          setTimeout(() => {
+            // console.log(document.getElementById(a))
+          }, 5000)
+        })
+        // item.setAttribute(scopedId, '')
+        console.log('target', item);
+      })
+    })
+    //实例化一个Vue对象
+    var app = new Vue({
+      el: '#app',
+      data: {
+        a: 1,
+      },
+      methods: {
+        hilarity () {
+          this.$notify({
+            title: '提示',
+            message: '时间已到，你可知寸金难买寸光阴？',
+            duration: 0
+          });
+        }
+      },
+      computed: {
+        totalPrice () {
+          return 123;
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

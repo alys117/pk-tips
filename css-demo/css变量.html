@@ -24,9 +24,12 @@
   </div>
 
   <div class="flex">
-    <div class="item1">fdsfdsfdsfadsfdsafdsafdsaf</div>
-    <div class="item2">fdsfdsafdsafdsafdsafdsafds</div>
+    <div class="item1">123</div>
+    <div class="item2">1234</div>
   </div>
+
+  <br>
+  <div class="mydiv"></div>
 </body>
 <script>
   const isSupported =
@@ -45,6 +48,9 @@
   console.log(document.getElementById('mydiv2').dataset);
 </script>
 <style>
+  :root{
+    --color: red;
+  }
   .ext[data-selfdef]{
     background-color: bisque;
   }
@@ -69,6 +75,13 @@
   }
   .flex .item2{
     background-color: red;
+  }
+
+
+  .mydiv{
+    width: 200px;
+    height: 200px;
+    background-color: var(--color);
   }
 </style>
 </html>
