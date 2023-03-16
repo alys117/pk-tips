@@ -27,6 +27,11 @@ app.post('/receive', function (req, res) {
     res.end(JSON.stringify({ msg: 'string', code: 200 }))
   }
 })
+app.get('/*', function (req, res) {
+  res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' })
+  console.log('get请求'+req.uri, req.body)
+  res.end(JSON.stringify({ msg: '8083', code: 200 }))
+})
 
 const app2 = express()
 // 不使用bodyparser
@@ -52,13 +57,25 @@ app2.post('/receive', function (req, res) {
 })
 
 app2.post(
-  '/receive2',
+  '/receive/api/1',
   bodyParser.json(),
   bodyParser.text(),
   bodyParser.urlencoded(),
   function (req, res) {
     res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' }) //设置response编码为utf-8
     console.log('post请求/receive2', req.body)
+    res.end(JSON.stringify({ msg: 'ok', code: 200 }))
+  }
+)
+app2.post(
+  '/web/*',
+  bodyParser.json(),
+  bodyParser.text(),
+  bodyParser.urlencoded(),
+  function (req, res) {
+    res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' }) //设置response编码为utf-8
+    console.log('post请求/receive2', req.body)
+    
     res.end(JSON.stringify({ msg: 'ok', code: 200 }))
   }
 )
@@ -82,6 +99,11 @@ app2.post('/api/raw', bodyParser.raw({
   console.log('post请求/api/raw', req.body)
   console.log(req.body.toString())
   res.end(JSON.stringify({ msg: '请求body按照raw解析', code: 200 }))
+})
+app2.get('/*', function (req, res) {
+  res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' })
+  console.log('get请求/receive2', req.body)
+  res.end(JSON.stringify({ msg: 'ok', code: 200 }))
 })
 
 app2.get('/receive2', function (req, res) {

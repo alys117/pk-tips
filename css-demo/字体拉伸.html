@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .scaled-text {
+      -webkit-transform: matrix(1.5, 0, 0, 2, 0, 0);
+      -moz-transform: matrix(1.5, 0, 0, 2, 0, 0);
+      -ms-transform: matrix(1.5, 0, 0, 2, 0, 0);
+      -o-transform: matrix(1.5, 0, 0, 2, 0, 0);
+      transform: matrix(1.5, 0, 0, 2, 0, 0);
+    }
+  </style>
+</head>
+
+<body>
+  <p style="font-stretch:ultra-expanded;">
+    If this doesn't appear to work, it is likely that your computer doesn't have a
+    condensed or expanded version of the font being used.
+  </p>
+  <div class="scaled-text111">abc123中文</div>
+  <div style="font-style: italic;">abc123中文</div>
+  <div style="transform: rotateZ(45deg) skew(-20deg, -20deg);">abc123中文</div>
+
+  <div style="float:left;border-width:25px;border-color:#727171 #9fa0a0 #9fa0a0 #727171;border-style:solid"></div>
+  <div style="float:left;border-width:25px;border-color:#727171 #727171 #9fa0a0 #9fa0a0;border-style:solid"></div>
+  <div style="float:left;border-width:25px;border-color:#9fa0a0 #9fa0a0 #727171 #727171;border-style:solid"></div>
+  <div style="float:left;border-width:25px;border-color:#9fa0a0 #727171 #727171 #9fa0a0;border-style:solid"></div>
+
+  <div style="float:left;border-width:25px;border-color:#727171 #9fa0a0 #9fa0a0 #727171;border-style:solid"></div>
+  <div style="float:left;border-width:25px;border-color:#727171 #727171 #9fa0a0 #9fa0a0;border-style:solid"></div>
+  <div style="float:left;border-width:25px;border-color:#9fa0a0 #9fa0a0 #727171 #727171;border-style:solid"></div>
+  <div style="float:left;border-width:25px;border-color:#9fa0a0 #727171 #727171 #9fa0a0;border-style:solid"></div>
+
+  <div style="float:left;border-width:25px;border-color:#727171 #9fa0a0 #9fa0a0 #727171;border-style:solid"></div>
+  <div style="float:left;border-width:25px;border-color:#727171 #727171 #9fa0a0 #9fa0a0;border-style:solid"></div>
+  <div style="float:left;border-width:25px;border-color:#9fa0a0 #9fa0a0 #727171 #727171;border-style:solid"></div>
+  <div style="float:left;border-width:25px;border-color:#9fa0a0 #727171 #727171 #9fa0a0;border-style:solid"></div>
+
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <style>
+    .step-diamond-type {
+      height: 100px;
+      width: 100px;
+      transform: rotateZ(45deg) skew(-20deg, -20deg);
+      background-color: rgba(76, 106, 255, 0.1);
+      border-radius: 8px;
+      border: 1px solid #4C6AFF;
+      margin-left: 40px;
+    }
+
+    .step-diamond-type .diamond-span-1 {
+      position: absolute;
+      transform: skew(20deg, 20deg) rotateZ(-45deg);
+      display: inline-block;
+      left: -10px;
+      top: 34px;
+      width: 120px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: #4C6AFF;
+      font-size: 18px;
+    }
+  </style>
+  <div style="display: flex;gap: 5px;align-items: center;">
+    <div class="step-diamond-type">
+      <span class="diamond-span-1">主管领导审核</span>
+    </div>
+    <div style="height: 3px;background-color: #4C6AFF;width: 100px;margin-left: 40px;"></div>
+    <div class="step-diamond-type">
+      <span class="diamond-span-2">主管领导审核</span>
+    </div>
+    <div style="height: 3px;background-color: #4C6AFF;width: 100px;margin-left: 40px;"></div>
+    <div class="step-diamond-type">
+      <span class="diamond-span-1">主管领导审核</span>
+    </div>
+  </div>
+</body>
+
+</html>

@@ -1,3 +1,33 @@
 {
-  "liveServer.settings.port": 5502
+  "liveServer.settings.port": 5502,
+  "sqltools.useNodeRuntime": true,
+  "sqltools.connections": [
+    {
+      "oracleOptions": {
+        "autoCommit": false,
+        "lowerCase": false
+      },
+      "previewLimit": 50,
+      "server": "192.168.0.252",
+      "port": 1521,
+      "driver": "Oracle",
+      "name": "ora_252",
+      "database": "orclpdb",
+      "username": "sdbass",
+      "password": "ibmdb2"
+    },
+    {
+      "mysqlOptions": {
+        "authProtocol": "default"
+      },
+      "previewLimit": 50,
+      "server": "192.168.0.252",
+      "port": 3306,
+      "driver": "MySQL",
+      "name": "mysql_252",
+      "username": "root",
+      "password": "123456",
+      "database": "sdbass"
+    }
+  ]
 }

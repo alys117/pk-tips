@@ -112,3 +112,7 @@ tip.panke.js
 
 # intellij idea
 .idea
+
+*.mp3
+*.wav
+*.flac
