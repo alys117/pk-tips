@@ -24,7 +24,7 @@ function getFileHash(file, algorithm) {
  
 // 用法：获取文件md5
 getFileHash("./package.json", "md5").then(val => {
-    console.log(val);
+    console.log(val, 33333);
 });
 
 
@@ -42,3 +42,7 @@ function encryptData(data, key, algorithm) {
  
 // output: 12e2df74fc110c05ebf224ae87751bcb13ee9cd76f6d8febefd626054eea6fdf
 console.log(encryptData("root", "one piece", "sha256"));
+console.log(encryptData("root", "", "sha1"), 55555);
+console.log(encryptData("root", "", "sha256"), 66666);
+console.log(encryptData("root", "", "md5"), 77777);
+console.log(encryptData("root", "", "des"), 77777);

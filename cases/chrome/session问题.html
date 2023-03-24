@@ -10,11 +10,24 @@
   <button onclick="goiframe()">显示iframe2</button><br>
   <iframe width="600" height="200" src="http://localhost:8080/audio-platform/session-set.jsp" frameborder="1"></iframe>
   <br>
+  <iframe width="600" height="200" src="sonInvokeParent.html" frameborder="1"></iframe>
+  <br>
   <iframe id="iframe2" width="600" height="200" src="" frameborder="1"></iframe>
   <script>
+    window.abcd = 1234
     function goiframe(){
       document.querySelector('#iframe2').src = "http://localhost:8080/audio-platform/session-get.jsp"
+      document.querySelector('#iframe2').onload = function(){
+        document.querySelector('#iframe2').contentWindow.postMessage(JSON.stringify({myword:"haha"}),"*")
+      }
+      // setTimeout(() => {
+      //   document.querySelector('#iframe2').contentWindow.postMessage(JSON.stringify({msg:"haha"}),"*")
+      // }, 1000);
     }
+    window.addEventListener("message",function(e){
+      console.log(e)
+      console.log(JSON.parse(e.data))
+    },false)
   </script>
 </body>
 </html>
