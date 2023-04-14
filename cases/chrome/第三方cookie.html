@@ -16,12 +16,15 @@
   <!-- 测试用iframe方式打开，操作cookie，不起作用 -->
   <button onclick="goiframe()">显示iframe2</button><br>
   <iframe width="100%" height="200" src="http://localhost:8002/player/index.html?source=10086&osid=sdbass&serialno=22052916232066720831026" frameborder="0"></iframe>
-  <iframe width="100%" height="700"  frameborder="0" src="http://localhost:8080/audio-platform/entry.html"></iframe>
+  <iframe width="100%" height="200"  frameborder="0" src="http://localhost:8080/audio-platform/entry.html"></iframe>
+  <iframe width="100%" height="300"  frameborder="0" src="http://localhost:8080/treasury/testServlet"></iframe>
+  <iframe id=iframe2 width="100%" height="100"  frameborder="0" src=""></iframe>
   <br>
   <script>
     document.cookie = "foo=bar";
     function goiframe(){  
       // document.querySelector('#iframe2').src = "http://localhost:8080/audio-platform/session-get.jsp"
+      document.querySelector('#iframe2').src = "http://localhost:8080/treasury/widgets/jsp/session2.jsp"
     }
   </script>
 </body>

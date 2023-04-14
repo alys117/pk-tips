@@ -16,7 +16,22 @@
   <script>
     window.abcd = 1234
     function goiframe(){
-      document.querySelector('#iframe2').src = "http://localhost:8080/audio-platform/session-get.jsp"
+      // document.querySelector('#iframe2').src = "http://localhost:8080/audio-platform/session-get.jsp"
+      var url = "http://localhost:8080/audio-platform/session-get.jsp"
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", url);
+      xhr.responseType = "blob";
+      xhr.setRequestHeader('Have-a-pen', 'funny'); // iframe的src携带header
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === xhr.DONE) {
+          if (xhr.status === 200) {
+            $('#iframe2')[0].src = URL.createObjectURL(xhr.response);
+          }
+        }
+      };
+      xhr.send();
+
+
       document.querySelector('#iframe2').onload = function(){
         document.querySelector('#iframe2').contentWindow.postMessage(JSON.stringify({myword:"haha"}),"*")
       }

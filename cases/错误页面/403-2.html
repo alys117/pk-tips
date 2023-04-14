@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <title>403 - 无权访问</title>
+    <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1"/>
+    <style>
+        html, body{
+            height: 100%;
+        }
+
+        body{
+            color: #333;
+            margin: auto;
+            padding: 1em;
+            display: table;
+            user-select: none;
+            box-sizing: border-box;
+            font: lighter 20px "微软雅黑";
+        }
+        a{
+            color: #3498db;
+            text-decoration: none;
+        }
+        h1{
+            margin-top: 0;
+            font-size: 3.5em;
+        }
+        main{
+            margin: 0 auto;
+            text-align: center;
+            display: table-cell;
+            vertical-align: middle;
+        }
+
+        .btn{
+            color: #fff;
+            padding: .5em 1em;
+            background: #3498db;
+            border-radius: 1.5em;
+            display: inline-block;
+            transition: opacity .3s, transform .3s;
+            cursor: pointer;
+        }
+        .btn:hover{
+            transform: scale(1.1);
+        }
+        .btn:active{
+            opacity: .7;
+        }
+    </style>
+</head>
+<body>
+<main>
+    <h1>:(</h1>
+    <p>Oops!! 非常抱歉，出错啦~</p>
+    <a class="btn" onclick="action()">错误详情</a>
+    <p style="opacity: 0;">你可以去浏览我的 <a href="http://www.sd4a.com">首页</a> 或 <a href="http://www.sd4a.com">博客</a> ~</p>
+</main>
+<script>
+    function action(){
+      window.show = !window.show;
+      document.getElementsByTagName('p')[1].innerHTML=unescape(location.search).slice(1,unescape(location.search).length);
+      document.getElementsByTagName('p')[1].style.opacity = (window.show?'1':'0');
+      document.getElementsByTagName('a')[0].innerHTML=window.show?'隐藏错误详情':'错误详情';
+    }
+</script>
+</body>
+</html>
