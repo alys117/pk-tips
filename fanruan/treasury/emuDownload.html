@@ -18,8 +18,7 @@
     document.getElementById("jkdownBtn").onclick = function (ev) {
       var inputuser = document.getElementById('inputuser').value
       document.getElementById('inputuser').disabled = true
-      var url = 'http://localhost:8080/treasury/jkdownload?webContext=treasury&account='+inputuser+'&format=excel&extype=simple&op=export&filename=demo.wav&cpt_path=templates/tools/download.cpt';
-      console.log("loadflag",window.loadflag);
+      var url = 'http://localhost:8080/jkdownload?emu=1&account='+inputuser+'&format=excel&extype=simple&op=export&filename=demo.wav&cpt_path=templates/tools/download.cpt';
       if(!window.loadflag){
         DynamciLoadUtil.loadCSS("./css/bootstrapModal/modal.min.css");
         if(window.jQuery){
@@ -54,7 +53,7 @@
       }
       xhr.onload = function () {
         if (xhr.status === 200) {
-          if(xhr.getResponseHeader('Content-Type').indexOf('application/json') > -1){
+          if(xhr.getResponseHeader('RedirectFlag') == 'Y'){
             console.log(xhr.response);
             const blob = new Blob([xhr.response])
             var reader = new FileReader();
@@ -69,9 +68,9 @@
           }
           const dispoition = xhr.getResponseHeader('Content-Disposition') || ''
           const nameStr = dispoition.split(';')[1] || ''
-          const fileName = decodeURI(nameStr.split('=')[1] || '')
-          // console.log(fileName,'乱码')
-          //decodeURI解码需要后端处理。文件类型固定可自定义名字
+          let fileName = nameStr.split('=')[1] || ''
+          console.log(fileName,'乱码')
+          fileName = decodeURIComponent(escape(fileName))
           const blob = new Blob([xhr.response])
           const a = document.createElement('a')
           a.href = URL.createObjectURL(blob)
@@ -115,14 +114,14 @@
             $('#myModalLabel').html(msgObj.myModalLabel)
           }
           if (msgObj.src){
-            var lasturl = msgObj.src.replace('/treasury/', '/treasury/') // 线上用资源的上下文替换 比如 msgObj.src.replace('/treasury/', '/WebReport/') 
+            var lasturl = msgObj.src // 线上用资源的上下文替换 比如 msgObj.src.replace('/treasury/', '/WebReport/') 
             console.log('msgObj',msgObj)
             if (msgObj.token){
               sessionStorage.setItem('token', msgObj.token)
               document.getElementById('token-in-sessionStorage').innerHTML = 'token-in-sessionStorage >> ' + msgObj.token
             }
             
-            lasturl = 'http://localhost:8080' + lasturl // 线上不需要这一步！！！
+            lasturl = 'http://localhost:8080' + lasturl // 😗👽👺 线上不需要这一步！！！👹💀👿
             jkAction(lasturl, msgObj.token)
           }
           if(msgObj.type === 'hide'){

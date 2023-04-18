@@ -6,9 +6,10 @@ var path = require('path')
 const server = http.createServer((req, res) => {
   const pathname = url.parse(req.url).pathname
   console.log('pathname::', `.${pathname}`)
+  console.log(decodeURIComponent(`${pathname}`));
   const q = url.parse(decodeURI(req.url), true).query //解析参数为id的值
   console.log('query::', q)
-  fs.readFile(`.${pathname}`, function (isErr, data) {
+  fs.readFile(`.${decodeURIComponent(pathname)}`, function (isErr, data) {
     if (isErr) {
       res.end('Read file failed!')
       return
@@ -21,6 +22,6 @@ const server = http.createServer((req, res) => {
   })
 })
 server.listen(8000, '0.0.0.0', () => {
-  console.log('服务器开启成功')
+  console.log('8000端口服务器开启成功')
 })
 // 下载命令：C:\Users\drunk\Desktop>curl -o a.png "http://127.0.0.1:8000/static/img/mvc_logo.png?q=989&dada=haha"

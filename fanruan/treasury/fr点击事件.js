@@ -1,4 +1,4 @@
-var url ='http://localhost:8080/treasury/ReportServer?sessionID=${sessionID}'+'&webContext=webroot&op=export&&format=excel&extype=simple&account='+fakeuser+'&cpt_path='+encodeURIComponent('${reportName}');
+var url ='http://localhost:8080/webroot/ReportServer?&sessionID=${sessionID}&op=export&&format=excel&extype=simple&account='+fakeuser+'&cpt_path='+encodeURIComponent('${reportName}');
 if(!window.loadflag){
 	DynamciLoadUtil.loadCSS("/webroot/widgets/css/plugins/bootstrapModal/modal.min.css");
 	if(window.jQuery){
@@ -33,8 +33,7 @@ if(!window.loadflag){
       }
       xhr.onload = function () {
         if (xhr.status === 200) {
-          if(xhr.getResponseHeader('Content-Type').indexOf('application/json') > -1){
-            console.log(xhr.response);
+          if(xhr.getResponseHeader('RedirectFlag') == 'Y'){
             const blob = new Blob([xhr.response])
             var reader = new FileReader();
             reader.readAsText(blob, 'utf-8');
@@ -49,8 +48,9 @@ if(!window.loadflag){
 
           const dispoition = xhr.getResponseHeader('Content-Disposition') || ''
           const nameStr = dispoition.split(';')[1] || ''
-          const fileName = decodeURI(nameStr.split('=')[1] || '')
-          // console.log(fileName,'乱码')
+          let fileName = nameStr.split('=')[1] || ''
+          console.log(fileName,'乱码')
+          fileName = decodeURIComponent(escape(fileName))
           //decodeURI解码需要后端处理。文件类型固定可自定义名字
           const blob = new Blob([xhr.response])
           const a = document.createElement('a')
@@ -95,14 +95,11 @@ if(!window.loadflag){
             $('#myModalLabel').html(msgObj.myModalLabel)
           }
           if (msgObj.src){
-            var lasturl = msgObj.src.replace('/treasury/', '/webroot/') // 线上用资源的上下文替换 比如 msgObj.src.replace('/treasury/', '/WebReport/') 
             console.log('msgObj',msgObj)
             if (msgObj.token){
               sessionStorage.setItem('token', msgObj.token)
             }
-            
-            // lasturl = 'http://localhost:8080' + lasturl // 线上不需要这一步！！！
-            jkAction(lasturl, msgObj.token)
+            jkAction(msgObj.src, msgObj.token)
           }
           if(msgObj.type === 'hide'){
             $("#myModal").modal('hide');
