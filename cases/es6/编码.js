@@ -17,6 +17,12 @@ console.log('utf8 str:',str)
 let encoded1 = iconv.encode(str, 'utf-8');
 console.log(encoded1,encoded1.toJSON())
 console.log(11111, iconv.decode(encoded1, 'utf-8'));
-console.log(22222, iconv.decode(Buffer.from([47, 63, 228, 184, 173,  230, 150, 135, 61, 56, 56]), 'utf-8'));
+console.log(22222, iconv.decode(Buffer.from([47, 63, 228, 184, 173, 230, 150, 135, 61, 56, 56]), 'utf-8'));
+
+
+let encoded2 = iconv.encode(str, 'utf-8');
+console.log(encoded2,encoded2.toJSON())
+console.log(33333, iconv.decode(encoded2, 'iso-8859-1'));
+console.log(44444, iconv.decode(iconv.encode(Buffer.from(iconv.decode(encoded2, 'iso-8859-1')), 'iso-8859-1'), 'utf-8'));
 
 
