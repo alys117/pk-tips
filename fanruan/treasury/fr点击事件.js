@@ -20,6 +20,72 @@ if(!window.loadflag){
 	jkAction(url, sessionStorage.getItem('token'))
 }			
 			
+function judgeJK(url){
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', url, true);
+  xhr.onload = function () {
+    if (xhr.status == 200) {  //监听HTTP状态码
+          var info = JSON.parse(xhr.responseText);
+          if(info.rediect == 'N'){
+            $('#virtualIfm').attr('src',url);
+          }else{
+            var turl = new URL(url);
+            turl.host = location.host;
+            jkAction(turl, sessionStorage.getItem('token'))
+          }
+      }
+  };
+  // 发送ajax请求
+  xhr.send({type:'json'})
+}
+function judgeJK(url){
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', url, true);
+  xhr.onload = function () {
+    if (xhr.status == 200) {  //监听HTTP状态码
+          var info = JSON.parse(xhr.responseText);
+          if(info.redirect == 'N'){
+            $('#virtualIfm').attr('src',url);
+          }else{
+            var turl = new URL(url);
+            turl.host = location.host;
+            donwBinary(turl, sessionStorage.getItem('token'))
+          }
+      }
+  };
+  // 发送ajax请求
+  xhr.send()
+}
+
+function donwBinary(url, token) {
+  if(!url) return
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', url, true);
+  xhr.responseType = "blob";  // 返回类型blob
+  if(token){
+    xhr.setRequestHeader('JK-Token', token); //设置请求头
+  }
+  xhr.onload = function () {
+    if (xhr.status === 200) {
+      const dispoition = xhr.getResponseHeader('Content-Disposition') || ''
+      const nameStr = dispoition.split(';')[1] || ''
+      let fileName = nameStr.split('=')[1] || ''
+      console.log(fileName,'乱码')
+      fileName = decodeURIComponent(escape(fileName))
+      const blob = new Blob([xhr.response])
+      const a = document.createElement('a')
+      a.href = URL.createObjectURL(blob)
+      a.download = fileName  //a.download = '历史数据.xlsx';
+      a.click();
+    }else {
+      //请求失败处理
+    }
+  };
+  // 发送ajax请求
+  xhr.send(JSON.stringify({type:'binary'}))
+
+}
+
     function jkAction(url,token) {
       if(!url) return
       var xhr = new XMLHttpRequest();
@@ -69,20 +135,20 @@ if(!window.loadflag){
     function loadModal(url) {
         var html = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">\n' +
             '                              <div class="modal-dialog" role="document">\n' +
-            '                                <div class="modal-content" >\n' +
+            '                                <div class="modal-content" style="width: 500px;background-color:#fafafa">\n' +
             '                                  <div class="modal-header">\n' +
             '                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" id="_close">&times;</span></button>\n' +
             '                                    <h5 class="modal-title" id="myModalLabel">加载中……</h5>\n' +
             '                                  </div>\n' +
-            '                                  <div class="modal-body" style="padding:0;background-color:#f7f7f7">\n' +
+            '                                  <div class="modal-body" style="padding:0;">\n' +
 
-            '<iframe id = "virtualIfm" src="" frameborder="no" border=0 scrolling="no" height="380" width="597"/>\n' +
+            '<iframe id = "virtualIfm" src="" frameborder="no" border=0 scrolling="no" height="380" width="500"/>\n' +
             '                                  </div>\n' +
             '                                </div>\n' +
             '                              </div>\n' +
             '                            </div> ';
         $('body').append(html);
-        jkAction(url, sessionStorage.getItem('token'))
+        judgeJK(url)
         // 先不显示模态框，如果filter中跳转金库index.jsp后，再在index.jsp中再调用js显示
         //$("#myModal").modal('show');
 
