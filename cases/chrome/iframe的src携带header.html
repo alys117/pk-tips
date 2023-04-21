@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <button onclick="goiframe()">显示iframe2</button><br>
+  <iframe width="600" height="200" src="sonInvokeParent.html" frameborder="1"></iframe>
+  <br>
+  <iframe id="iframe2" width="600" height="200" src="" frameborder="1"></iframe>
+  <script>
+    window.abcd = 1234
+    function goiframe(){
+    //   document.querySelector('#iframe2').src = "/cases/html/display.html"
+    //   var url = "/cases/html/display.html"
+      var url = "http://localhost:8080/widgets/jsp/treasury/error.jsp"
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", url);
+      xhr.responseType = "blob";
+      xhr.setRequestHeader('Have-a-pen', 'funny'); // iframe的src携带header
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === xhr.DONE) {
+          if (xhr.status === 200) {
+            // document.querySelector('#iframe2').src = URL.createObjectURL(new Blob([xhr.response]));
+            document.querySelector('#iframe2').src = URL.createObjectURL(xhr.response);
+          }
+        }
+      };
+      xhr.send();
+    }
+/* 
+这个办法并不好使，用blob的方式内部不会再发送请求
+*/
+  </script>
+</body>
+</html>

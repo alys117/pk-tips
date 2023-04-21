@@ -1,5 +1,5 @@
 var url =
-  "http://localhost:8080/webroot/ReportServer?&sessionID=${sessionID}&op=export&&format=excel&extype=simple&account=" +
+  "http://localhost:8080/webroot/ReportServer?sessionID=${sessionID}&op=export&&format=excel&extype=simple&account=" +
   fakeuser +
   "&cpt_path=" +
   encodeURIComponent("${reportName}");
@@ -37,15 +37,28 @@ if (!window.loadflag) {
 
 function judgeJK(url) {
   var xhr = new XMLHttpRequest();
+  if (sessionStorage.getItem("token")) {
+    url = url + "&token=" + sessionStorage.getItem("token"); // 本来应该使用下面把token放到头信息里的，但是在本地ie下会报错，所以只能放到url里
+  }
   xhr.open("POST", url, true);
+  if (sessionStorage.getItem("token")) {
+    // xhr.setRequestHeader("JK-Token", sessionStorage.getItem("token")); //设置请求头, 在云桌面环境上没事，但是本地ie环境报错： SEC7123: Access-Control-Allow-Headers 列表中不存在请求标头 jk-token。
+  }
   xhr.onload = function () {
     if (xhr.status == 200) {
       //监听HTTP状态码
-      var info = JSON.parse(xhr.responseText);
-      if (info.redirect == "N") {
-        $("#virtualIfm").attr("src", url)
-      } else {
-        donwBinary(url, sessionStorage.getItem("token"))
+      try{
+        var info = JSON.parse(xhr.responseText);
+        if (info.direct == "N") {
+          sessionStorage.setItem("token", info.token)
+          $("#virtualIfm").attr("src", url+'&token=' + info.token);
+        } else {
+          donwBinary(url, sessionStorage.getItem("token"))
+        }
+      }catch(e){
+        console.log(e);
+        sessionStorage.removeItem("token");
+        alert('金库时效过期，请重新请求资源')
       }
     }
   };
@@ -56,6 +69,16 @@ function donwBinary(url, token) {
   if (!url) return;
   var realUrl = new URL(url);
   realUrl.host = location.host;
+  if(getBrowser() == 'IE'){
+    var ifm = document.createElement('iframe')
+    ifm.style.display = 'none'
+    ifm.style.height = 0
+    ifm.src = realUrl
+    document.body.appendChild(ifm)
+    setTimeout(function(){ document.body.removeChild(ifm) },120000)
+    return
+  }
+
   var xhr = new XMLHttpRequest();
   xhr.open("POST", realUrl, true);
   xhr.responseType = "blob"; // 返回类型blob
@@ -115,13 +138,16 @@ function loadModal(url) {
       if (msgObj.token) {
         sessionStorage.setItem("token", msgObj.token);
       }
-      donwBinary(msgObj.src, msgObj.token);
+      donwBinary(location.origin + msgObj.src, msgObj.token);
     }
     if (msgObj.type === "hide") {
       $("#myModal").modal("hide");
     }
     if (msgObj.type === "show") {
       $("#myModal").modal("show");
+    }
+    if (msgObj.type === "delToken") {
+      sessionStorage.removeItem("token");
     }
   });
   if (!window.loadflag) {
