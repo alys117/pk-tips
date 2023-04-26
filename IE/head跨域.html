@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="setCookie()">set</button>
+    <button onclick="getCookie()">get</button>
+    <script>
+    function setCookie() {
+        //定义一天  
+        var days = 1;  
+        var exp = new Date();  
+        //定义的失效时间，  
+        exp.setTime(exp.getTime() + days * 24 * 60 * 60 * 1000);    
+        //写入Cookie  ，toGMTstring将时间转换成字符串。  
+        document.cookie = "hobby=" + escape('music123') + ";expires=" + exp.toGMTString+ ";path=/;domain=localhost:8080";
+        if(window.XDomainRequest){
+            var xhr = new XDomainRequest();
+            xhr.open('GET', 'http://localhost:8000/set-cookie', true);
+            // xhr.setRequestHeader('X-Token', '123') // XDomainRequest 不能设置请求头
+            // xhr.withCredentials = true // XDomainRequest 不能设置withCredentials, 也就是不能设置cookie
+            xhr.onload = function () {
+                alert(xhr.responseText)
+            }
+            xhr.send()
+        }else{
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'http://localhost:8000/set-cookie', true);
+            xhr.setRequestHeader('X-Token', '123')
+            xhr.withCredentials = true
+            xhr.onload = function () {
+                alert(xhr.responseText)
+            }
+            xhr.send()
+        }
+    }
+    function getCookie() {
+        if(window.XDomainRequest){
+            var xhr = new XDomainRequest(); // XDomainRequest 不能设置请求头
+            xhr.open('GET', 'http://localhost:8000/api', true);
+            xhr.onload = function () {
+                alert(xhr.responseText)
+            }
+            xhr.send()
+        }else{
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'http://localhost:8000/api', true);
+            xhr.setRequestHeader('X-Token', '123')
+            xhr.withCredentials = true
+            xhr.onload = function () {
+                alert(xhr.responseText)
+            }
+            xhr.send()
+        }
+    }
+
+    </script>
+</body>
+</html>

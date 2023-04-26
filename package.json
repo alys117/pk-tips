@@ -6,6 +6,7 @@
     "async": "^3.2.3",
     "axios": "^0.26.1",
     "body-parser": "^1.19.2",
+    "cookie-parser": "^1.4.6",
     "coordtransform": "^2.1.2",
     "cors": "^2.8.5",
     "crypto-js": "^4.1.1",
