@@ -20,7 +20,10 @@ var allowCrossDomain = function(req, res, next) {
 
 app.all('/set-cookie', (req, res, next) => {
   res.cookie("user", "jay", { maxAge: 2000000, httpOnly: true });
-  res.header('Access-Control-Allow-Origin', 'http://192.168.0.113:5502'); // res.header('Access-Control-Allow-Origin', req.get('Origin')) // 允许的地址,http://127.0.0.1:9000这样的格式
+  if( req.headers.origin == 'http://192.168.0.113:5502' || req.headers.origin == 'http://localhost:5502' || req.headers.origin == 'http://127.0.0.1:5502' ){ 
+    res.header('Access-Control-Allow-Origin', req.headers.origin); 
+  }
+  // res.header('Access-Control-Allow-Origin', req.get('Origin')) // 允许的地址,http://127.0.0.1:9000这样的格式
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, If-Modified-Since, X-Token') // 允许跨域请求header携带哪些东西
   // res.header('Access-Control-Allow-Headers', '*') // 有兼容问题,在IE下使用自定义header会报错，必须指定允许的header，例如上面的X-Token
@@ -36,7 +39,7 @@ app.all('*', (req, res, next) => {
   console.log(req.headers);
   console.log(req.cookies);
   // -----跨域请求----- 可用pp.use(allowCrossDomain)代替
-  res.header('Access-Control-Allow-Origin', ['http://192.168.0.113:5502']); // res.header('Access-Control-Allow-Origin', req.get('Origin')) // 允许的地址,http://127.0.0.1:9000这样的格式
+  res.header('Access-Control-Allow-Origin', req.get('Origin')) // 允许的地址,http://127.0.0.1:9000这样的格式
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, If-Modified-Since, X-Token') // 允许跨域请求header携带哪些东西
   // res.header('Access-Control-Allow-Headers', '*') // 有兼容问题,在IE下使用自定义header会报错，必须指定允许的header，例如上面的X-Token
