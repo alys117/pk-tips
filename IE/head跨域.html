@@ -20,7 +20,7 @@
         document.cookie = "hobby=" + escape('music123') + ";expires=" + exp.toGMTString+ ";path=/;domain=localhost:8080";
         if(window.XDomainRequest){
             var xhr = new XDomainRequest();
-            xhr.open('GET', 'http://localhost:8000/set-cookie', true);
+            xhr.open('GET', 'http://192.168.0.113:8000/set-cookie', true);
             // xhr.setRequestHeader('X-Token', '123') // XDomainRequest 不能设置请求头
             // xhr.withCredentials = true // XDomainRequest 不能设置withCredentials, 也就是不能设置cookie
             xhr.onload = function () {
@@ -29,7 +29,7 @@
             xhr.send()
         }else{
             var xhr = new XMLHttpRequest();
-            xhr.open('GET', 'http://localhost:8000/set-cookie', true);
+            xhr.open('GET', 'http://192.168.0.113:8000/set-cookie', true);
             xhr.setRequestHeader('X-Token', '123')
             xhr.withCredentials = true
             xhr.onload = function () {
