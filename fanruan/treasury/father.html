@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/tools.js"></script>
+    <script src="./js/json2.js"></script>
+</head>
+<body>
+    <!-- <iframe src="son.html" frameborder="0"></iframe> -->
+    <iframe src="http://localhost:8080/messageEvent.html" frameborder="0"></iframe>
+    <script>
+        new URL('http://localhost:8080/messageEvent.html')
+        if(window.addEventListener){
+            window.addEventListener('message',function(e){alert('ie11 ' + e.data)})
+        }else{
+            window.attachEvent('onmessage',function(e){alert('ie8 监听到message事件 '+e.data) })
+        }
+        alert(navigator.userAgent)
+    judgeJK('http://localhost:8080/redirectServlet')
+
+        
+    function judgeJK(url) {
+        if (IEVersion() == -1 || IEVersion() == 11) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', url, true)
+            xhr.setRequestHeader("JK-Token", '121212'); 
+            xhr.onload = function () {
+                alert(xhr.responseText)
+            }
+            xhr.send()
+        } else {
+          try{
+
+              var xdr = new XDomainRequest();
+              xdr.open('POST', url)
+              xdr.onload = function () {
+                  alert(xdr.responseText)
+              }
+              xdr.onerror = function(err){ alert(err) }
+              xdr.send()
+          }catch(e){
+            alert(e)
+          }
+        }
+    }
+    </script>
+</body>
+</html>

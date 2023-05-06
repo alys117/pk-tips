@@ -1,70 +1,100 @@
-var fakeuser = this.options.form.getWidgetByName("fakeuser").getValue();
-var url ='http://127.0.0.1:8080/webroot/ReportServer?sessionID=${sessionID}&op=export&&format=excel&extype=simple&account='+fakeuser+'&res='+encodeURIComponent('${reportName}');
-if (!window.loadflag) {
-  DynamciLoadUtil.loadCSS(
-    "/webroot/widgets/css/plugins/bootstrapModal/modal.min.css"
-  )
-  if (window.jQuery) {
-    DynamciLoadUtil.loadJS(
-      "/webroot/widgets/js/plugins/bootstrapModal/modal.min.js",
-      function () {
-        loadModal(url);
+<html>
+<head>
+    <title>模拟金库</title>
+    <meta charset="UTF-8">
+    <script src="./js/tools.js"></script>
+    <!-- <script src="./js/url-polyfill.js"></script> -->
+</head>
+<body>
+  <span id="token-in-sessionStorage"></span><br>
+  <input id="inputuser" type="text" value="wangyuanchao7"><br>
+  <button id="jkdownBtn">模拟金库下载</button>
+<script>
+    (function (){
+      var token1 = sessionStorage.getItem('token')
+      document.getElementById('token-in-sessionStorage').innerHTML = 'token-in-sessionStorage >> ' + token1
+    })()
+
+    
+    document.getElementById("jkdownBtn").onclick = function (ev) {
+      var inputuser = document.getElementById('inputuser').value
+      document.getElementById('inputuser').disabled = true
+      var url = 'http://127.0.0.1:8080/jkdownload?emu=1&account='+inputuser+'&format=excel&extype=simple&op=export&filename=demo.wav&cpt_path=templates/tools/download.cpt';
+      if(!window.loadflag){
+        DynamciLoadUtil.loadCSS("./css/bootstrapModal/modal.min.css");
+        if(window.jQuery){
+          DynamciLoadUtil.loadJS('./js/bootstrapModal/modal.min.js',function () {
+            loadModal(url);
+          });
+        } else{
+          DynamciLoadUtil.loadJS('./js/jquery-1.10.2.min.js',function () {
+            DynamciLoadUtil.loadJS('./js/bootstrapModal/modal.min.js',function () {
+              loadModal(url);
+            });
+          })
+        }
+      }else {
+        // $('#virtualIfm').attr('src',url);
+        // $("#myModal").modal('show'); // 先不显示模态框，在index.jsp中再调用js显示
+        judgeJK(url)
       }
-    )
-  } else {
-    DynamciLoadUtil.loadJS(
-      "/webroot/widgets/js/plugins/jquery-1.10.2.min.js",
-      function () {
-        DynamciLoadUtil.loadJS(
-          "/webroot/widgets/js/plugins/bootstrapModal/modal.min.js",
-          function () {
-            loadModal(url)
-          }
-        );
-      }
-    );
-  }
-} else {
-  // $("#myModal").modal('show'); // 先不显示模态框，在index.jsp中再调用js显示
-  judgeJK(url);
-}
-window.errorCount = 0
+    }
+
+
 function judgeJK(url) {
-  var xhr = (IEVersion()<10 && IEVersion() != -1)?new XDomainRequest():new XMLHttpRequest();
-  if(IEVersion() < 10 && sessionStorage.getItem("token")){
-    var urlwithToken = url+'&token='+sessionStorage.getItem("token")
-    xhr.open("POST", urlwithToken, true);
-  }else if(sessionStorage.getItem("token")){
-    xhr.open("POST", url, true);
-    xhr.setRequestHeader("JK-Token", sessionStorage.getItem("token")); //设置请求头
-  }else {
-    xhr.open("POST", url, true);
+  var xhr = window.XDomainRequest?new XDomainRequest():new XMLHttpRequest();
+  xhr.open("GET", url+'&_t='+new Date().getTime(), true);
+  if (sessionStorage.getItem("token")) {
+    try{
+      xhr.setRequestHeader("JK-Token", sessionStorage.getItem("token")); //设置请求头
+    }catch(e){
+      url += '&token='+sessionStorage.getItem("token")
+    }
   }
-  xhr.onerror = function(){
-    alert(IEVersion() + '  请求失败：' + url)
-  }
+
   xhr.onload = function () {
+    if(IEVersion() < 10 && xhr.contentType !== 'application/json' ){
+      console.log(99, xhr)
+      // navigator.msSaveBlob(blob, "11111.wav")
+      return
+    }
+
+    if((IEVersion() > 9 || IEVersion() == -1) && xhr.getResponseHeader("Content-type") !== 'application/json'){ // 只有本地模拟的时候才会走
+      try{
+        var dispoition = xhr.getResponseHeader("Content-Disposition") || "";
+        var nameStr = dispoition.split(";")[1] || "";
+        var fileName = nameStr.split("=")[1] || "";
+        // console.log(fileName, "乱码");
+        fileName = decodeURIComponent(escape(fileName));
+        var blob = new Blob([xhr.response]);
+        if(window.navigator.msSaveOrOpenBlob){ //ie11的情况
+          navigator.msSaveBlob(blob, fileName)
+        }else{
+          var a = document.createElement("a");
+          a.href = URL.createObjectURL(blob);
+          a.download = fileName; //a.download = '历史数据.xlsx';
+          a.click();
+          URL.revokeObjectURL(blob)
+        }
+        return
+      }catch(e){
+        alert('下载出错了')
+        return
+      }
+    }
+    
     try{
       var info = window.JSON?JSON.parse(xhr.responseText):eval('('+xhr.responseText+')');
       if (info.direct == "N") {
-        if(info.token){
-          sessionStorage.setItem("token", info.token)
-          $("#virtualIfm").attr("src", url+'&token=' + info.token);
-        }else{
-          sessionStorage.removeItem("token");
-          judgeJK(url)
-        }
+        sessionStorage.setItem("token", info.token)
+        $("#virtualIfm").attr("src", url+'&token=' + info.token);
       } else {
         donwBinary(url, sessionStorage.getItem("token"))
       }
     }catch(e){
+      // console.log(e);
       sessionStorage.removeItem("token");
-      if(window.errorCount == 3){
-        alert('金库验证失败，请联系系统管理员！')
-      }else{
-        window.errorCount++
-        alert('金库验证失败，请重试')
-      }
+      alert('金库时效过期，请重新请求资源')
     }
   };
   xhr.send()
@@ -161,7 +191,6 @@ function loadModal(url) {
     }
     if (msgObj.type === "delToken") {
       sessionStorage.removeItem("token");
-      $("#myModal").modal("show");
     }
   });
   }else{
@@ -187,7 +216,6 @@ function loadModal(url) {
     }
     if (msgObj.type === "delToken") {
       sessionStorage.removeItem("token");
-      $("#myModal").modal("show");
     }
   });
   }
@@ -199,3 +227,6 @@ function loadModal(url) {
   }
   window.loadflag = true;
 }
+ </script>
+</body>
+</html>

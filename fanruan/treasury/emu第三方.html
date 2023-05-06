@@ -1,0 +1,30 @@
+<html>
+<head>
+    <title>模拟金库</title>
+    <meta charset="UTF-8">
+    <script src="./js/tools.js"></script>
+</head>
+<body>
+  <span id="token-in-sessionStorage"></span><br>
+  <input id="inputuser" type="text" value="wangyuanchao7"><br>
+  <button id="jkdownBtn">模拟金库下载</button>
+<script>
+    (function (){
+      var token1 = sessionStorage.getItem('token')
+      document.getElementById('token-in-sessionStorage').innerHTML = 'token-in-sessionStorage >> ' + token1
+    })()
+
+    
+    document.getElementById("jkdownBtn").onclick = function (ev) {
+      var inputuser = document.getElementById('inputuser').value
+      document.getElementById('inputuser').disabled = true
+      var url = location.origin +'/fanruan/jk/demo.wav?&account='+inputuser+'&cpt_path=templates/tools/download.cpt';
+      /** 
+       *  下面的startJkFake(url)只是模拟一下，线上使用 startJK(url)
+       * 
+      */
+      startJkFake(url)
+    }   
+ </script>
+</body>
+</html>

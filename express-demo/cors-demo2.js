@@ -21,6 +21,7 @@ var allowCrossDomain = function(req, res, next) {
 app.all('/set-cookie', (req, res, next) => {
   res.cookie("user", "jay", { maxAge: 2000000, httpOnly: true });
   if( req.headers.origin == 'http://192.168.0.113:5502' || req.headers.origin == 'http://localhost:5502' || req.headers.origin == 'http://127.0.0.1:5502' ){ 
+    console.log('req.headers.origin :>> ', req.headers.origin);
     res.header('Access-Control-Allow-Origin', req.headers.origin); 
   }
   // res.header('Access-Control-Allow-Origin', req.get('Origin')) // 允许的地址,http://127.0.0.1:9000这样的格式
@@ -37,8 +38,9 @@ app.all('/set-cookie', (req, res, next) => {
 // app.use(allowCrossDomain); // 可代替 cors 模块
 app.all('*', (req, res, next) => {
   console.log(req.headers);
-  console.log(req.cookies);
+  console.log(req.method,req.cookies);
   // -----跨域请求----- 可用pp.use(allowCrossDomain)代替
+  console.log('req.get("Origin") :>> ', req.get('Origin'));
   res.header('Access-Control-Allow-Origin', req.get('Origin')) // 允许的地址,http://127.0.0.1:9000这样的格式
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, If-Modified-Since, X-Token') // 允许跨域请求header携带哪些东西

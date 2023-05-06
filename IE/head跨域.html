@@ -41,14 +41,14 @@
     function getCookie() {
         if(window.XDomainRequest){
             var xhr = new XDomainRequest(); // XDomainRequest 不能设置请求头
-            xhr.open('GET', 'http://localhost:8000/api', true);
+            xhr.open('GET', 'http://192.168.0.113:8000/api', true);
             xhr.onload = function () {
                 alert(xhr.responseText)
             }
             xhr.send()
         }else{
             var xhr = new XMLHttpRequest();
-            xhr.open('GET', 'http://localhost:8000/api', true);
+            xhr.open('GET', 'http://192.168.0.113:8000/api', true);
             xhr.setRequestHeader('X-Token', '123')
             xhr.withCredentials = true
             xhr.onload = function () {

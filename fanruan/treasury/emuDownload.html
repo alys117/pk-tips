@@ -1,107 +1,151 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>模拟金库</title>
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
     <script src="./js/tools.js"></script>
-    <script src="./js/url-polyfill.min.js"></script>
 </head>
 <body>
   <span id="token-in-sessionStorage"></span><br>
   <input id="inputuser" type="text" value="wangyuanchao7"><br>
   <button id="jkdownBtn">模拟金库下载</button>
 <script>
-    (function (){
-      var token1 = sessionStorage.getItem('token')
-      document.getElementById('token-in-sessionStorage').innerHTML = 'token-in-sessionStorage >> ' + token1
-    })()
+  (function (){
+    var token1 = sessionStorage.getItem('token')
+    document.getElementById('token-in-sessionStorage').innerHTML = 'token-in-sessionStorage >> ' + token1
+  })()
 
-    
-    document.getElementById("jkdownBtn").onclick = function (ev) {
-      var inputuser = document.getElementById('inputuser').value
-      document.getElementById('inputuser').disabled = true
-      var url = 'http://localhost:8080/jkdownload?emu=1&account='+inputuser+'&format=excel&extype=simple&op=export&filename=demo.wav&cpt_path=templates/tools/download.cpt';
-      if(!window.loadflag){
-        DynamciLoadUtil.loadCSS("./css/bootstrapModal/modal.min.css");
-        if(window.jQuery){
+  document.getElementById("jkdownBtn").onclick = function (ev) {
+    var inputuser = document.getElementById('inputuser').value
+    document.getElementById('inputuser').disabled = true
+    var url = 'http://localhost:8080/jkdownload?emu=1&account='+inputuser+'&format=excel&extype=simple&op=export&filename=demo.wav&cpt_path=templates/tools/download.cpt';
+    if(!window.loadflag){
+      DynamciLoadUtil.loadCSS("./css/bootstrapModal/modal.min.css");
+      if(window.jQuery){
+        DynamciLoadUtil.loadJS('./js/bootstrapModal/modal.min.js',function () {
+          loadModal(url);
+        });
+      } else{
+        DynamciLoadUtil.loadJS('./js/jquery-1.10.2.min.js',function () {
           DynamciLoadUtil.loadJS('./js/bootstrapModal/modal.min.js',function () {
             loadModal(url);
           });
-        } else{
-          DynamciLoadUtil.loadJS('./js/jquery-1.10.2.min.js',function () {
-            DynamciLoadUtil.loadJS('./js/bootstrapModal/modal.min.js',function () {
-              loadModal(url);
-            });
-          })
-        }
-      }else {
-        // $('#virtualIfm').attr('src',url);
-        // 先不显示模态框，在index.jsp中再调用js显示
-        // $("#myModal").modal('show');
-        console.log('已经加载了modal');
-        judgeJK(url)
+        })
       }
+    }else {
+      // $('#virtualIfm').attr('src',url);
+      // 先不显示模态框，在index.jsp中再调用js显示
+      // $("#myModal").modal('show');
+      judgeJK(url)
     }
+  }
 
 
 function judgeJK(url) {
   var xhr = new XMLHttpRequest();
-  xhr.open("POST", url, true);
+  if(window.XDomainRequest) xhr = new XDomainRequest()
   if (sessionStorage.getItem("token")) {
-    xhr.setRequestHeader("JK-Token", sessionStorage.getItem("token")); //设置请求头
+    try{
+      xhr.setRequestHeader("JK-Token", sessionStorage.getItem("token")); //设置请求头
+    }catch(e){
+      url += '&token='+sessionStorage.getItem("token")
+    }
   }
+  
+  xhr.open('POST', url, true)
   xhr.onload = function () {
-    if (xhr.status == 200) {
-      if( xhr.getResponseHeader("Content-type") == 'application/octet-stream'){ // 
-        const dispoition = xhr.getResponseHeader("Content-Disposition") || "";
-        const nameStr = dispoition.split(";")[1] || "";
-        let fileName = nameStr.split("=")[1] || "";
-        console.log(fileName, "乱码");
-        fileName = decodeURIComponent(escape(fileName));
-        const blob = new Blob([xhr.response]);
-        const a = document.createElement("a");
-        a.href = URL.createObjectURL(blob);
-        a.download = fileName; //a.download = '历史数据.xlsx';
-        a.click();
-        return
-      }
-      
+    alert(xhr.responseText)
+    if (xhr.status && xhr.status == 200) {
+      // if( xhr.getResponseHeader("Content-type") == 'application/octet-stream'){ // 
+      //   var dispoition = xhr.getResponseHeader("Content-Disposition") || "";
+      //   var nameStr = dispoition.split(";")[1] || "";
+      //   var fileName = nameStr.split("=")[1] || "";
+      //   // console.log(fileName, "乱码");
+      //   fileName = decodeURIComponent(escape(fileName));
+      //   var blob = new Blob([xhr.response]);
+      //   var a = document.createElement("a");
+      //   a.href = URL.createObjectURL(blob);
+      //   a.download = fileName; //a.download = '历史数据.xlsx';
+      //   a.click();
+      //   return
+      // }
+
       //监听HTTP状态码
-      try{
-        var info = JSON.parse(xhr.responseText);
+      try {
+        var info = {};
+        if (JSON) {
+          info = JSON.parse(xhr.responseText);
+        } else {
+          info = eval('(' + xhr.responseText + ')')
+        }
+        alert(info)
         if (info.direct == "N") {
           sessionStorage.setItem("token", info.token)
-          $("#virtualIfm").attr("src", url+'&token=' + info.token);
+          // $("#virtualIfm").attr("src", url + '&token=' + info.token);
+        } else {
+          // donwBinary(url, sessionStorage.getItem("token"))
+        }
+      } catch (e) {
+        sessionStorage.removeItem("token");
+        alert('金库时效过期，请重新请求资源')
+      }
+    }else{
+      try{
+        var info = {};
+        if (JSON) {
+          info = JSON.parse(xhr.responseText);
+        } else {
+          info = eval('(' + xhr.responseText + ')')
+        }
+        alert(info)
+        if (info.direct == "N") {
+          sessionStorage.setItem("token", info.token)
+          $("#virtualIfm").attr("src", url + '&token=' + info.token);
         } else {
           donwBinary(url, sessionStorage.getItem("token"))
         }
-      }catch(e){
-        console.log(e);
+      } catch (e) {
         sessionStorage.removeItem("token");
         alert('金库时效过期，请重新请求资源')
       }
     }
-  };
+  }
   xhr.send()
 }
 
 function donwBinary(url, token) {
   if (!url) return;
-  var realUrl = new URL(url);
-  realUrl.host = location.host; 
+  try{
+    realUrl = new URL(url);
+    realUrl.host = location.host;
+  }catch(e){
+    // console.log(e)
+    var reg = /^http(s)?:\/\/(.*?)\//
+    realUrl = realUrl.replace(reg, location.origin + '/')
+
+    var ifm = document.createElement('iframe')
+    ifm.style.display = 'none'
+    ifm.style.height = 0
+    ifm.src = realUrl
+    document.body.appendChild(ifm)
+    setTimeout(function(){ document.body.removeChild(ifm) },12000)
+    return
+  }
   if(url.indexOf('emu=1') >0){
     realUrl.host = 'localhost:8080';
   }
   if(getBrowser() == 'IE'){
-    var ifm = document.createElement('iframe');
-    ifm.style.display = 'none';
+    var ifm = document.createElement('iframe')
+    ifm.style.display = 'none'
     ifm.style.height = 0
-    ifm.src = realUrl;
-    document.body.appendChild(ifm);
-    setTimeout(function () {
-      ifm.remove()
-    }, 60000)
+    ifm.src = realUrl
+    document.body.appendChild(ifm)
+    setTimeout(function(){ ifm.remove() },120000)
     return
   }
+
   var xhr = new XMLHttpRequest();
   xhr.open("POST", realUrl, true);
   xhr.responseType = "blob"; // 返回类型blob
@@ -110,13 +154,13 @@ function donwBinary(url, token) {
   }
   xhr.onload = function () {
     if (xhr.status === 200) {
-      const dispoition = xhr.getResponseHeader("Content-Disposition") || "";
-      const nameStr = dispoition.split(";")[1] || "";
-      let fileName = nameStr.split("=")[1] || "";
-      console.log(fileName, "乱码");
+      var dispoition = xhr.getResponseHeader("Content-Disposition") || "";
+      var nameStr = dispoition.split(";")[1] || "";
+      var fileName = nameStr.split("=")[1] || "";
+      // console.log(fileName, "乱码");
       fileName = decodeURIComponent(escape(fileName));
-      const blob = new Blob([xhr.response]);
-      const a = document.createElement("a");
+      var blob = new Blob([xhr.response]);
+      var a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
       a.download = fileName; //a.download = '历史数据.xlsx';
       a.click();
@@ -125,7 +169,7 @@ function donwBinary(url, token) {
     }
   };
   // 发送ajax请求
-  xhr.send(JSON.stringify({ type: "binary" }));
+  xhr.send('{"type":"binary"}');
 }
 
 function loadModal(url) {
@@ -148,8 +192,14 @@ function loadModal(url) {
   // 先不显示模态框，如果filter中跳转金库index.jsp后，再在index.jsp中再调用js显示
   //$("#myModal").modal('show');
 
-  window.addEventListener("message", function (e) {
-    var msgObj = JSON.parse(e.data);
+  if( window.addEventListener ) {
+    window.addEventListener("message", function (e) {
+    var msgObj = {}
+    if(JSON){
+      msgObj = JSON.parse(e.data);
+    }else{
+      msgObj = eval('('+e.data+')')
+    }
     if (msgObj.type === "close") {
       $("#_close").click();
     }
@@ -157,7 +207,7 @@ function loadModal(url) {
       $("#myModalLabel").html(msgObj.myModalLabel);
     }
     if (msgObj.src) {
-      console.log("msgObj", msgObj);
+      // console.log("msgObj", msgObj);
       if (msgObj.token) {
         sessionStorage.setItem("token", msgObj.token);
       }
@@ -173,6 +223,39 @@ function loadModal(url) {
       sessionStorage.removeItem("token");
     }
   });
+  }else{
+    window.attachEvent("onmessage", function (e) {
+    var msgObj = {}
+    if(JSON){
+      msgObj = JSON.parse(e.data);
+    }else{
+      msgObj = eval('('+e.data+')')
+    }
+    alert(msgObj)
+    if (msgObj.type === "close") {
+      $("#_close").click();
+    }
+    if (msgObj.myModalLabel) {
+      $("#myModalLabel").html(msgObj.myModalLabel);
+    }
+    if (msgObj.src) {
+      // console.log("msgObj", msgObj);
+      if (msgObj.token) {
+        sessionStorage.setItem("token", msgObj.token);
+      }
+      donwBinary(location.origin + msgObj.src, msgObj.token);
+    }
+    if (msgObj.type === "hide") {
+      $("#myModal").modal("hide");
+    }
+    if (msgObj.type === "show") {
+      $("#myModal").modal("show");
+    }
+    if (msgObj.type === "delToken") {
+      sessionStorage.removeItem("token");
+    }
+  });
+  }
   if (!window.loadflag) {
     $("#_close").click(function () {
       $("#myModal").modal("hide");
@@ -181,6 +264,6 @@ function loadModal(url) {
   }
   window.loadflag = true;
 }
- </script>
+</script>
 </body>
 </html>
