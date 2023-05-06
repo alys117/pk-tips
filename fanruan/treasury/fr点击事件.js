@@ -31,7 +31,7 @@ if (!window.loadflag) {
 window.errorCount = 0
 function judgeJK(url) {
   var xhr = (IEVersion()<10 && IEVersion() != -1)?new XDomainRequest():new XMLHttpRequest();
-  if(IEVersion() < 10 && sessionStorage.getItem("token")){
+  if( (IEVersion() < 10 && IEVersion() > -1) && sessionStorage.getItem("token")){
     var urlwithToken = url+'&token='+sessionStorage.getItem("token")
     xhr.open("POST", urlwithToken, true);
   }else if(sessionStorage.getItem("token")){
@@ -55,7 +55,7 @@ function judgeJK(url) {
           judgeJK(url)
         }
       } else {
-        donwBinary(url, sessionStorage.getItem("token"))
+        downBinary(url, sessionStorage.getItem("token"));
       }
     }catch(e){
       sessionStorage.removeItem("token");
@@ -70,11 +70,11 @@ function judgeJK(url) {
   xhr.send()
 }
 
-function  donwBinary(url, token) {
+function  downBinary(url, token) {
   if (!url) return;
   var realUrl = url
   var fake = location.host
-  if(url.indexOf('emu=1') >0){
+  if(url.indexOf('emu') >0){
     fake = 'localhost:8080';
   }
   try{
@@ -151,7 +151,7 @@ function loadModal(url) {
       if (msgObj.token) {
         sessionStorage.setItem("token", msgObj.token);
       }
-      donwBinary(location.origin + msgObj.src, msgObj.token);
+      downBinary(location.origin + msgObj.src, msgObj.token);
     }
     if (msgObj.type === "hide") {
       $("#myModal").modal("hide");
@@ -177,7 +177,7 @@ function loadModal(url) {
       if (msgObj.token) {
         sessionStorage.setItem("token", msgObj.token);
       }
-      donwBinary(location.protocol+'//'+location.host + msgObj.src, msgObj.token);
+      downBinary(location.protocol+'//'+location.host + msgObj.src, msgObj.token);
     }
     if (msgObj.type === "hide") {
       $("#myModal").modal("hide");
