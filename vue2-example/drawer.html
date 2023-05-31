@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./elementui/index.css" />
+    <link
+      rel="stylesheet"
+      href="./highlight.js/styles/github-dark-dimmed.min.css"
+    />
+    <style>
+      .el-drawer__header {
+        color: #72767b;
+        margin-bottom: 0;
+        padding: 0 0 0 5px;
+        background: #22272e;
+        color: white;
+      }
+      .el-drawer__body {
+        background: #22272e;
+      }
+      .contanier {
+        position: fixed;
+        cursor: pointer;
+        bottom: 100px;
+        left: 100px;
+        width: 50px;
+        height: 50px;
+        background: #409EFF;
+        border-radius: 50%;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        text-align: center;
+        line-height: 50px;
+        font-size: 26px;
+        color: aliceblue;
+      }
+    </style>
+  </head>
+
+  <body>
+    <script src="./vue2/2.7.14.js"></script>
+    <script src="./elementui/index.js"></script>
+    <script src="./axios/1.1.2.js"></script>
+    <script src="./highlight.js/highlight.min.js"></script>
+    <script>
+      var app = document.createElement("div");
+      app.id = "app";
+      app.innerHTML = `
+          <div class="contanier" @click="openDrawer" v-drag1>?</div>
+          <el-button @click="openDrawer">a</el-button>
+          <div>fdsfdsfdsfdsfs</div>
+          <el-drawer
+            :title="title"
+            :visible.sync="drawer"
+            :with-header="true"
+            :direction="direction"
+            :size="'40%'"
+            :before-close="handleClose"
+          >
+            <div style="font-size:16px"><pre><code>{{code}}</code><pre></div>
+          </el-drawer>`;
+      document.body.appendChild(app);
+      new Vue({
+        el: "#app",
+        data() {
+          return {
+            code: "",
+            title: "模板路径：",
+            drawer: false,
+            direction: "rtl",
+          };
+        },
+        methods: {
+          openDrawer() {
+            this.drawer = true;
+            this.$nextTick(() => {
+              hljs.highlightAll();
+            });
+          },
+          handleClose(done) {
+            done();
+          },
+        },
+        // 自定义指令 —— 拖动div
+        directives: {
+          drag(el) {
+            console.log(el);
+            let oDiv = el; // 当前元素
+            // let self = this // 上下文
+            // 禁止选择网页上的文字
+            document.onselectstart = function () {
+              return false;
+            };
+            oDiv.onmousedown = function (e) {
+              // 鼠标按下，计算当前元素距离可视区的距离
+              let disX = e.clientX - oDiv.offsetLeft;
+              let disY = e.clientY - oDiv.offsetTop;
+              document.onmousemove = function (e) {
+                // 通过事件委托，计算移动的距离
+                let l = e.clientX - disX;
+                let t = e.clientY - disY;
+                // 移动当前元素
+                oDiv.style.left = l + "px";
+                oDiv.style.top = t + "px";
+              };
+              document.onmouseup = function (e) {
+                document.onmousemove = null;
+                document.onmouseup = null;
+              };
+              // return false不加的话可能导致黏连，就是拖到一个地方时div粘在鼠标上不下来，相当于onmouseup失效
+              return false;
+            };
+          },
+        },
+        mounted() {
+          axios({ url: "http://localhost:8080/datasets?path=demo.cpt" }).then(
+            (res) => {
+              console.log(res.data);
+              this.title += res.data.path;
+              this.code = res.data.detail + res.data.detail + res.data.detail;
+            }
+          );
+        },
+        created: function () {
+          console.log("created");
+        },
+      });
+    </script>
+  </body>
+</html>

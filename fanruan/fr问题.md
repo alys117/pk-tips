@@ -52,4 +52,8 @@ https://github.com/redisson/redisson/tree/master/redisson-tomcat
 ### 20、https登录问题
 ### 21、如何开发一个插件
 
-
+### 22、 oem 同步插件问题
+1. 插件同步要做到服务器删除插件，更新，新增，设计器端要同步处理，不能只是新增插件的时候同步
+2. oem软件安装完成后，webroot/WEB-INF/下的jar报表会和服务器端的jar包重复，比如mysql的驱动包，同时存在两个版本：5.1.49（软件自带），8.0.27（服务器端）
+3. 插件一致性检测
+![image](../static/img/插件一致性检测.png)
