@@ -71,7 +71,7 @@
                           inactive-text="">
                         </el-switch>
                         <el-switch
-                          @change="aaa()"
+                          @change="revert()"
                           v-model="direct"
                           active-text="反向操作"
                           inactive-text="">
@@ -212,16 +212,17 @@
               children: "children",
               label: "label",
               isLeaf: "isLeaf",
-              disabled: function (data, node) {
-                if (
-                  (data.children && data.children.length > 0) ||
-                  data.type == "dictionary"
-                ) {
-                  return !this.direct;
-                } else {
-                  return this.diecct;
-                }
-              },
+              // disabled: function (data, node) {
+              //   if (
+              //     (data.children && data.children.length > 0) ||
+              //     data.type == "dictionary"
+              //   ) {
+              //     return !this.direct;
+              //   } else {
+              //     return this.diecct;
+              //   }
+              // },
+              disabled: 'disabled'
             },
             defaultProps2: {
               children: "children",
@@ -237,6 +238,7 @@
               //     return !this.diecct;
               //   }
               // },
+              disabled: 'disabled'
             },
           }
         },
@@ -270,9 +272,21 @@
           },
         },
         methods: {
-          aaa(){
-            this.getRemoteTree(0)
-            this.getRemoteTree(1)
+          revert(){
+            function _revert(arr, type){
+              arr.forEach(item => {
+                if(item.type === type){
+                  item.disabled = true
+                }else{
+                  item.disabled = false
+                }
+                if(item.children && item.children.length > 0){
+                  _revert(item.children);
+                }
+              });
+            }
+            _revert(this.data2, 'dictionary')
+            _revert(this.data, 'file')
           },
           renderContent(h, { node, data, store }) {
             // return (
