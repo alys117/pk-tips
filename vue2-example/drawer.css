@@ -1,0 +1,277 @@
+#app ::-webkit-scrollbar {
+  width: 13px;
+  height: 13px;
+  background-color: #871111;
+}
+/*定义滚动条轨道内阴影+圆角*/
+#app ::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  /* border-radius: 10px; */
+  background-color: #440505;
+}
+#app ::-webkit-scrollbar-corner {
+  background-color: #555;
+}
+/* 内层轨道样式 */
+#app ::-webkit-scrollbar-track-piece {
+  background-color: #440505;
+}
+/*定义滑块内阴影+圆角*/
+#app ::-webkit-scrollbar-thumb {
+  /* border-radius: 10px; */
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #555;
+}
+/* 
+.drawer-drag-move-trigger {
+  text-align: center;
+  width: 100px;
+  height: 8px;
+  line-height: 15px;
+  position: absolute;
+  top: 0px !important;
+  background: #f3f3f3;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  border-radius: 4px;
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+.drawer-drag-move-trigger-point {
+  width: 100px;
+  height: 10px;
+  position: absolute;
+  left: 50%;
+  top: 0px;
+  transform: translateX(-50%);
+  background: #fff;
+  color: #f3f3f3;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  text-align: center;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+.menu {
+  width: 1px;
+  height: 4px;
+  background: #ccc;
+  background: red;
+  display: block;
+  margin: 3px 1px 0;
+} 
+*/
+
+.el-drawer__header {
+  color: #72767b;
+  margin-bottom: 0;
+  padding: 10px;
+  background: #22272e;
+  color: #adbac7;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.el-drawer__body {
+  background: #22272e;
+}
+.contanier {
+  position: fixed;
+  cursor: pointer;
+  bottom: 100px;
+  left: 100px;
+  width: 50px;
+  height: 50px;
+  background: #409eff;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  line-height: 50px;
+  font-size: 26px;
+  color: aliceblue;
+  user-select: none;
+}
+
+pre code.hljs {
+  /* height: calc(100vh - 8.7em); */
+}
+
+#app .form {
+  color: #adbac7;
+  padding: 0 0 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+#app .form .form-item {
+  padding: 5px;
+  outline: none;
+  border: 1px solid #adbac7;
+  background: #22272e;
+  color: #adbac7;
+  cursor: pointer;
+}
+
+.el-collapse {
+  border-top: none;
+}
+.el-collapse-item__wrap {
+  border-bottom: none;
+}
+.el-collapse-item__content {
+  padding-bottom: 0;
+}
+.el-collapse-item__header {
+  padding-left: 20px;
+  /* background-color: #22272e; */
+  background-color: #373b3f;
+  color: #adbac7;
+  cursor: pointer;
+  border: none;
+}
+.simple-sync {
+  background: #22272e;
+  display: flex;
+  gap: 20px;
+  padding: 0 20px;
+  align-items: center;
+}
+.tongbu {
+  color: #adbac7;
+  background: #22272e;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+/* .el-tree > .el-tree-node {
+  min-width: 100%;
+  display: inline-block;
+} */
+
+.element-tree-node-line-ver {
+  border-left: 1px dashed #656d7c;
+}
+.element-tree-node-line-hor {
+  border-bottom: 1px dashed #656d7c;
+}
+
+.tongbu .el-tree {
+  display: inline-block;
+  min-width: 100%;
+  /* height: calc(100vh - 47px); */
+  /* background-color: #012a54; */
+  background-color: #22272e;
+  color: #adbac7;
+}
+
+.tongbu .el-tree-node__label {
+  font-size: 14px;
+}
+.el-tree-node > .el-tree-node__content {
+  height: 20px;
+}
+.tongbu .el-tree-node:focus > .el-tree-node__content {
+  background-color: #795da3;
+  padding-right: 5px;
+}
+
+.el-tree-node__content:hover {
+  background-color: #0099dd;
+  padding-right: 5px;
+}
+
+.tongbu
+  .el-tree--highlight-current
+  .el-tree-node.is-current
+  > .el-tree-node__content {
+  background-color: #003d7d;
+  padding-right: 5px;
+}
+
+.tongbu .el-tree .el-checkbox__inner {
+  border: 1px solid #adbac7;
+  background-color: #f1f1f1;
+}
+.tongbu .el-tree .el-checkbox__input.is-disabled .el-checkbox__inner {
+  background-color: #adbac7;
+}
+.tongbu .el-tree .el-checkbox__input.is-checked .el-checkbox__inner,
+.tongbu .el-tree .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+  background-color: #409eff;
+  border-color: #409eff;
+}
+
+/* 下面两条是只显示叶子节点的chechbox框 */
+.tongbu.file .el-tree-node .is-leaf + .el-checkbox .el-checkbox__inner {
+  display: inline-block;
+}
+.tongbu.file .el-tree-node .el-checkbox .el-checkbox__inner {
+  display: none;
+}
+/* 下面两条是只显示叶子节点的chechbox框end */
+/* 与上面相反 非叶子节点chechbox框 */
+.tongbu.directory .el-tree-node .is-leaf + .el-checkbox .el-checkbox__inner {
+  display: none;
+}
+.tongbu.directory .el-tree-node .el-checkbox .el-checkbox__inner {
+  display: inline-block;
+}
+/* 与上面相反 非叶子节点chechbox框end */
+.tongbu .custom-tree-node {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  padding-right: 8px;
+}
+
+/* ._tree-menu {
+  height: calc(100vh - 250px);
+  overflow: auto;
+} */
+
+.search-container {
+  padding-top: 5px;
+  display: flex;
+  background-color: #22272e;
+}
+.search-text-left {
+  flex: 1;
+  padding: 5px;
+  display: flex;
+}
+.search-text-right {
+  flex: 1;
+  padding: 5px;
+  display: flex;
+  gap: 10px;
+}
+
+#app .el-input__inner {
+  background-color: #22272e;
+  border-radius: 16px;
+  border: 1px solid #adbac7;
+  color: #adbac7;
+  height: 32px;
+  line-height: 32px;
+}
+#app .el-input__icon {
+  line-height: 32px;
+}
+
+.el-switch__label {
+  color: #adbac7;
+}
+
+.common {
+  background-color: #22272e;
+  padding: 0 20px;
+}
+
+#app input::placeholder {
+  color: #a1a1a1;
+}
