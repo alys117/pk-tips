@@ -75,6 +75,7 @@
 }
 .el-drawer__body {
   background: #22272e;
+  overflow-y: scroll;
 }
 .contanier {
   position: fixed;
@@ -117,6 +118,7 @@ pre code.hljs {
 
 .el-collapse {
   border-top: none;
+  border-bottom: none;
 }
 .el-collapse-item__wrap {
   border-bottom: none;

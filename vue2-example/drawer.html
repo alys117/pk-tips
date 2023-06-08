@@ -60,14 +60,19 @@
                     </div>
                   </div>
                   <br>
-                  <el-collapse v-model="activeNames" @change="handleChange">
+                  <el-collapse v-model="activeNames" @change="handleChange" 
+                    v-loading="loading"
+                    element-loading-text="加载中......"
+                    element-loading-spinner="el-icon-loading"
+                    element-loading-background="rgba(0, 0, 0, 0.8)"
+                  >
                     <el-collapse-item title="同步cpt" name="1">
                       <div class="simple-sync">
-                        <el-button type="text">直接同步</el-button>
+                        <el-button type="text" @click="doSCP0">直接同步</el-button>
                         <el-switch
-                          @change="advanced = !advanced;getTree()"
+                          @change="getAllTrees()"
                           v-model="advancedFlag"
-                          active-text="高级"
+                          active-text="高级选项"
                           inactive-text="">
                         </el-switch>
                         <el-switch
@@ -87,42 +92,60 @@
                       </div>
                       <div class="search-container" v-if="advanced">
                         <div class="search-text-left">
-                          <el-button type="text" icon="el-icon-right" size="mini" @click="sendToProd" :disabled="direct">同步到生产</el-button>
+                          <el-button type="text" icon="el-icon-right" size="mini" @click="doSCP" :disabled="direct">同步到生产</el-button>
                           <el-button type="text" size="mini" @click="getRemoteTree(0)">刷新</el-button>
                           <el-button type="text" size="mini" @click="collapseAll('tree')">收起</el-button>
                         </div>
                         <div class="search-text-right">
-                          <el-button type="text" icon="el-icon-back" size="mini" :disabled="!direct">同步到测试</el-button>
+                          <el-button type="text" icon="el-icon-back" size="mini" @click="doSCP" :disabled="!direct">同步到测试</el-button>
                           <el-button type="text" size="mini" @click="getRemoteTree(1)">刷新</el-button>
                           <el-button type="text" size="mini" @click="collapseAll('tree2')">收起</el-button>
                         </div>
                       </div>
-                      <div style="display: flex" v-if="advanced">
+                      <div style="display: flex" v-show="advanced">
                         <div :class="{tongbu: true, file: !direct, directory: direct}" style="flex:1">
-                          <el-tree ref="tree" node-key="id" :data="data" :props="defaultProps" :check-strictly="true" show-checkbox @check-change="handleCheckChange" :filter-node-method="filterNode" @node-click="handleNodeClick">
+                          <el-tree ref="tree" node-key="id" :data="data" :props="defaultProps" :check-strictly="true" show-checkbox 
+                            @check-change="(data,checked,indeterminate)=>handleCheckChange(data,checked,indeterminate,'tree')" 
+                            :filter-node-method="filterNode" @node-click="(data,node,tree)=>handleNodeClick(data,node,tree,'tree')"
+                          >
                             <span class="custom-tree-node" slot-scope="{ node, data }">
-                              <span :class="{ yoyo: data.type == 'file'? true : false  }">{{ node.label }}</span>
-                              <span v-if="direct">
-                                <el-button
+                              <span>{{ node.label }}</span>
+                              <span>
+                                <el-button v-if="data.type === 'directory' && direct"
                                   type="text"
                                   size="mini"
-                                  @click="() => append(data)">
+                                  @click.stop="() => append(data)">
                                   Append
+                                </el-button>
+                                <el-button v-if="data.type === 'file'"
+                                  type="text"
+                                  size="mini"
+                                  @click.stop="() => view(data, 'dev')">
+                                  view
                                 </el-button>
                               </span>
                             </span>
                           </el-tree>
                         </div>
                         <div :class="{tongbu: true, file: direct, directory: !direct}" style="flex:1">
-                          <el-tree ref="tree2" node-key="id" :data="data2" :props="defaultProps2" :check-strictly="true" show-checkbox @check-change="handleCheckChange" :filter-node-method="filterNode" @node-click="handleNodeClick">
+                          <el-tree ref="tree2" node-key="id" :data="data2" :props="defaultProps2" :check-strictly="true" show-checkbox 
+                            @check-change="(data,checked,indeterminate)=>handleCheckChange(data,checked,indeterminate,'tree2')" 
+                            :filter-node-method="filterNode" @node-click="(data,node,tree)=>handleNodeClick(data,node,tree,'tree2')"
+                          >
                             <span class="custom-tree-node" slot-scope="{ node, data }">
                               <span>{{ node.label }}</span>
-                              <span v-if="!direct">
-                                <el-button
+                              <span>
+                                <el-button v-if="data.type === 'directory' && !direct"
                                   type="text"
                                   size="mini"
-                                  @click="() => append(data)">
+                                  @click.stop="() => append(data)">
                                   Append
+                                </el-button>
+                                <el-button v-if="data.type === 'file'"
+                                  type="text"
+                                  size="mini"
+                                  @click.stop="() => view(data, 'prod')">
+                                  view
                                 </el-button>
                               </span>
                             </span>
@@ -135,7 +158,7 @@
                         <span>数据集&nbsp;&nbsp;</span><i class="header-icon el-icon-info"></i>
                       </template>
                       <div class="common"><el-button type="text" @click="getXML(null)">查看当前模板数据集</el-button></div>
-                      <div style="font-size:16px;margin:-16px 0;"><pre><code>{{code}}</code><pre></div>
+                      <div style="font-size:16px;margin:-16px 0;" ref="source"><pre><code>{{code}}</code></pre></div>
                     </el-collapse-item>
                   </el-collapse>
                 </el-drawer>`;
@@ -156,6 +179,19 @@
         });
         return arr;
       };
+      function _revert(arr, type){
+        arr.forEach(item => {
+          if(item.type === type){
+            item.disabled = true
+          }else{
+            item.disabled = false
+          }
+          if(item.children && item.children.length > 0){
+            _revert(item.children, type);
+          }
+        });
+        return arr
+      }
       function debounce(func, wait, immediate) {
         let timeout, args, context, timestamp, result;
         const later = function () {
@@ -187,7 +223,7 @@
           return result;
         };
       }
-      let id = 1000;
+      let id = 1000000;
       new Vue({
         el: "#app",
         data() {
@@ -203,11 +239,12 @@
             code: "",
             title: "当前模板路径：",
             path: "",
+            loading: false,
             drawer: false,
             direction: "rtl",
             activeNames: ["1"],
-            data: [],
-            data2: [],
+            data: [], // 测试环境树结构
+            data2: [], // 生产环境树结构
             defaultProps: {
               children: "children",
               label: "label",
@@ -273,20 +310,18 @@
         },
         methods: {
           revert(){
-            function _revert(arr, type){
-              arr.forEach(item => {
-                if(item.type === type){
-                  item.disabled = true
-                }else{
-                  item.disabled = false
-                }
-                if(item.children && item.children.length > 0){
-                  _revert(item.children);
-                }
-              });
+            if(!this.data || !this.data2 || !this.data.length || !this.data2.length ){
+              return
             }
-            _revert(this.data2, 'dictionary')
-            _revert(this.data, 'file')
+            this.$refs.tree.setCheckedNodes([])
+            this.$refs.tree2.setCheckedNodes([])
+            if(!this.direct){
+              _revert(this.data, 'directory')
+              _revert(this.data2, 'file')
+            }else{
+              _revert(this.data2, 'directory')
+              _revert(this.data, 'file')
+            } 
           },
           renderContent(h, { node, data, store }) {
             // return (
@@ -297,8 +332,80 @@
             //     </span>
             //   </span>);
           },
-          sendToProd() {
-            console.log(this.$refs.tree.getCheckedNodes());
+          async doSCP() {
+            if(!this.$refs.tree.getCheckedNodes().length){
+              this.$message.error(!this.direct?'请选择要同步的模板':'请选择要同步的目录')
+              return
+            }
+            if(!this.$refs.tree2.getCheckedNodes().length){
+              this.$message.error(this.direct?'请选择要同步的模板':'请选择要同步的目录')
+              return
+            }
+            let [cpts, path] = [[],'']
+            if(!this.direct){
+              cpts = this.$refs.tree.getCheckedNodes().map(item => item.fullpath)
+              path = this.$refs.tree2.getCheckedNodes()[0].fullpath
+            }else{
+              cpts = this.$refs.tree2.getCheckedNodes().map(item => item.fullpath)
+              path = this.$refs.tree.getCheckedNodes()[0].fullpath
+            }
+            this.$confirm(`确定要从${this.direct?'生产':'测试'}环境同步${cpts.length}个文件到${this.direct?'测试':'生产'}环境：${path.substring(path.indexOf('reportlets/bass')+11)} 下吗？`, '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(async () => {
+              this.loading = true
+              const rs = await axios({
+                url: "http://localhost:8080/scp",
+                method: "post",
+                data: {
+                  direct: !this.direct?'dev2prod':'prod2dev',
+                  cpts,
+                  path
+                }
+              })
+              this.loading = false
+              if(rs.data === 'success'){
+                this.$message.success('同步成功')
+              }else{
+                this.$message.error(rs.data)
+              }  
+            }).catch(() => {
+              this.$message.info('已取消同步')
+            });
+          },
+          async doSCP0() {
+            const tmp = GetQueryString('viewlet') || GetQueryString('reportlet') || GetQueryString('formlet')
+            if(!tmp || (!tmp.endsWith('.cpt') && !tmp.endsWith('.frm'))){
+              this.$message.error('请先预览一张模板!')
+              return
+            }
+            let [cpts, path] = [['/home/asiainfo/server/fanruan/tomcat-finereport/webapps/WebReport/WEB-INF/reportlets/'+tmp]
+            ,'/home/asiainfo/project/report/WEB-INF/reportlets/'+tmp.substring(0,tmp.lastIndexOf('/'))]
+            this.$confirm(`确定要从测试环境同步${cpts.length}个文件到生产环境：${path.substring(path.indexOf('reportlets/bass')+11)} 下吗？`, '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(async () => {
+              this.loading = true
+              const rs = await axios({
+                url: "http://localhost:8080/scp",
+                method: "post",
+                data: {
+                  direct: 'dev2prod',
+                  cpts,
+                  path
+                }
+              })
+              this.loading = false
+              if(rs.data === 'success'){
+                this.$message.success('同步成功')
+              }else{
+                this.$message.error(rs.data)
+              }  
+            }).catch(() => {
+              this.$message.info('已取消同步')
+            });
           },
           collapseAll(n) {
             const nodes = this.$refs[n].store._getAllNodes();
@@ -345,40 +452,80 @@
           handleChange(val) {
             console.log(val);
           },
-          handleNodeClick(data) {
-            console.log(data);
+          handleNodeClick(data, node, tree, treeRef) {
+            console.log(data, treeRef);
           },
           filterNode(value, data) {
             if (!value) return true;
             return data.label.indexOf(value) !== -1;
           },
-          handleCheckChange(data, checked, indeterminate) {
-            console.log(data, checked, indeterminate);
+          handleCheckChange(data, checked, indeterminate, treeRef) {
+            console.log(data, checked, indeterminate, treeRef);
+            if(this.direct && checked){
+              if(treeRef === 'tree'){
+                this.$refs[treeRef].setCheckedKeys([data.id])
+                this.$refs[treeRef].setCurrentKey(data.id)
+              }
+            }
+            if(!this.direct && checked){
+              if(treeRef === 'tree2'){
+                this.$refs[treeRef].setCheckedKeys([data.id])
+                this.$refs[treeRef].setCurrentKey(data.id)
+              }
+            }
+             
           },
-          getXML(path) {
+          view(data, type) {
+            this.getXML(data.type, data.fullpath.substring(data.fullpath.indexOf('reportlets/bass')+11));
+          },
+          getXML(type, path) {
             axios({
               url:
-                "http://localhost:8080/localTemplate?path=" +
-                (path ? path : this.path),
+                "http://localhost:8080/remoteTemplate?type="+(type?type:'dev')+"&path=" +
+                (type ? path : this.path)
             }).then((res) => {
-              console.log(res.data);
               this.code = res.data.detail;
+              // console.log(this.$refs.source);
+              this.$refs.source.innerHTML = `<pre><code> "${res.data.detail}" </code></pre>`
+            
               this.$nextTick(() => {
-                hljs.highlightAll();
+                // hljs.highlightAll()
+                // hljs.initHighlightingOnLoad();
               });
             });
           },
-          getTree() {
-            if (this.data.length > 0) return;
-            this.getRemoteTree(0);
-            this.getRemoteTree(1);
+          getAllTrees() {
+            this.advanced = !this.advanced;
+            if (this.data.length > 0) {
+              this.$refs.tree.setCheckedNodes([])
+              this.$refs.tree2.setCheckedNodes([])
+              return
+            }
+            this.loading = true;
+            Promise.all([axios({
+              url: "http://localhost:8080/remoteTree?n=0",
+            }),axios({
+              url: "http://localhost:8080/remoteTree?n=1",
+            })]).then((res) => {
+              this.data = _revert(mySort(res[0].data),this.direct?'file':'directory')
+              this.data2 = _revert(mySort(res[1].data),!this.direct?'file':'directory')
+              this.loading = false;
+            });
           },
           getRemoteTree(n) {
-            this["data" + (n ? n + 1 : "")] = [];
+            this.loading = true;
             axios({
               url: "http://localhost:8080/remoteTree?n=" + n,
             }).then((res) => {
-              this["data" + (n ? n + 1 : "")] = mySort(res.data);
+              if(n === 0){
+                this.data = _revert(mySort(res.data),this.direct?'file':'directory')
+              }else{
+                this.data2 = _revert(mySort(res.data),!this.direct?'file':'directory')
+              }
+              this.$nextTick(() => {
+                this.$refs["tree" + (n ? n + 1 : "")].setCheckedNodes([])
+              })
+              this.loading = false;
             });
           },
           append(data) {
@@ -386,7 +533,7 @@
               confirmButtonText: "确定",
               cancelButtonText: "取消",
               type: "warning", // 图标样式 "warning"|"error"...
-              inputValue: "输入框默认值",
+              inputValue: "",
               inputErrorMessage: "输入不能为空",
               inputValidator: (value) => {
                 // 点击按钮时，对文本框里面的值进行验证
@@ -402,7 +549,7 @@
               // }
             })
               .then(({ value }) => {
-                const newChild = { id: id++, label: value, children: [] };
+                const newChild = { id: id++, label: value, children: [], type: 'directory', fullpath: data.fullpath + '/' + value };
                 if (!data.children) {
                   this.$set(data, "children", []);
                 }
