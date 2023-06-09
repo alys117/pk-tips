@@ -7,10 +7,11 @@
     <title>Document</title>
     <link rel="stylesheet" href="./highlight.js/styles/a11y-dark.min.css">
     <script src="./highlight.js/highlight.min.js"></script>
+    <script src="./axios/1.1.2.js"></script>
 </head>
 <body>
     <div><button onclick="reset()">电我</button></div>
-    <div style="width: 1000px;height: 200px;" id="aa">
+    <div style="width: 1000px;height: 300px; overflow: auto;" id="aa">
         <pre><code>var a = 1;
     var b = 2;
     document.getElemnetById('app')
@@ -28,8 +29,12 @@
         hljs.initHighlightingOnLoad();
 
         function reset() {
-            document.querySelector('#aa').innerHTML = '<pre><code></code></pre>';
-            document.querySelector('#aa pre code').innerText= '<myHobby><a>running</a></myHobby>'
+            axios.get('http://localhost:8080/localTemplate?path=demo.cpt').then(res => {
+                console.log(res.data.detail);
+                document.querySelector('#aa').innerHTML = '<pre><code></code></pre>';
+                document.querySelector('#aa pre code').innerHTML= res.data.detail.replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                hljs.highlightAll()
+            })
             // document.querySelector('pre code').innerHTML = '<myHobby><a>running</a></myHobby>';
             hljs.initHighlightingOnLoad();
         }

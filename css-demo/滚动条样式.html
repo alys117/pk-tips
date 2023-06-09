@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      /*滚动条*/
+      ::-webkit-scrollbar {
+        width: 16px;
+        height: 16px;
+        background-color: #f5f5f5;
+      }
+
+      /*滚动条轨道*/
+      ::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        background-color: #f5f5f5;
+      }
+
+      /* 滚动条轨道碎片*/
+      ::-webkit-scrollbar-track-piece {
+        background-color: #000;
+      }
+
+      /*滚动条轨道-上段*/
+      ::-webkit-scrollbar-track-piece:start {
+        background-color: #f90;
+        background-image: -webkit-linear-gradient(
+          45deg,
+          rgba(255, 255, 255, 0.2) 25%,
+          transparent 25%,
+          transparent 50%,
+          rgba(255, 255, 255, 0.2) 50%,
+          rgba(255, 255, 255, 0.2) 75%,
+          transparent 75%,
+          transparent
+        );
+      }
+
+      /*滚动条轨道-下段*/
+      ::-webkit-scrollbar-track-piece:end {
+        background-color: #cc0;
+      }
+
+      /*滚动条滑块*/
+      ::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        background-color: #555;
+      }
+
+      /*滚动条按钮*/
+      ::-webkit-scrollbar-button {
+        width: 40px;
+        height: 40px;
+        display: block;
+      }
+
+      /*滚动条按钮-起始-减量*/
+      ::-webkit-scrollbar-button:start:decrement {
+        background-color: #369;
+      }
+
+      /*滚动条按钮-起始-增量*/
+      ::-webkit-scrollbar-button:start:increment {
+        background-color: #284;
+      }
+
+      /*滚动条按钮-结束-减量*/
+      ::-webkit-scrollbar-button:end:decrement {
+        background-color: #f60;
+      }
+
+      /*滚动条按钮-结束-增量*/
+      ::-webkit-scrollbar-button:end:increment {
+        background-color: #9f2;
+      }
+
+      /* 滚动条拐角 */
+      ::-webkit-scrollbar-corner {
+        background-color: #0ff;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="width:300px;height: 150px; background-color: #284; overflow: scroll;">
+        fdsfds
+        <br>
+        fdsfdsfdsafdsafdsfdsffdsssssssssssssssssssssssssssss
+        fdsfdsafdsafdsa
+        fdsfdsaf
+    </div>
+  </body>
+</html>

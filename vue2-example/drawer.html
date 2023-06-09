@@ -11,6 +11,11 @@
       rel="stylesheet"
       href="./highlight.js/styles/github-dark-dimmed.min.css"
     />
+    <style>
+      ::-moz-scrollbar-button, ::-webkit-scrollbar-button { 
+          width: 0px; 
+      }  
+    </style>
   </head>
   <body>
     <div
@@ -44,7 +49,7 @@
                   :before-close="handleClose"
                 >
                   <div class="form">
-                    <div>用户：<input type="danger" id="emu_userid" class="form-item" type="text" v-model="username" /></div>
+                    <div>用户：<input type="danger" id="emu_userid" class="form-item" type="text" v-model="userid" /></div>
                     <div>地市：<select id="emu_cityid" class="form-item" v-model="cityid">
                                 <option value="999">全省</option><option value="1">济南</option><option value="2">青岛</option>
                                 <option value="3">淄博</option><option value="4">德州</option><option value="5">烟台</option>
@@ -55,18 +60,17 @@
                               </select>
                     </div>
                     <div>
-                      <el-button size="mini" type="danger" @click="redirect('prod')">生产</el-button>
-                      <el-button size="mini" type="success" @click="redirect('test')">测试</el-button>
+                      <el-button size="mini" type="danger" @click="preview('prod')">生产</el-button>
+                      <el-button size="mini" type="success" @click="preview('dev')">测试</el-button>
                     </div>
                   </div>
                   <br>
-                  <el-collapse v-model="activeNames" @change="handleChange" 
-                    v-loading="loading"
-                    element-loading-text="加载中......"
-                    element-loading-spinner="el-icon-loading"
-                    element-loading-background="rgba(0, 0, 0, 0.8)"
-                  >
-                    <el-collapse-item title="同步cpt" name="1">
+                  <el-collapse v-model="activeNames" @change="handleChange">
+                    <el-collapse-item title="同步cpt" name="1" 
+                      v-loading="loading" element-loading-text="加载中......" 
+                      element-loading-spinner="el-icon-loading"
+                      element-loading-background="rgba(0, 0, 0, 0.8)"
+                    >
                       <div class="simple-sync">
                         <el-button type="text" @click="doSCP0">直接同步</el-button>
                         <el-switch
@@ -103,10 +107,10 @@
                         </div>
                       </div>
                       <div style="display: flex" v-show="advanced">
-                        <div :class="{tongbu: true, file: !direct, directory: direct}" style="flex:1">
+                        <div :class="{tongbu: true, file: !direct, directory: direct}">
                           <el-tree ref="tree" node-key="id" :data="data" :props="defaultProps" :check-strictly="true" show-checkbox 
                             @check-change="(data,checked,indeterminate)=>handleCheckChange(data,checked,indeterminate,'tree')" 
-                            :filter-node-method="filterNode" @node-click="(data,node,tree)=>handleNodeClick(data,node,tree,'tree')"
+                            :filter-node-method="filterNode" @node-click="(data,node,tree)=>handleNodeClick(data,node,tree,'dev')"
                           >
                             <span class="custom-tree-node" slot-scope="{ node, data }">
                               <span>{{ node.label }}</span>
@@ -123,14 +127,20 @@
                                   @click.stop="() => view(data, 'dev')">
                                   view
                                 </el-button>
+                                <el-button v-if="data.type === 'file'"
+                                  type="text"
+                                  size="mini"
+                                  @click.stop="() => openTemplate(data, 'dev')">
+                                  open
+                                </el-button>
                               </span>
                             </span>
                           </el-tree>
                         </div>
-                        <div :class="{tongbu: true, file: direct, directory: !direct}" style="flex:1">
+                        <div :class="{tongbu: true, file: direct, directory: !direct}">
                           <el-tree ref="tree2" node-key="id" :data="data2" :props="defaultProps2" :check-strictly="true" show-checkbox 
                             @check-change="(data,checked,indeterminate)=>handleCheckChange(data,checked,indeterminate,'tree2')" 
-                            :filter-node-method="filterNode" @node-click="(data,node,tree)=>handleNodeClick(data,node,tree,'tree2')"
+                            :filter-node-method="filterNode" @node-click="(data,node,tree)=>handleNodeClick(data,node,tree,'prod')"
                           >
                             <span class="custom-tree-node" slot-scope="{ node, data }">
                               <span>{{ node.label }}</span>
@@ -147,6 +157,12 @@
                                   @click.stop="() => view(data, 'prod')">
                                   view
                                 </el-button>
+                                <el-button v-if="data.type === 'file'"
+                                  type="text"
+                                  size="mini"
+                                  @click.stop="() => openTemplate(data, 'prod')">
+                                  open
+                                </el-button>
                               </span>
                             </span>
                           </el-tree>
@@ -157,12 +173,17 @@
                       <template slot="title">
                         <span>数据集&nbsp;&nbsp;</span><i class="header-icon el-icon-info"></i>
                       </template>
-                      <div class="common"><el-button type="text" @click="getXML(null)">查看当前模板数据集</el-button></div>
-                      <div style="font-size:16px;margin:-16px 0;" ref="source"><pre><code>{{code}}</code></pre></div>
+                      <div class="common">
+                        <el-button type="text" @click="getXML(null)">查看当前模板数据集</el-button>
+                        <el-button v-if="false" type="text" @click="view(currentTemplateInfo, currentTemplateInfo.env)">{{ currentTemplateInfo.type==='file'?('查看'+currentTemplateInfo.env+': ' +currentTemplateInfo.label):'' }}</el-button>
+                        <el-button v-if="false" type="text" @click="openTemplate(currentTemplateInfo)">{{ currentTemplateInfo.type==='file'?('新窗口打开'+currentTemplateInfo.env+': ' +currentTemplateInfo.label):'' }}</el-button>
+                      </div>
+                      <div class="code-container" ref="source"><pre><code>{{code}}</code></pre></div>
                     </el-collapse-item>
                   </el-collapse>
                 </el-drawer>`;
       document.body.appendChild(app);
+      const ORIGIN = 'http://localhost:8080'; // 'http://10.19.206.196:8090'
       // 递归排序属性
       const mySort = (arr) => {
         arr.sort((a, b) => {
@@ -233,7 +254,13 @@
             advancedFlag: false,
             devText: "",
             prodText: "",
-            username: "wuhaicheng",
+            userid: "wuhaicheng",
+            currentTemplateInfo: {
+              type: '',
+              label: '',
+              fullpath: '',
+              env:''
+            },
             cityid: 999,
             moveStart: { x: 0, y: 0, l: 0, t: 0 },
             code: "",
@@ -356,7 +383,7 @@
             }).then(async () => {
               this.loading = true
               const rs = await axios({
-                url: "http://localhost:8080/scp",
+                url: ORIGIN + "/scp",
                 method: "post",
                 data: {
                   direct: !this.direct?'dev2prod':'prod2dev',
@@ -389,7 +416,7 @@
             }).then(async () => {
               this.loading = true
               const rs = await axios({
-                url: "http://localhost:8080/scp",
+                url: ORIGIN + "/scp",
                 method: "post",
                 data: {
                   direct: 'dev2prod',
@@ -423,12 +450,18 @@
             }
             return true;
           },
-          redirect(type) {
-            console.log(type);
-            if (type == "prod") {
-              console.log(this.cityid, this.username);
-            } else if (type == "test") {
-            } else if (type == "cancel") {
+          preview(env) {
+            let querystring = location.search;
+            console.log(this.cityid, this.username);
+            if(GetQueryString('userinfo')){
+              querystring = querystring.replace(GetQueryString('userinfo'),strEnc('userid='+this.userid+'&usercityid='+this.cityid,'1','2','3'))
+            }else {
+              querystring += (querystring?'&':'?') + 'userinfo='+strEnc('userid='+this.userid+'&usercityid='+this.cityid,'1','2','3')
+            }
+            if (env == "prod") {
+              location.href = 'http://10.19.206.196:8088' + location.pathname + querystring;
+            } else if (env == "dev") {
+              location.href = 'http://192.195.19.26:8080' + location.pathname + querystring;
             }
           },
           openDrawer() {
@@ -454,6 +487,7 @@
           },
           handleNodeClick(data, node, tree, treeRef) {
             console.log(data, treeRef);
+            this.currentTemplateInfo = {env:treeRef,fullpath:data.fullpath, label:data.label, type: data.type}
           },
           filterNode(value, data) {
             if (!value) return true;
@@ -473,24 +507,30 @@
                 this.$refs[treeRef].setCurrentKey(data.id)
               }
             }
-             
+          },
+          openTemplate(data, env) {
+            if (env === "prod") {
+              window.open('http://10.19.206.196:8088/WebReport/decision/view/'+(data.label.endsWith('frm')?'form':'report')+'?viewlet='+encodeURIComponent(encodeURIComponent(data.fullpath.substring(data.fullpath.indexOf('reportlets/bass')+11)))+'?userinfo='+strEnc('userid='+this.userid+'&usercityid='+this.cityid,'1','2','3'))
+            } else if (env === "dev") {
+              window.open('http://192.195.19.26:8080/WebReport/decision/view/'+(data.label.endsWith('frm')?'form':'report')+'?viewlet='+encodeURIComponent(encodeURIComponent(data.fullpath.substring(data.fullpath.indexOf('reportlets/bass')+11)))+'?viewlet='+data.fullpath.substring(data.fullpath.indexOf('reportlets/bass')+11)+'?userinfo='+strEnc('userid='+this.userid+'&usercityid='+this.cityid,'1','2','3'))
+            }
+            console.log(data);
           },
           view(data, type) {
-            this.getXML(data.type, data.fullpath.substring(data.fullpath.indexOf('reportlets/bass')+11));
+            this.getXML(type, data.fullpath.substring(data.fullpath.indexOf('reportlets/bass')+11));
           },
           getXML(type, path) {
+            const env = location.hostname === '10.19.206.196'?'prod':'dev'
             axios({
-              url:
-                "http://localhost:8080/remoteTemplate?type="+(type?type:'dev')+"&path=" +
-                (type ? path : this.path)
+              url: ORIGIN + "/remoteTemplate?type="+(type?type:env)+"&path=" + (type ? path : this.path)
             }).then((res) => {
-              this.code = res.data.detail;
+              // this.code = res.data.detail;
               // console.log(this.$refs.source);
-              this.$refs.source.innerHTML = `<pre><code> "${res.data.detail}" </code></pre>`
-            
+              // this.$refs.source.innerHTML = `<pre><code></code></pre>`
+              this.$refs.source.querySelector('pre code').innerHTML = `<pre><code>${res.data.detail.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>`
+              hljs.highlightAll()
               this.$nextTick(() => {
-                // hljs.highlightAll()
-                // hljs.initHighlightingOnLoad();
+                // hljs.initHighlightingOnLoad(); // 废弃了
               });
             });
           },
@@ -503,9 +543,9 @@
             }
             this.loading = true;
             Promise.all([axios({
-              url: "http://localhost:8080/remoteTree?n=0",
+              url: ORIGIN + "/remoteTree?n=0",
             }),axios({
-              url: "http://localhost:8080/remoteTree?n=1",
+              url: ORIGIN + "/remoteTree?n=1",
             })]).then((res) => {
               this.data = _revert(mySort(res[0].data),this.direct?'file':'directory')
               this.data2 = _revert(mySort(res[1].data),!this.direct?'file':'directory')
@@ -515,7 +555,7 @@
           getRemoteTree(n) {
             this.loading = true;
             axios({
-              url: "http://localhost:8080/remoteTree?n=" + n,
+              url: ORIGIN + "/remoteTree?n=" + n,
             }).then((res) => {
               if(n === 0){
                 this.data = _revert(mySort(res.data),this.direct?'file':'directory')
