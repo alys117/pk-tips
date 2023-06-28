@@ -5,16 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Document</title>
-    <link rel="stylesheet" href="./elementui/index.css" />
+    <link rel="stylesheet" href="./elementui/index-single.css" />
     <link rel="stylesheet" href="./drawer.css" />
     <link
       rel="stylesheet"
       href="./highlight.js/styles/github-dark-dimmed.min.css"
     />
     <style>
-      ::-moz-scrollbar-button, ::-webkit-scrollbar-button { 
-          width: 0px; 
-      }  
+      ::-moz-scrollbar-button,
+      ::-webkit-scrollbar-button {
+        width: 0px;
+      }
     </style>
   </head>
   <body>
@@ -183,7 +184,7 @@
                   </el-collapse>
                 </el-drawer>`;
       document.body.appendChild(app);
-      const ORIGIN = 'http://localhost:8080'; // 'http://10.19.206.196:8090'
+      const ORIGIN = "http://localhost:8080"; // 'http://10.19.206.196:8090'
       // 递归排序属性
       const mySort = (arr) => {
         arr.sort((a, b) => {
@@ -200,49 +201,148 @@
         });
         return arr;
       };
-      function _revert(arr, type){
-        arr.forEach(item => {
-          if(item.type === type){
-            item.disabled = true
-          }else{
-            item.disabled = false
+      function _revert(arr, type) {
+        arr.forEach((item) => {
+          if (item.type === type) {
+            item.disabled = true;
+          } else {
+            item.disabled = false;
           }
-          if(item.children && item.children.length > 0){
+          if (item.children && item.children.length > 0) {
             _revert(item.children, type);
           }
         });
-        return arr
+        return arr;
       }
-      function debounce(func, wait, immediate) {
-        let timeout, args, context, timestamp, result;
-        const later = function () {
-          // 据上一次触发时间间隔
-          const last = +new Date() - timestamp;
+      function debounce(func, wait, options) {
+        var lastArgs,
+          lastThis,
+          maxWait,
+          result,
+          timerId,
+          lastCallTime,
+          lastInvokeTime = 0,
+          leading = false,
+          maxing = false,
+          trailing = true;
 
-          // 上次被包装函数被调用时间间隔 last 小于设定时间间隔 wait
-          if (last < wait && last > 0) {
-            timeout = setTimeout(later, wait - last);
-          } else {
-            timeout = null;
-            // 如果设定为immediate===true，因为开始边界已经调用过了此处无需调用
-            if (!immediate) {
-              result = func.apply(context, args);
-              if (!timeout) context = args = null;
+        if (typeof func != "function") {
+          throw new TypeError(FUNC_ERROR_TEXT);
+        }
+        wait = toNumber(wait) || 0;
+        if (isObject(options)) {
+          leading = !!options.leading;
+          maxing = "maxWait" in options;
+          maxWait = maxing
+            ? nativeMax(toNumber(options.maxWait) || 0, wait)
+            : maxWait;
+          trailing = "trailing" in options ? !!options.trailing : trailing;
+        }
+
+        function invokeFunc(time) {
+          var args = lastArgs,
+            thisArg = lastThis;
+
+          lastArgs = lastThis = undefined;
+          lastInvokeTime = time;
+          result = func.apply(thisArg, args);
+          return result;
+        }
+
+        function leadingEdge(time) {
+          // Reset any `maxWait` timer.
+          lastInvokeTime = time;
+          // Start the timer for the trailing edge.
+          timerId = setTimeout(timerExpired, wait);
+          // Invoke the leading edge.
+          return leading ? invokeFunc(time) : result;
+        }
+
+        function remainingWait(time) {
+          var timeSinceLastCall = time - lastCallTime,
+            timeSinceLastInvoke = time - lastInvokeTime,
+            timeWaiting = wait - timeSinceLastCall;
+
+          return maxing
+            ? nativeMin(timeWaiting, maxWait - timeSinceLastInvoke)
+            : timeWaiting;
+        }
+
+        function shouldInvoke(time) {
+          var timeSinceLastCall = time - lastCallTime,
+            timeSinceLastInvoke = time - lastInvokeTime;
+
+          // Either this is the first call, activity has stopped and we're at the
+          // trailing edge, the system time has gone backwards and we're treating
+          // it as the trailing edge, or we've hit the `maxWait` limit.
+          return (
+            lastCallTime === undefined ||
+            timeSinceLastCall >= wait ||
+            timeSinceLastCall < 0 ||
+            (maxing && timeSinceLastInvoke >= maxWait)
+          );
+        }
+
+        function timerExpired() {
+          var time = now();
+          if (shouldInvoke(time)) {
+            return trailingEdge(time);
+          }
+          // Restart the timer.
+          timerId = setTimeout(timerExpired, remainingWait(time));
+        }
+
+        function trailingEdge(time) {
+          timerId = undefined;
+
+          // Only invoke if we have `lastArgs` which means `func` has been
+          // debounced at least once.
+          if (trailing && lastArgs) {
+            return invokeFunc(time);
+          }
+          lastArgs = lastThis = undefined;
+          return result;
+        }
+
+        function cancel() {
+          if (timerId !== undefined) {
+            clearTimeout(timerId);
+          }
+          lastInvokeTime = 0;
+          lastArgs = lastCallTime = lastThis = timerId = undefined;
+        }
+
+        function flush() {
+          return timerId === undefined ? result : trailingEdge(now());
+        }
+
+        function debounced() {
+          var time = now(),
+            isInvoking = shouldInvoke(time);
+
+          lastArgs = arguments;
+          lastThis = this;
+          lastCallTime = time;
+
+          if (isInvoking) {
+            if (timerId === undefined) {
+              return leadingEdge(lastCallTime);
+            }
+            if (maxing) {
+              // Handle invocations in a tight loop.
+              clearTimeout(timerId);
+              timerId = setTimeout(timerExpired, wait);
+              return invokeFunc(lastCallTime);
             }
           }
-        };
-        return function (...args) {
-          context = this;
-          timestamp = +new Date();
-          const callNow = immediate && !timeout;
-          // 如果延时不存在，重新设定延时
-          if (!timeout) timeout = setTimeout(later, wait);
-          if (callNow) {
-            result = func.apply(context, args);
-            context = args = null;
+          if (timerId === undefined) {
+            timerId = setTimeout(timerExpired, wait);
           }
           return result;
-        };
+        }
+        debounced.cancel = cancel;
+        debounced.flush = flush;
+        return debounced;
       }
       let id = 1000000;
       new Vue({
@@ -256,10 +356,10 @@
             prodText: "",
             userid: "wuhaicheng",
             currentTemplateInfo: {
-              type: '',
-              label: '',
-              fullpath: '',
-              env:''
+              type: "",
+              label: "",
+              fullpath: "",
+              env: "",
             },
             cityid: 999,
             moveStart: { x: 0, y: 0, l: 0, t: 0 },
@@ -286,7 +386,7 @@
               //     return this.diecct;
               //   }
               // },
-              disabled: 'disabled'
+              disabled: "disabled",
             },
             defaultProps2: {
               children: "children",
@@ -302,53 +402,41 @@
               //     return !this.diecct;
               //   }
               // },
-              disabled: 'disabled'
+              disabled: "disabled",
             },
-          }
+          };
         },
         watch: {
           devText(val) {
-            // 这个地方的防抖处理的有点啰嗦，可以优化一下
-            if (!window.devFilter) {
-              window.devTextInput = val;
-              const that = this;
-              window.devFilter = debounce(function () {
-                console.log("run", window.devTextInput);
-                that.$refs.tree.filter(window.devTextInput);
-              }, 1000);
-            } else {
-              window.devTextInput = val;
-            }
-            window.devFilter();
+            this.treeSearch.apply(this, [val, "tree"]);
           },
           prodText(val) {
-            if (!window.prodFilter) {
-              window.prodTextInput = val;
-              const that = this;
-              window.prodFilter = debounce(function () {
-                console.log("run", window.devTextInput);
-                that.$refs.tree2.filter(window.prodTextInput);
-              }, 1000);
-            } else {
-              window.prodTextInput = val;
-            }
-            window.prodFilter();
+            this.treeSearch.apply(this, [val, "tree2"]);
           },
         },
         methods: {
-          revert(){
-            if(!this.data || !this.data2 || !this.data.length || !this.data2.length ){
-              return
+          treeSearch: _.debounce(function (val, treeRef) {
+            console.log(treeRef, val);
+            this.$refs[treeRef].filter(val);
+          }, 1000),
+          revert() {
+            if (
+              !this.data ||
+              !this.data2 ||
+              !this.data.length ||
+              !this.data2.length
+            ) {
+              return;
             }
-            this.$refs.tree.setCheckedNodes([])
-            this.$refs.tree2.setCheckedNodes([])
-            if(!this.direct){
-              _revert(this.data, 'directory')
-              _revert(this.data2, 'file')
-            }else{
-              _revert(this.data2, 'directory')
-              _revert(this.data, 'file')
-            } 
+            this.$refs.tree.setCheckedNodes([]);
+            this.$refs.tree2.setCheckedNodes([]);
+            if (!this.direct) {
+              _revert(this.data, "directory");
+              _revert(this.data2, "file");
+            } else {
+              _revert(this.data2, "directory");
+              _revert(this.data, "file");
+            }
           },
           renderContent(h, { node, data, store }) {
             // return (
@@ -360,79 +448,124 @@
             //   </span>);
           },
           async doSCP() {
-            if(!this.$refs.tree.getCheckedNodes().length){
-              this.$message.error(!this.direct?'请选择要同步的模板':'请选择要同步的目录')
-              return
+            if (!this.$refs.tree.getCheckedNodes().length) {
+              this.$message.error(
+                !this.direct ? "请选择要同步的模板" : "请选择要同步的目录"
+              );
+              return;
             }
-            if(!this.$refs.tree2.getCheckedNodes().length){
-              this.$message.error(this.direct?'请选择要同步的模板':'请选择要同步的目录')
-              return
+            if (!this.$refs.tree2.getCheckedNodes().length) {
+              this.$message.error(
+                this.direct ? "请选择要同步的模板" : "请选择要同步的目录"
+              );
+              return;
             }
-            let [cpts, path] = [[],'']
-            if(!this.direct){
-              cpts = this.$refs.tree.getCheckedNodes().map(item => item.fullpath)
-              path = this.$refs.tree2.getCheckedNodes()[0].fullpath
-            }else{
-              cpts = this.$refs.tree2.getCheckedNodes().map(item => item.fullpath)
-              path = this.$refs.tree.getCheckedNodes()[0].fullpath
+            let [cpts, path] = [[], ""];
+            if (!this.direct) {
+              cpts = this.$refs.tree
+                .getCheckedNodes()
+                .map((item) => item.fullpath);
+              path = this.$refs.tree2.getCheckedNodes()[0].fullpath;
+            } else {
+              cpts = this.$refs.tree2
+                .getCheckedNodes()
+                .map((item) => item.fullpath);
+              path = this.$refs.tree.getCheckedNodes()[0].fullpath;
             }
-            this.$confirm(`确定要从${this.direct?'生产':'测试'}环境同步${cpts.length}个文件到${this.direct?'测试':'生产'}环境：${path.substring(path.indexOf('reportlets/bass')+11)} 下吗？`, '提示', {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              type: 'warning'
-            }).then(async () => {
-              this.loading = true
-              const rs = await axios({
-                url: ORIGIN + "/scp",
-                method: "post",
-                data: {
-                  direct: !this.direct?'dev2prod':'prod2dev',
-                  cpts,
-                  path
+            this.$confirm(
+              `确定要从${this.direct ? "生产" : "测试"}环境同步${
+                cpts.length
+              }个文件到${this.direct ? "测试" : "生产"}环境：${path.substring(
+                path.indexOf("reportlets/bass") + 11
+              )} 下吗？`,
+              "提示",
+              {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                type: "warning",
+              }
+            )
+              .then(async () => {
+                this.loading = true;
+                const rs = await axios({
+                  url: ORIGIN + "/scp",
+                  method: "post",
+                  data: {
+                    direct: !this.direct ? "dev2prod" : "prod2dev",
+                    cpts,
+                    path,
+                  },
+                });
+                this.loading = false;
+                if (rs.data === "success") {
+                  this.$message.success("同步成功");
+                } else {
+                  this.$message.error(rs.data);
                 }
               })
-              this.loading = false
-              if(rs.data === 'success'){
-                this.$message.success('同步成功')
-              }else{
-                this.$message.error(rs.data)
-              }  
-            }).catch(() => {
-              this.$message.info('已取消同步')
-            });
+              .catch(() => {
+                this.$message.info("已取消同步");
+              });
           },
           async doSCP0() {
-            const tmp = GetQueryString('viewlet') || GetQueryString('reportlet') || GetQueryString('formlet')
-            if(!tmp || (!tmp.endsWith('.cpt') && !tmp.endsWith('.frm'))){
-              this.$message.error('请先预览一张模板!')
-              return
+            let [env, srcpath, destpath] = ["", "", ""];
+            if (location.hostname !== "192.195.19.26") {
+              [env, srcpath, destpath] = [
+                "prod",
+                "/home/asiainfo/project/report/WEB-INF/reportlets",
+                "/home/asiainfo/server/fanruan/tomcat-finereport/webapps/WebReport/WEB-INF/reportlets",
+              ];
+            } else {
+              [env, destpath, srcpath] = [
+                "dev",
+                "/home/asiainfo/project/report/WEB-INF/reportlets",
+                "/home/asiainfo/server/fanruan/tomcat-finereport/webapps/WebReport/WEB-INF/reportlets",
+              ];
             }
-            let [cpts, path] = [['/home/asiainfo/server/fanruan/tomcat-finereport/webapps/WebReport/WEB-INF/reportlets/'+tmp]
-            ,'/home/asiainfo/project/report/WEB-INF/reportlets/'+tmp.substring(0,tmp.lastIndexOf('/'))]
-            this.$confirm(`确定要从测试环境同步${cpts.length}个文件到生产环境：${path.substring(path.indexOf('reportlets/bass')+11)} 下吗？`, '提示', {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              type: 'warning'
-            }).then(async () => {
-              this.loading = true
-              const rs = await axios({
-                url: ORIGIN + "/scp",
-                method: "post",
-                data: {
-                  direct: 'dev2prod',
-                  cpts,
-                  path
+            const tmp =
+              GetQueryString("viewlet") ||
+              GetQueryString("reportlet") ||
+              GetQueryString("formlet");
+            if (!tmp || (!tmp.endsWith(".cpt") && !tmp.endsWith(".frm"))) {
+              this.$message.error("请先预览一张模板!");
+              return;
+            }
+            let [cpts, path] = [
+              [srcpath + "/" + tmp],
+              destpath + "/" + tmp.substring(0, tmp.lastIndexOf("/")),
+            ];
+            this.$confirm(
+              `确定要将该模板从${env === "dev" ? "测试" : "生产"}环境下同步到${
+                env === "prod" ? "测试" : "生产"
+              }环境下吗？`,
+              "提示",
+              {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                type: "warning",
+              }
+            )
+              .then(async () => {
+                this.loading = true;
+                const rs = await axios({
+                  url: ORIGIN + "/scp",
+                  method: "post",
+                  data: {
+                    direct: env === "dev" ? "dev2prod" : "prod2dev",
+                    cpts,
+                    path,
+                  },
+                });
+                this.loading = false;
+                if (rs.data === "success") {
+                  this.$message.success("同步成功");
+                } else {
+                  this.$message.error(rs.data);
                 }
               })
-              this.loading = false
-              if(rs.data === 'success'){
-                this.$message.success('同步成功')
-              }else{
-                this.$message.error(rs.data)
-              }  
-            }).catch(() => {
-              this.$message.info('已取消同步')
-            });
+              .catch(() => {
+                this.$message.info("已取消同步");
+              });
           },
           collapseAll(n) {
             const nodes = this.$refs[n].store._getAllNodes();
@@ -453,15 +586,33 @@
           preview(env) {
             let querystring = location.search;
             console.log(this.cityid, this.username);
-            if(GetQueryString('userinfo')){
-              querystring = querystring.replace(GetQueryString('userinfo'),strEnc('userid='+this.userid+'&usercityid='+this.cityid,'1','2','3'))
-            }else {
-              querystring += (querystring?'&':'?') + 'userinfo='+strEnc('userid='+this.userid+'&usercityid='+this.cityid,'1','2','3')
+            if (GetQueryString("userinfo")) {
+              querystring = querystring.replace(
+                GetQueryString("userinfo"),
+                strEnc(
+                  "userid=" + this.userid + "&usercityid=" + this.cityid,
+                  "1",
+                  "2",
+                  "3"
+                )
+              );
+            } else {
+              querystring +=
+                (querystring ? "&" : "?") +
+                "userinfo=" +
+                strEnc(
+                  "userid=" + this.userid + "&usercityid=" + this.cityid,
+                  "1",
+                  "2",
+                  "3"
+                );
             }
             if (env == "prod") {
-              location.href = 'http://10.19.206.196:8088' + location.pathname + querystring;
+              location.href =
+                "http://10.19.206.196:8088" + location.pathname + querystring;
             } else if (env == "dev") {
-              location.href = 'http://192.195.19.26:8080' + location.pathname + querystring;
+              location.href =
+                "http://192.195.19.26:8080" + location.pathname + querystring;
             }
           },
           openDrawer() {
@@ -487,7 +638,12 @@
           },
           handleNodeClick(data, node, tree, treeRef) {
             console.log(data, treeRef);
-            this.currentTemplateInfo = {env:treeRef,fullpath:data.fullpath, label:data.label, type: data.type}
+            this.currentTemplateInfo = {
+              env: treeRef,
+              fullpath: data.fullpath,
+              label: data.label,
+              type: data.type,
+            };
           },
           filterNode(value, data) {
             if (!value) return true;
@@ -495,40 +651,73 @@
           },
           handleCheckChange(data, checked, indeterminate, treeRef) {
             console.log(data, checked, indeterminate, treeRef);
-            if(this.direct && checked){
-              if(treeRef === 'tree'){
-                this.$refs[treeRef].setCheckedKeys([data.id])
-                this.$refs[treeRef].setCurrentKey(data.id)
+            if (this.direct && checked) {
+              if (treeRef === "tree") {
+                this.$refs[treeRef].setCheckedKeys([data.id]);
+                this.$refs[treeRef].setCurrentKey(data.id);
               }
             }
-            if(!this.direct && checked){
-              if(treeRef === 'tree2'){
-                this.$refs[treeRef].setCheckedKeys([data.id])
-                this.$refs[treeRef].setCurrentKey(data.id)
+            if (!this.direct && checked) {
+              if (treeRef === "tree2") {
+                this.$refs[treeRef].setCheckedKeys([data.id]);
+                this.$refs[treeRef].setCurrentKey(data.id);
               }
             }
           },
           openTemplate(data, env) {
+            let origin = "";
             if (env === "prod") {
-              window.open('http://10.19.206.196:8088/WebReport/decision/view/'+(data.label.endsWith('frm')?'form':'report')+'?viewlet='+encodeURIComponent(encodeURIComponent(data.fullpath.substring(data.fullpath.indexOf('reportlets/bass')+11)))+'?userinfo='+strEnc('userid='+this.userid+'&usercityid='+this.cityid,'1','2','3'))
+              origin = "http://10.19.206.196:8088"
             } else if (env === "dev") {
-              window.open('http://192.195.19.26:8080/WebReport/decision/view/'+(data.label.endsWith('frm')?'form':'report')+'?viewlet='+encodeURIComponent(encodeURIComponent(data.fullpath.substring(data.fullpath.indexOf('reportlets/bass')+11)))+'?viewlet='+data.fullpath.substring(data.fullpath.indexOf('reportlets/bass')+11)+'?userinfo='+strEnc('userid='+this.userid+'&usercityid='+this.cityid,'1','2','3'))
+              origin = "http://192.195.19.26:8080"
             }
-            console.log(data);
+            window.open(
+                origin + "/WebReport/decision/view/" +
+                  (data.label.endsWith("frm") ? "form" : "report") +
+                  "?viewlet=" +
+                  encodeURIComponent(
+                    encodeURIComponent(
+                      data.fullpath.substring(
+                        data.fullpath.indexOf("reportlets/bass") + 11
+                      )
+                    )
+                  ) +
+                  "&userinfo=" +
+                  strEnc(
+                    "userid=" + this.userid + "&usercityid=" + this.cityid,
+                    "1",
+                    "2",
+                    "3"
+                  )
+              );
           },
           view(data, type) {
-            this.getXML(type, data.fullpath.substring(data.fullpath.indexOf('reportlets/bass')+11));
+            this.getXML(
+              type,
+              data.fullpath.substring(
+                data.fullpath.indexOf("reportlets/bass") + 11
+              )
+            );
           },
           getXML(type, path) {
-            const env = location.hostname === '10.19.206.196'?'prod':'dev'
+            const env = location.hostname === "192.195.19.26" ? "dev" : "prod";
             axios({
-              url: ORIGIN + "/remoteTemplate?type="+(type?type:env)+"&path=" + (type ? path : this.path)
+              url:
+                ORIGIN +
+                "/remoteTemplate?type=" +
+                (type ? type : env) +
+                "&path=" +
+                (type ? path : this.path),
             }).then((res) => {
               // this.code = res.data.detail;
               // console.log(this.$refs.source);
               // this.$refs.source.innerHTML = `<pre><code></code></pre>`
-              this.$refs.source.querySelector('pre code').innerHTML = `<pre><code>${res.data.detail.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>`
-              hljs.highlightAll()
+              this.$refs.source.querySelector(
+                "pre code"
+              ).innerHTML = `<pre><code>${res.data.detail
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")}</code></pre>`;
+              hljs.highlightAll();
               this.$nextTick(() => {
                 // hljs.initHighlightingOnLoad(); // 废弃了
               });
@@ -537,18 +726,27 @@
           getAllTrees() {
             this.advanced = !this.advanced;
             if (this.data.length > 0) {
-              this.$refs.tree.setCheckedNodes([])
-              this.$refs.tree2.setCheckedNodes([])
-              return
+              this.$refs.tree.setCheckedNodes([]);
+              this.$refs.tree2.setCheckedNodes([]);
+              return;
             }
             this.loading = true;
-            Promise.all([axios({
-              url: ORIGIN + "/remoteTree?n=0",
-            }),axios({
-              url: ORIGIN + "/remoteTree?n=1",
-            })]).then((res) => {
-              this.data = _revert(mySort(res[0].data),this.direct?'file':'directory')
-              this.data2 = _revert(mySort(res[1].data),!this.direct?'file':'directory')
+            Promise.all([
+              axios({
+                url: ORIGIN + "/remoteTree?n=0",
+              }),
+              axios({
+                url: ORIGIN + "/remoteTree?n=1",
+              }),
+            ]).then((res) => {
+              this.data = _revert(
+                mySort(res[0].data),
+                this.direct ? "file" : "directory"
+              );
+              this.data2 = _revert(
+                mySort(res[1].data),
+                !this.direct ? "file" : "directory"
+              );
               this.loading = false;
             });
           },
@@ -557,14 +755,20 @@
             axios({
               url: ORIGIN + "/remoteTree?n=" + n,
             }).then((res) => {
-              if(n === 0){
-                this.data = _revert(mySort(res.data),this.direct?'file':'directory')
-              }else{
-                this.data2 = _revert(mySort(res.data),!this.direct?'file':'directory')
+              if (n === 0) {
+                this.data = _revert(
+                  mySort(res.data),
+                  this.direct ? "file" : "directory"
+                );
+              } else {
+                this.data2 = _revert(
+                  mySort(res.data),
+                  !this.direct ? "file" : "directory"
+                );
               }
               this.$nextTick(() => {
-                this.$refs["tree" + (n ? n + 1 : "")].setCheckedNodes([])
-              })
+                this.$refs["tree" + (n ? n + 1 : "")].setCheckedNodes([]);
+              });
               this.loading = false;
             });
           },
@@ -589,7 +793,13 @@
               // }
             })
               .then(({ value }) => {
-                const newChild = { id: id++, label: value, children: [], type: 'directory', fullpath: data.fullpath + '/' + value };
+                const newChild = {
+                  id: id++,
+                  label: value,
+                  children: [],
+                  type: "directory",
+                  fullpath: data.fullpath + "/" + value,
+                };
                 if (!data.children) {
                   this.$set(data, "children", []);
                 }

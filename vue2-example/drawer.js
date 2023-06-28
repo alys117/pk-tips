@@ -1,0 +1,1011 @@
+// ==UserScript==
+// @name         抽屉tools
+// @namespace    http://tampermonkey.net/
+// @version      0.3.2
+// @description  try to take over the world!
+// @author       You
+// @updateURL    http://192.195.19.27:8080/WebReport/widgets/jsp/h5/drawer.js
+// @downloadURL  http://192.195.19.27:8080/WebReport/widgets/jsp/h5/drawer.js
+// @match        http://192.195.19.26/*
+// @match        http://192.195.19.27/*
+// @match        http://10.19.206.196/*
+// @match        http://134.84.22.84/*
+// @match        http://134.84.22.85/*
+// @match        http://134.84.22.86/*
+// @match        http://134.84.22.87/*
+// @match        https://*/*
+// @icon         http://134.80.132.22/favicon.ico
+// @grant        GM_getResourceText
+// @grant        GM_addStyle
+// @resource     css1    http://10.19.206.196:8088/WebReport/widgets/jsp/h5/elementui/index-single.css
+// @resource     css2    http://10.19.206.196:8088/WebReport/widgets/jsp/h5/highlight.js/styles/github-dark-dimmed.min.css
+// @resource     css3    http://10.19.206.196:8088/WebReport/widgets/jsp/h5/drawer.css;sha256=35b988392f67efafc9a82fed68de4c1c723352d71ff740cae6b8efa48c0c236b
+// @require      http://10.19.206.196:8088/WebReport/widgets/jsp/h5/vue2/2.7.14.js
+// @require      http://10.19.206.196:8088/WebReport/widgets/jsp/h5/axios/1.1.2.js
+// @require      http://10.19.206.196:8088/WebReport/widgets/jsp/h5/highlight.js/highlight.min.js
+// @require      http://10.19.206.196:8088/WebReport/widgets/js/Des.js
+// @require      http://10.19.206.196:8088/WebReport/widgets/jsp/h5/elementui/index.js
+// ==/UserScript==
+
+GM_addStyle(GM_getResourceText("css1"));
+GM_addStyle(GM_getResourceText("css2"));
+GM_addStyle(GM_getResourceText("css3"));
+
+(function() {
+    'use strict';
+    // Your code here...
+    function start(){
+        //  DynamciLoadUtil.loadCSS('/WebReport/widgets/jsp/h5/elementui/index.css')
+        //  DynamciLoadUtil.loadCSS('/WebReport/widgets/jsp/h5/highlight.js/styles/github-dark-dimmed.min.css')
+        //  DynamciLoadUtil.loadCSS('/WebReport/widgets/jsp/h5/drawer.css')
+        //  DynamciLoadUtil.loadJS(
+        //      ["/WebReport/widgets/jsp/h5/vue2/2.7.14.js", "/WebReport/widgets/jsp/h5/axios/1.1.2.js","/WebReport/widgets/jsp/h5/highlight.js/highlight.min.js","/WebReport/widgets/js/Des.js"],
+        //      function () {
+        //          DynamciLoadUtil.loadJS(
+        //              ["/WebReport/widgets/jsp/h5/elementui/index.js"],
+        //              function () {
+        //                  busi();
+        //              }
+        //          )
+        //      }
+        //   )
+        busi();
+    }
+    function busi() {
+        var app = document.createElement("div");
+        app.id = "app";
+        app.innerHTML = `
+                <div class="contanier" @click="openDrawer" v-drag>?</div>
+                <el-drawer
+                  v-drawerdrag
+                  :title="title"
+                  :visible.sync="drawer"
+                  :with-header="true"
+                  :direction="direction"
+                  :size="'50%'"
+                  :before-close="handleClose"
+                >
+                  <div class="form">
+                    <div>用户：<input type="danger" id="emu_userid" class="form-item" type="text" v-model="userid" /></div>
+                    <div>地市：<select id="emu_cityid" class="form-item" v-model="cityid">
+                                <option value="999">全省</option><option value="1">济南</option><option value="2">青岛</option>
+                                <option value="3">淄博</option><option value="4">德州</option><option value="5">烟台</option>
+                                <option value="6">潍坊</option><option value="7">济宁</option><option value="8">泰安</option>
+                                <option value="9">临沂</option><option value="10">菏泽</option><option value="11">滨州</option>
+                                option value="12">东营</option><option value="13">威海</option><option value="14">枣庄</option>
+                                <option value="15">日照</option><option value="16">莱芜</option><option value="17">聊城</option>
+                              </select>
+                    </div>
+                    <div>
+                      <el-button size="mini" type="danger" @click="preview('prod')">生产</el-button>
+                      <el-button size="mini" type="success" @click="preview('dev')">测试</el-button>
+                      <el-button size="mini" type="primary" @click="down">下载</el-button>
+                    </div>
+                  </div>
+                  <br>
+                  <el-collapse v-model="activeNames" @change="handleChange">
+                    <el-collapse-item title="同步cpt" name="1"
+                      v-loading="loading" element-loading-text="加载中......"
+                      element-loading-spinner="el-icon-loading"
+                      element-loading-background="rgba(0, 0, 0, 0.8)"
+                    >
+                      <div class="simple-sync">
+                        <el-button type="text" @click="doSCP0">直接同步</el-button>
+                        <el-switch
+                          @change="getAllTrees()"
+                          v-model="advancedFlag"
+                          active-text="高级选项"
+                          inactive-text="">
+                        </el-switch>
+                        <el-switch
+                          @change="revert()"
+                          v-model="direct"
+                          active-text="反向操作"
+                          inactive-text="">
+                        </el-switch>
+                      </div>
+                      <div class="search-container" v-if="advanced">
+                        <div class="search-text-left">
+                          <el-input placeholder="测试环境模板" prefix-icon="el-icon-search" v-model="devText"></el-input>
+                        </div>
+                        <div class="search-text-right">
+                          <el-input placeholder="生产环境模板" prefix-icon="el-icon-search" v-model="prodText" ></el-input>
+                        </div>
+                      </div>
+                      <div class="search-container" v-if="advanced">
+                        <div class="search-text-left">
+                          <el-button type="text" icon="el-icon-right" size="mini" @click="doSCP" :disabled="direct">同步到生产</el-button>
+                          <el-button type="text" size="mini" @click="getRemoteTree(0)">刷新</el-button>
+                          <el-button type="text" size="mini" @click="collapseAll('tree')">收起</el-button>
+                        </div>
+                        <div class="search-text-right">
+                          <el-button type="text" icon="el-icon-back" size="mini" @click="doSCP" :disabled="!direct">同步到测试</el-button>
+                          <el-button type="text" size="mini" @click="getRemoteTree(1)">刷新</el-button>
+                          <el-button type="text" size="mini" @click="collapseAll('tree2')">收起</el-button>
+                        </div>
+                      </div>
+                      <div style="display: flex" v-show="advanced">
+                        <div :class="{tongbu: true, file: !direct, directory: direct}">
+                          <el-tree ref="tree" node-key="id" :data="data" :props="defaultProps" :check-strictly="true" show-checkbox
+                            @check-change="(data,checked,indeterminate)=>handleCheckChange(data,checked,indeterminate,'tree')"
+                            :filter-node-method="filterNode" @node-click="(data,node,tree)=>handleNodeClick(data,node,tree,'dev')"
+                          >
+                            <span class="custom-tree-node" slot-scope="{ node, data }">
+                              <span>{{ node.label }}</span>
+                              <span>
+                                <el-button v-if="data.type === 'directory' && direct"
+                                  type="text"
+                                  size="mini"
+                                  @click.stop="() => append(data)">
+                                  Append
+                                </el-button>
+                                <el-button v-if="data.type === 'file'"
+                                  type="text"
+                                  size="mini"
+                                  @click.stop="() => view(data, 'dev')">
+                                  view
+                                </el-button>
+                                <el-button v-if="data.type === 'file'"
+                                  type="text"
+                                  size="mini"
+                                  @click.stop="() => openTemplate(data, 'dev')">
+                                  open
+                                </el-button>
+                              </span>
+                            </span>
+                          </el-tree>
+                        </div>
+                        <div :class="{tongbu: true, file: direct, directory: !direct}">
+                          <el-tree ref="tree2" node-key="id" :data="data2" :props="defaultProps2" :check-strictly="true" show-checkbox
+                            @check-change="(data,checked,indeterminate)=>handleCheckChange(data,checked,indeterminate,'tree2')"
+                            :filter-node-method="filterNode" @node-click="(data,node,tree)=>handleNodeClick(data,node,tree,'prod')"
+                          >
+                            <span class="custom-tree-node" slot-scope="{ node, data }">
+                              <span>{{ node.label }}</span>
+                              <span>
+                                <el-button v-if="data.type === 'directory' && !direct"
+                                  type="text"
+                                  size="mini"
+                                  @click.stop="() => append(data)">
+                                  Append
+                                </el-button>
+                                <el-button v-if="data.type === 'file'"
+                                  type="text"
+                                  size="mini"
+                                  @click.stop="() => view(data, 'prod')">
+                                  view
+                                </el-button>
+                                <el-button v-if="data.type === 'file'"
+                                  type="text"
+                                  size="mini"
+                                  @click.stop="() => openTemplate(data, 'prod')">
+                                  open
+                                </el-button>
+                              </span>
+                            </span>
+                          </el-tree>
+                        </div>
+                      </div>
+                    </el-collapse-item>
+                    <el-collapse-item name="2">
+                      <template slot="title">
+                        <span>数据集&nbsp;&nbsp;</span><i class="header-icon el-icon-info" title="haha多喝点"></i>
+                      </template>
+                      <div class="common">
+                        <el-button type="text" @click="getXML(null)">查看当前模板数据集</el-button>
+                        <el-button v-if="false" type="text" @click="view(currentTemplateInfo, currentTemplateInfo.env)">{{ currentTemplateInfo.type==='file'?('查看'+currentTemplateInfo.env+': ' +currentTemplateInfo.label):'' }}</el-button>
+                        <el-button v-if="false" type="text" @click="openTemplate(currentTemplateInfo)">{{ currentTemplateInfo.type==='file'?('新窗口打开'+currentTemplateInfo.env+': ' +currentTemplateInfo.label):'' }}</el-button>
+                      </div>
+                      <div class="code-container" ref="source"><pre><code>{{code}}</code></pre></div>
+                    </el-collapse-item>
+                  </el-collapse>
+                </el-drawer>`;
+        document.body.appendChild(app);
+        const ORIGIN = "http://10.19.206.196:8090"; // 'http://10.19.206.196:8090'
+        // 递归排序属性
+        const mySort = (arr) => {
+            arr.sort((a, b) => {
+                if (a.type.localeCompare(b.type) == 0) {
+                    return a.label.localeCompare(b.label);
+                } else {
+                    return a.type.localeCompare(b.type);
+                }
+            });
+            arr.forEach((item) => {
+                if (item.children && item.children.length > 0) {
+                    mySort(item.children);
+                }
+            });
+            return arr;
+        };
+        function _revert(arr, type) {
+            arr.forEach((item) => {
+                if (item.type === type) {
+                    item.disabled = true;
+                } else {
+                    item.disabled = false;
+                }
+                if (item.children && item.children.length > 0) {
+                    _revert(item.children, type);
+                }
+            });
+            return arr;
+        }
+        function debounce(func, wait, options) {
+            var lastArgs,
+                lastThis,
+                maxWait,
+                result,
+                timerId,
+                lastCallTime,
+                lastInvokeTime = 0,
+                leading = false,
+                maxing = false,
+                trailing = true;
+
+            if (typeof func != "function") {
+                throw new TypeError(FUNC_ERROR_TEXT);
+            }
+            wait = toNumber(wait) || 0;
+            if (isObject(options)) {
+                leading = !!options.leading;
+                maxing = "maxWait" in options;
+                maxWait = maxing
+                    ? nativeMax(toNumber(options.maxWait) || 0, wait)
+                : maxWait;
+                trailing = "trailing" in options ? !!options.trailing : trailing;
+            }
+
+            function invokeFunc(time) {
+                var args = lastArgs,
+                    thisArg = lastThis;
+
+                lastArgs = lastThis = undefined;
+                lastInvokeTime = time;
+                result = func.apply(thisArg, args);
+                return result;
+            }
+
+            function leadingEdge(time) {
+                // Reset any `maxWait` timer.
+                lastInvokeTime = time;
+                // Start the timer for the trailing edge.
+                timerId = setTimeout(timerExpired, wait);
+                // Invoke the leading edge.
+                return leading ? invokeFunc(time) : result;
+            }
+
+            function remainingWait(time) {
+                var timeSinceLastCall = time - lastCallTime,
+                    timeSinceLastInvoke = time - lastInvokeTime,
+                    timeWaiting = wait - timeSinceLastCall;
+
+                return maxing
+                    ? nativeMin(timeWaiting, maxWait - timeSinceLastInvoke)
+                : timeWaiting;
+            }
+
+            function shouldInvoke(time) {
+                var timeSinceLastCall = time - lastCallTime,
+                    timeSinceLastInvoke = time - lastInvokeTime;
+
+                // Either this is the first call, activity has stopped and we're at the
+                // trailing edge, the system time has gone backwards and we're treating
+                // it as the trailing edge, or we've hit the `maxWait` limit.
+                return (
+                    lastCallTime === undefined ||
+                    timeSinceLastCall >= wait ||
+                    timeSinceLastCall < 0 ||
+                    (maxing && timeSinceLastInvoke >= maxWait)
+                );
+            }
+
+            function timerExpired() {
+                var time = now();
+                if (shouldInvoke(time)) {
+                    return trailingEdge(time);
+                }
+                // Restart the timer.
+                timerId = setTimeout(timerExpired, remainingWait(time));
+            }
+
+            function trailingEdge(time) {
+                timerId = undefined;
+
+                // Only invoke if we have `lastArgs` which means `func` has been
+                // debounced at least once.
+                if (trailing && lastArgs) {
+                    return invokeFunc(time);
+                }
+                lastArgs = lastThis = undefined;
+                return result;
+            }
+
+            function cancel() {
+                if (timerId !== undefined) {
+                    clearTimeout(timerId);
+                }
+                lastInvokeTime = 0;
+                lastArgs = lastCallTime = lastThis = timerId = undefined;
+            }
+
+            function flush() {
+                return timerId === undefined ? result : trailingEdge(now());
+            }
+
+            function debounced() {
+                var time = now(),
+                    isInvoking = shouldInvoke(time);
+
+                lastArgs = arguments;
+                lastThis = this;
+                lastCallTime = time;
+
+                if (isInvoking) {
+                    if (timerId === undefined) {
+                        return leadingEdge(lastCallTime);
+                    }
+                    if (maxing) {
+                        // Handle invocations in a tight loop.
+                        clearTimeout(timerId);
+                        timerId = setTimeout(timerExpired, wait);
+                        return invokeFunc(lastCallTime);
+                    }
+                }
+                if (timerId === undefined) {
+                    timerId = setTimeout(timerExpired, wait);
+                }
+                return result;
+            }
+            debounced.cancel = cancel;
+            debounced.flush = flush;
+            return debounced;
+        }
+        let id = 1000000;
+        new Vue({
+            el: "#app",
+            data() {
+                return {
+                    direct: false,
+                    advanced: false,
+                    advancedFlag: false,
+                    devText: "",
+                    prodText: "",
+                    userid: "wuhaicheng",
+                    currentTemplateInfo: {
+                        type: "",
+                        label: "",
+                        fullpath: "",
+                        env: "",
+                    },
+                    cityid: 999,
+                    moveStart: { x: 0, y: 0, l: 0, t: 0 },
+                    code: "",
+                    title: "当前模板路径：",
+                    path: "",
+                    loading: false,
+                    drawer: false,
+                    direction: "rtl",
+                    activeNames: ["1"],
+                    data: [], // 测试环境树结构
+                    data2: [], // 生产环境树结构
+                    defaultProps: {
+                        children: "children",
+                        label: "label",
+                        isLeaf: "isLeaf",
+                        // disabled: function (data, node) {
+                        //   if (
+                        //     (data.children && data.children.length > 0) ||
+                        //     data.type == "dictionary"
+                        //   ) {
+                        //     return !this.direct;
+                        //   } else {
+                        //     return this.diecct;
+                        //   }
+                        // },
+                        disabled: "disabled",
+                    },
+                    defaultProps2: {
+                        children: "children",
+                        label: "label",
+                        isLeaf: "isLeaf",
+                        // disabled: function (data, node) {
+                        //   if (
+                        //     (data.children && data.children.length > 0) ||
+                        //     data.type == "dictionary"
+                        //   ) {
+                        //     return this.direct;
+                        //   } else {
+                        //     return !this.diecct;
+                        //   }
+                        // },
+                        disabled: "disabled",
+                    },
+                };
+            },
+            watch: {
+                devText(val) {
+                    this.treeSearch.apply(this, [val, "tree"]);
+                },
+                prodText(val) {
+                    this.treeSearch.apply(this, [val, "tree2"]);
+                },
+            },
+            methods: {
+                treeSearch: _.debounce(function (val, treeRef) {
+                    console.log(treeRef, val);
+                    this.$refs[treeRef].filter(val);
+                }, 1000),
+                revert() {
+                    if (
+                        !this.data ||
+                        !this.data2 ||
+                        !this.data.length ||
+                        !this.data2.length
+                    ) {
+                        return;
+                    }
+                    this.$refs.tree.setCheckedNodes([]);
+                    this.$refs.tree2.setCheckedNodes([]);
+                    if (!this.direct) {
+                        _revert(this.data, "directory");
+                        _revert(this.data2, "file");
+                    } else {
+                        _revert(this.data2, "directory");
+                        _revert(this.data, "file");
+                    }
+                },
+                renderContent(h, { node, data, store }) {
+                    // return (
+                    //   <span class="custom-tree-node">
+                    //     <span>{node.label}</span>
+                    //     <span>
+                    //       <el-button size="mini" type="text" on-click={ () => this.append(data) }>Append</el-button>
+                    //     </span>
+                    //   </span>);
+                },
+                async doSCP() {
+                    if (!this.$refs.tree.getCheckedNodes().length) {
+                        this.$message.error(
+                            !this.direct ? "请选择要同步的模板" : "请选择要同步的目录"
+                        );
+                        return;
+                    }
+                    if (!this.$refs.tree2.getCheckedNodes().length) {
+                        this.$message.error(
+                            this.direct ? "请选择要同步的模板" : "请选择要同步的目录"
+                        );
+                        return;
+                    }
+                    let [cpts, path] = [[], ""];
+                    if (!this.direct) {
+                        cpts = this.$refs.tree
+                            .getCheckedNodes()
+                            .map((item) => item.fullpath);
+                        path = this.$refs.tree2.getCheckedNodes()[0].fullpath;
+                    } else {
+                        cpts = this.$refs.tree2
+                            .getCheckedNodes()
+                            .map((item) => item.fullpath);
+                        path = this.$refs.tree.getCheckedNodes()[0].fullpath;
+                    }
+                    this.$confirm(
+                        `确定要从${this.direct ? "生产" : "测试"}环境同步${
+                cpts.length
+                        }个文件到${this.direct ? "测试" : "生产"}环境：${path.substring(
+                            path.indexOf("reportlets/bass") + 11
+                        )} 下吗？`,
+                        "提示",
+                        {
+                            confirmButtonText: "确定",
+                            cancelButtonText: "取消",
+                            type: "warning",
+                        }
+                    )
+                        .then(async () => {
+                        this.loading = true;
+                        const rs = await axios({
+                            url: ORIGIN + "/scp",
+                            method: "post",
+                            data: {
+                                direct: !this.direct ? "dev2prod" : "prod2dev",
+                                cpts,
+                                path,
+                            },
+                        });
+                        this.loading = false;
+                        if (rs.data === "success") {
+                            this.$message.success("同步成功");
+                        } else {
+                            this.$message.error(rs.data);
+                        }
+                    })
+                        .catch(() => {
+                        this.$message.info("已取消同步");
+                    });
+                },
+                async doSCP0() {
+                    let [env, srcpath, destpath] = ["", "", ""];
+                    if (location.hostname !== "192.195.19.26") {
+                        [env, srcpath, destpath] = [
+                            "prod",
+                            "/home/asiainfo/project/report/WEB-INF/reportlets",
+                            "/home/asiainfo/server/fanruan/tomcat-finereport/webapps/WebReport/WEB-INF/reportlets",
+                        ];
+                    } else {
+                        [env, destpath, srcpath] = [
+                            "dev",
+                            "/home/asiainfo/project/report/WEB-INF/reportlets",
+                            "/home/asiainfo/server/fanruan/tomcat-finereport/webapps/WebReport/WEB-INF/reportlets",
+                        ];
+                    }
+                    let tmp = GetQueryString("viewlet") || GetQueryString("reportlet") || GetQueryString("formlet");
+                    tmp = decodeURIComponent(decodeURIComponent(tmp))
+                    if (!tmp || (!tmp.endsWith(".cpt") && !tmp.endsWith(".frm"))) {
+                        this.$message.error("请先预览一张模板!");
+                        return;
+                    }
+                    let [cpts, path] = [
+                        [srcpath + "/" + tmp],
+                        destpath + "/" + tmp.substring(0, tmp.lastIndexOf("/")),
+                    ];
+                    this.$confirm(
+                        `确定要将该模板从${env === "dev" ? "测试" : "生产"}环境下同步到${
+                env === "prod" ? "测试" : "生产"
+                        }环境下吗？`,
+                        "提示",
+                        {
+                            confirmButtonText: "确定",
+                            cancelButtonText: "取消",
+                            type: "warning",
+                        }
+                    )
+                        .then(async () => {
+                        this.loading = true;
+                        const rs = await axios({
+                            url: ORIGIN + "/scp",
+                            method: "post",
+                            data: {
+                                direct: env === "dev" ? "dev2prod" : "prod2dev",
+                                cpts,
+                                path,
+                            },
+                        });
+                        this.loading = false;
+                        if (rs.data === "success") {
+                            this.$message.success("同步成功");
+                        } else {
+                            this.$message.error(rs.data);
+                        }
+                    })
+                        .catch(() => {
+                        this.$message.info("已取消同步");
+                    });
+                },
+                collapseAll(n) {
+                    const nodes = this.$refs[n].store._getAllNodes();
+                    nodes.forEach((item) => {
+                        item.expanded = false;
+                    });
+                },
+                // 判断是否拖动了，这里我设置了5px，
+                isdrag(x1, y1, x2, y2) {
+                    console.log(
+                        Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2))
+                    );
+                    if (Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)) <= 5) {
+                        return false;
+                    }
+                    return true;
+                },
+                preview(env) {
+                    let querystring = location.search;
+                    console.log(this.cityid, this.username);
+                    if (GetQueryString("userinfo")) {
+                        querystring = querystring.replace(
+                            GetQueryString("userinfo"),
+                            strEnc(
+                                "userid=" + this.userid + "&usercityid=" + this.cityid,
+                                "1",
+                                "2",
+                                "3"
+                            )
+                        );
+                    } else {
+                        querystring +=
+                            (querystring ? "&" : "?") +
+                            "userinfo=" +
+                            strEnc(
+                            "userid=" + this.userid + "&usercityid=" + this.cityid,
+                            "1",
+                            "2",
+                            "3"
+                        );
+                    }
+                    if (env == "prod") {
+                        location.href =
+                            "http://10.19.206.196:8088" + location.pathname + querystring;
+                    } else if (env == "dev") {
+                        location.href =
+                            "http://192.195.19.26:8080" + location.pathname + querystring;
+                    }
+                },
+                openDrawer() {
+                    if (
+                        !this.isdrag(
+                            this.moveStart.x,
+                            this.moveStart.y,
+                            this.moveStart.l,
+                            this.moveStart.t
+                        )
+                    ) {
+                        console.log("点击事件");
+                        this.drawer = true;
+                    } else {
+                        console.log("拖拽事件");
+                    }
+                },
+                handleClose(done) {
+                    done();
+                },
+                handleChange(val) {
+                    console.log(val);
+                },
+                handleNodeClick(data, node, tree, treeRef) {
+                    console.log(data, treeRef);
+                    this.currentTemplateInfo = {
+                        env: treeRef,
+                        fullpath: data.fullpath,
+                        label: data.label,
+                        type: data.type,
+                    };
+                },
+                filterNode(value, data) {
+                    if (!value) return true;
+                    return data.label.indexOf(value) !== -1;
+                },
+                handleCheckChange(data, checked, indeterminate, treeRef) {
+                    console.log(data, checked, indeterminate, treeRef);
+                    if (this.direct && checked) {
+                        if (treeRef === "tree") {
+                            this.$refs[treeRef].setCheckedKeys([data.id]);
+                            this.$refs[treeRef].setCurrentKey(data.id);
+                        }
+                    }
+                    if (!this.direct && checked) {
+                        if (treeRef === "tree2") {
+                            this.$refs[treeRef].setCheckedKeys([data.id]);
+                            this.$refs[treeRef].setCurrentKey(data.id);
+                        }
+                    }
+                },
+                openTemplate(data, env) {
+                    let origin = "";
+                    if (env === "prod") {
+                        origin = "http://10.19.206.196:8088"
+                    } else if (env === "dev") {
+                        origin = "http://192.195.19.26:8080"
+                    }
+                    window.open(
+                        origin + "/WebReport/decision/view/" +
+                        (data.label.endsWith("frm") ? "form" : "report") +
+                        "?viewlet=" +
+                        encodeURIComponent(
+                            encodeURIComponent(
+                                data.fullpath.substring(
+                                    data.fullpath.indexOf("reportlets/bass") + 11
+                                )
+                            )
+                        ) +
+                        "&userinfo=" +
+                        strEnc(
+                            "userid=" + this.userid + "&usercityid=" + this.cityid,
+                            "1",
+                            "2",
+                            "3"
+                        )
+                    );
+                },
+                down() {
+                    var sessionID = FR.SessionMgr.getSessionID()
+                    virtualFormPost(location.origin + location.pathname + '?op=export&format=excel&sessionID='+ sessionID, {})
+                },
+                view(data, type) {
+                    this.getXML(
+                        type,
+                        data.fullpath.substring(
+                            data.fullpath.indexOf("reportlets/bass") + 11
+                        )
+                    );
+                },
+                getXML(type, path) {
+                    const env = location.hostname === "192.195.19.26" ? "dev" : "prod";
+                    axios({
+                        url:
+                        ORIGIN +
+                        "/remoteTemplate?type=" +
+                        (type ? type : env) +
+                        "&path=" +
+                        (type ? path : this.path),
+                    }).then((res) => {
+                        // this.code = res.data.detail;
+                        // console.log(this.$refs.source);
+                        // this.$refs.source.innerHTML = `<pre><code></code></pre>`
+                        this.$refs.source.querySelector(
+                            "pre code"
+                        ).innerHTML = `<pre><code>${res.data.detail
+                            .replace(/</g, "&lt;")
+                            .replace(/>/g, "&gt;")}</code></pre>`;
+                        hljs.highlightAll();
+                        this.$nextTick(() => {
+                            // hljs.initHighlightingOnLoad(); // 废弃了
+                        });
+                    });
+                },
+                getAllTrees() {
+                    this.advanced = !this.advanced;
+                    if (this.data.length > 0) {
+                        this.$refs.tree.setCheckedNodes([]);
+                        this.$refs.tree2.setCheckedNodes([]);
+                        return;
+                    }
+                    this.loading = true;
+                    Promise.all([
+                        axios({
+                            url: ORIGIN + "/remoteTree?n=0",
+                        }),
+                        axios({
+                            url: ORIGIN + "/remoteTree?n=1",
+                        }),
+                    ]).then((res) => {
+                        this.data = _revert(
+                            mySort(res[0].data),
+                            this.direct ? "file" : "directory"
+                        );
+                        this.data2 = _revert(
+                            mySort(res[1].data),
+                            !this.direct ? "file" : "directory"
+                        );
+                        this.loading = false;
+                    });
+                },
+                getRemoteTree(n) {
+                    this.loading = true;
+                    axios({
+                        url: ORIGIN + "/remoteTree?n=" + n,
+                    }).then((res) => {
+                        if (n === 0) {
+                            this.data = _revert(
+                                mySort(res.data),
+                                this.direct ? "file" : "directory"
+                            );
+                        } else {
+                            this.data2 = _revert(
+                                mySort(res.data),
+                                !this.direct ? "file" : "directory"
+                            );
+                        }
+                        this.$nextTick(() => {
+                            this.$refs["tree" + (n ? n + 1 : "")].setCheckedNodes([]);
+                        });
+                        this.loading = false;
+                    });
+                },
+                append(data) {
+                    this.$prompt("请输入文件夹名称：", "提示", {
+                        confirmButtonText: "确定",
+                        cancelButtonText: "取消",
+                        type: "warning", // 图标样式 "warning"|"error"...
+                        inputValue: "",
+                        inputErrorMessage: "输入不能为空",
+                        inputValidator: (value) => {
+                            // 点击按钮时，对文本框里面的值进行验证
+                            if (!value) {
+                                return "输入不能为空";
+                            }
+                        },
+                        // callback:function(action, instance){
+                        //     if(action === 'confirm'){
+                        //         // do something...
+                        //         console.log(instance.inputValue);
+                        //     }
+                        // }
+                    })
+                        .then(({ value }) => {
+                        const newChild = {
+                            id: id++,
+                            label: value,
+                            children: [],
+                            type: "directory",
+                            fullpath: data.fullpath + "/" + value,
+                        };
+                        if (!data.children) {
+                            this.$set(data, "children", []);
+                        }
+                        data.children.push(newChild);
+                    })
+                        .catch((err) => {
+                        console.log(err);
+                    });
+                },
+            },
+            // 自定义指令 —— 拖动div
+            directives: {
+                drag(el, binding, vnode) {
+                    const that = vnode.context;
+                    let oDiv = el; // 当前元素
+                    oDiv.onmousedown = function (e) {
+                        //获取x坐标和y坐标
+                        that.moveStart.x = e.clientX;
+                        that.moveStart.y = e.clientY;
+                        //获取左部和顶部的偏移量
+                        that.moveStart.l = oDiv.offsetLeft;
+                        that.moveStart.t = oDiv.offsetTop;
+
+                        // 鼠标按下，计算当前元素距离可视区的距离
+                        let disX = e.clientX - oDiv.offsetLeft;
+                        let disY = e.clientY - oDiv.offsetTop;
+                        document.onmousemove = function (e) {
+                            // 通过事件委托，计算移动的距离
+                            let l = e.clientX - disX;
+                            let t = e.clientY - disY;
+                            // 移动当前元素
+                            oDiv.style.left = l + "px";
+                            oDiv.style.top = t + "px";
+                        };
+                        document.onmouseup = function (e) {
+                            that.moveStart.l = e.clientX;
+                            that.moveStart.t = e.clientY;
+                            document.onmousemove = null;
+                            document.onmouseup = null;
+                        };
+                        // return false不加的话可能导致黏连，就是拖到一个地方时div粘在鼠标上不下来，相当于onmouseup失效
+                        return false;
+                    };
+                },
+                drawerdrag: {
+                    bind(el, binding, vnode, oldVnode) {
+                        const minWidth = 400;
+                        const dragDom = el.querySelector(".el-drawer");
+                        dragDom.style.overflow = "auto";
+
+                        const resizeElL = document.createElement("div");
+                        const img = new Image(24, 38);
+                        // img.src = '/static/img/stretch.png';
+                        img.src =
+                            "data:image/png;base64,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";
+                        dragDom.appendChild(img);
+                        dragDom.appendChild(resizeElL);
+                        resizeElL.style.cursor = "w-resize";
+                        resizeElL.style.position = "absolute";
+                        resizeElL.style.height = "100%";
+                        resizeElL.style.width = "10px";
+                        resizeElL.style.left = "0px";
+                        resizeElL.style.top = "0px";
+                        img.style.position = "absolute";
+                        img.style.left = "-12px";
+                        img.style.top = "50%";
+
+                        resizeElL.onmousedown = (e) => {
+                            const elW = dragDom.clientWidth;
+                            const EloffsetLeft = dragDom.offsetLeft;
+                            const clientX = e.clientX;
+                            document.onmousemove = function (e) {
+                                e.preventDefault();
+                                // 左侧鼠标拖拽位置
+                                if (clientX > EloffsetLeft && clientX < EloffsetLeft + 10) {
+                                    // 往左拖拽
+                                    if (clientX > e.clientX) {
+                                        dragDom.style.width = elW + (clientX - e.clientX) + "px";
+                                    }
+                                    // 往右拖拽
+                                    if (clientX < e.clientX) {
+                                        if (dragDom.clientWidth >= minWidth) {
+                                            dragDom.style.width =
+                                                elW - (e.clientX - clientX) + "px";
+                                        }
+                                    }
+                                }
+                            };
+                            // 拉伸结束
+                            document.onmouseup = function (e) {
+                                document.onmousemove = null;
+                                document.onmouseup = null;
+                            };
+                        };
+                    },
+                },
+            },
+            mounted() {
+                this.path =
+                    GetQueryString("viewlet") ||
+                    GetQueryString("formlet") ||
+                    GetQueryString("reportlet") ||
+                    "";
+                this.path = decodeURIComponent(decodeURIComponent(this.path))
+                this.title += this.path
+            },
+            created: function () {
+                console.log("created");
+            },
+        });
+    }
+    function GetQueryString(name)
+    {
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+    }
+    var DynamciLoadUtil = {
+        // 动态加载外部js文件，并执行回调
+        loadJS: function(urls, callback){
+            let count = 0;
+            for (const url of urls) {
+                let script = document.createElement('script');
+                script.type = 'text/javascript';
+                script.src = url;
+                if(typeof callback == 'function'){
+                    script.onload = script.onreadystatechange = function(){
+                        if(!this.readyState || this.readyState == 'loaded'
+                           || this.readyState == 'complete'){
+                            count++;
+                            if(count == urls.length){
+                                callback();
+                            }
+                            script.onload = script.onreadystatechange = null;
+                        }
+                    }
+                }
+                document.body.appendChild(script);
+            }
+        },
+        // 动态加载外部CSS文件
+        loadCSS:function(url){
+            var link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = url;
+            document.getElementsByTagName('head')[0].appendChild(link);
+        }
+    };
+    function virtualFormPost(url, params, type) {
+        if (document.querySelector("#temp_ifm")) {
+            try{
+                document.querySelector("#temp_form").remove();
+            }catch (e) {
+                console.log(e);
+                //ie不支持remove方法，用removeNode
+                console.log(e);
+                //ie不支持remove方法，用removeNode
+                var curform = document.querySelector("#temp_form");
+                var childs = curform.childNodes;
+                for (var i = 0; i < childs.length; i++) {
+                    curform.removeChild(childs[i])
+                }
+                document.querySelector("#temp_form").removeNode();
+            }
+        }
+
+        // 创建form元素
+        var temp_form = document.createElement("form");
+        // 设置form属性
+        temp_form.id = 'temp_form';
+        temp_form.action = url;
+        temp_form.target = type == null ? '_self' : type;
+        temp_form.method = "post";
+        temp_form.style.display = "none";
+        // 处理需要传递的参数
+        for (var x in params) {
+            var opt = document.createElement("textarea");
+            opt.name = x;
+            opt.value = encodeURIComponent(params[x]);
+            temp_form.appendChild(opt);
+        }
+        document.body.appendChild(temp_form);
+        // 提交表单
+        temp_form.submit();
+    }
+    (function () {
+        start()
+    })();
+})();
