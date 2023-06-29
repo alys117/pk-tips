@@ -1,3 +1,4 @@
+var _this = this
 var fakeuser = this.options.form.getWidgetByName("fakeuser").getValue();
 var url ='http://127.0.0.1:8080/webroot/ReportServer?sessionID=${sessionID}&op=export&&format=excel&extype=simple&account='+fakeuser+'&res='+encodeURIComponent('${reportName}');
 if (!window.loadflag) {
@@ -55,7 +56,8 @@ function judgeJK(url) {
           judgeJK(url)
         }
       } else {
-        downBinary(url, sessionStorage.getItem("token"));
+        //downBinary(url, sessionStorage.getItem("token"));
+        _this.options.form.getWidgetByName("button2").doClick()
       }
     }catch(e){
       sessionStorage.removeItem("token");
@@ -110,41 +112,12 @@ function  downBinary(url, token) {
       a.href = URL.createObjectURL(blob);
       a.download = fileName; //a.download = '历史数据.xlsx';
       a.click();
-      log(blob.size, location.href)
     } else {
       //请求失败处理
     }
   };
   // 发送ajax请求
   xhr.send('{"type":"binary"}');
-  log(-1, location.href)
-}
-
-function log(size, url) {
-  var xhr = new XMLHttpRequest();
-  /* 
-  如果加上 xhr.withCredentials = true; 
-  Access to XMLHttpRequest at 'http://localhost:8080/log' from origin 'http://localhost:8075' has been blocked by CORS policy: Response to preflight 
-  request doesn't pass access control check: The value of the 'Access-Control-Allow-Credentials' header in the response is '' 
-  which must be 'true' when the request's credentials mode is 'include'. 
-  The credentials mode of requests initiated by the XMLHttpRequest is controlled by the withCredentials attribute.
-  */
-  // xhr.withCredentials = true; 
-  xhr.open("POST", "http://localhost:8080/log");
-  xhr.setRequestHeader("Content-Type", "application/json");
-  var data = JSON.stringify({
-    token: sessionStorage.getItem("token"),
-    size,
-    url: location.href
-  });
-  xhr.onload = function () {
-    if (xhr.status === 200) {
-      console.log(xhr.responseText);
-    } else {
-      console.log(xhr.responseText);
-    }
-  }
-  xhr.send(data);
 }
 
 function loadModal(url) {
@@ -180,7 +153,8 @@ function loadModal(url) {
       if (msgObj.token) {
         sessionStorage.setItem("token", msgObj.token);
       }
-      downBinary(location.origin + msgObj.src, msgObj.token);
+      //downBinary(location.origin + msgObj.src, msgObj.token);
+      _this.options.form.getWidgetByName("button2").doClick()
     }
     if (msgObj.type === "hide") {
       $("#myModal").modal("hide");
@@ -206,7 +180,8 @@ function loadModal(url) {
       if (msgObj.token) {
         sessionStorage.setItem("token", msgObj.token);
       }
-      downBinary(location.protocol+'//'+location.host + msgObj.src, msgObj.token);
+      // downBinary(location.protocol+'//'+location.host + msgObj.src, msgObj.token);
+      _this.options.form.getWidgetByName("button2").doClick()
     }
     if (msgObj.type === "hide") {
       $("#myModal").modal("hide");

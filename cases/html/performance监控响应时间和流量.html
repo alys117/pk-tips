@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>流量、响应时间监控</title>
+    <link rel="stylesheet" href="../../vue2-example/elementui/index.css">
+  </head>
+  <body>
+    <button onclick="down1()">iframe 下载</button>
+    <br />
+    <button onclick="down2()">a 下载</button>
+    <br />
+    <button onclick="down3()">xhr->a 下载</button>
+    <script>
+        /* 
+        https://developer.mozilla.org/en-US/docs/Web/API/PerformanceResourceTiming/transferSize
+        https://developer.mozilla.org/en-US/docs/Web/API/Performance_API/Navigation_timing
+        */
+      var url = "/cases/es6/1.json";
+      var url2 = "http://192.168.0.105:8080/WebReport/FRDemo.db";
+      const observer = new PerformanceObserver((list) => {
+        list.getEntries().forEach((entry) => {
+          const domContentLoadedTime =
+            entry.domContentLoadedEventEnd - entry.domContentLoadedEventStart;
+          console.log(
+            `${entry.name}: DOMContentLoaded processing time: ${domContentLoadedTime}ms`
+          );
+        });
+      });
+      observer.observe({ type: "navigation", buffered: true });
+      const observer2 = new PerformanceObserver((list) => {
+        list.getEntries().forEach((entry) => {
+          console.log('entry :>> ', entry);
+          console.log('entry.transferSize :>> ', entry.transferSize);
+          console.log('entry.decodedBodySize :>> ', entry.decodedBodySize);
+          if (entry.transferSize === 0 && entry.decodedBodySize > 0) {
+            console.log(`${entry.name} was loaded from cache`);
+          }
+        });
+      });
+
+      observer2.observe({ type: "resource", buffered: true });
+
+      function down1() {
+        var ifm = document.createElement("iframe");
+        // ifm.style.display = "none";
+        // ifm.style.height = 0;
+        ifm.src = url;
+        document.body.appendChild(ifm);
+        if (ifm.attachEvent) {
+          // IE下
+          ifm.attachEvent("onload", function () {
+            //    后续操作
+          });
+        } else {
+          ifm.onload = function () {
+            //    后续操作
+            console.log(123);
+            ifm.remove();
+          };
+        }
+      }
+      //下载文件
+      function down2() {
+        const eleLink = document.createElement("a"); // 新建A标签
+        eleLink.href = url; // 下载的路径
+        eleLink.download = `abc - dd`; // 设置下载的属性，可以为空
+        eleLink.style.display = "none";
+        eleLink.target = "_blank";
+        document.body.appendChild(eleLink);
+        eleLink.click(); // 触发点击事件
+        document.body.removeChild(eleLink);
+      }
+      function down3(){
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", url, true);
+        xhr.responseType = "blob";
+        xhr.onload = function () {
+          if (this.status == 200) {
+            var blob = this.response;
+            console.log('blob.size :>> ', blob.size);
+            var reader = new FileReader();
+            reader.readAsDataURL(blob); // 转换为base64，可以直接放入a表情href
+            reader.onload = function (e) {
+              // 转换完成，创建一个a标签用于下载
+              var a = document.createElement("a");
+              a.download = "test";
+              a.href = e.target.result;
+              document.body.appendChild(a); // 修复firefox中无法触发click
+              a.click();
+              document.body.removeChild(a);
+            };
+          }
+        };
+        xhr.send();
+      }
+    </script>
+  </body>
+</html>
