@@ -1117,6 +1117,11 @@
   dependencies:
     "assert-plus" "^1.0.0"
 
+"dayjs@^1.11.9":
+  "integrity" "sha512-QvzAURSbQ0pKdIye2txOzNaHmxtUBXerpY0FJsFXUMKbIZeFm5ht1LS/jFsrncjnmtv8HsG0W2g6c0zUjZWmpA=="
+  "resolved" "https://registry.npmmirror.com/dayjs/-/dayjs-1.11.9.tgz"
+  "version" "1.11.9"
+
 "debug@^4.1.1":
   "integrity" "sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ=="
   "resolved" "https://registry.npmmirror.com/debug/-/debug-4.3.4.tgz"
@@ -1196,13 +1201,13 @@
     "jsbn" "~0.1.0"
     "safer-buffer" "^2.1.0"
 
-"echarts@^5.3.2":
-  "integrity" "sha512-LWCt7ohOKdJqyiBJ0OGBmE9szLdfA9sGcsMEi+GGoc6+Xo75C+BkcT/6NNGRHAWtnQl2fNow05AQjznpap28TQ=="
-  "resolved" "https://registry.npmmirror.com/echarts/-/echarts-5.3.2.tgz"
-  "version" "5.3.2"
+"echarts@^5.4.2":
+  "integrity" "sha512-2W3vw3oI2tWJdyAz+b8DuWS0nfXtSDqlDmqgin/lfzbkB01cuMEN66KWBlmur3YMp5nEDEEt5s23pllnAzB4EA=="
+  "resolved" "https://registry.npmmirror.com/echarts/-/echarts-5.4.2.tgz"
+  "version" "5.4.2"
   dependencies:
     "tslib" "2.3.0"
-    "zrender" "5.3.1"
+    "zrender" "5.4.3"
 
 "ee-first@1.1.1":
   "integrity" "sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow=="
@@ -3326,9 +3331,9 @@
   "resolved" "https://registry.npmmirror.com/yaml/-/yaml-1.10.2.tgz"
   "version" "1.10.2"
 
-"zrender@5.3.1":
-  "integrity" "sha512-7olqIjy0gWfznKr6vgfnGBk7y4UtdMvdwFmK92vVQsQeDPyzkHW1OlrLEKg6GHz1W5ePf0FeN1q2vkl/HFqhXw=="
-  "resolved" "https://registry.npmmirror.com/zrender/-/zrender-5.3.1.tgz"
-  "version" "5.3.1"
+"zrender@5.4.3":
+  "integrity" "sha512-DRUM4ZLnoaT0PBVvGBDO9oWIDBKFdAVieNWxWwK0niYzJCMwGchRk21/hsE+RKkIveH3XHCyvXcJDkgLVvfizQ=="
+  "resolved" "https://registry.npmmirror.com/zrender/-/zrender-5.4.3.tgz"
+  "version" "5.4.3"
   dependencies:
     "tslib" "2.3.0"

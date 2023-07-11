@@ -62,3 +62,27 @@ console.log(a)
 
 console.log([1,2,3,4,5,6,7,8,9].slice(4,5));
 
+
+// js 数组生成并塞入1~30
+
+const arr30 = Array.from({ length: 30 }, (_, i) => 1 + (i)) // 1-30
+console.log('arr30 :>> ', arr30);
+
+const arr99 = Array(100).toString().split(',').map((item,index)=>index)     //0-99 
+console.log('arr99 :>> ', arr99);
+
+
+// 找出数组中最后一个不为undefined的元素的函数
+function findLastIndex(arr) {
+  for (let i = arr.length - 1; i >= 0; i--) {
+    if (arr[i] !== undefined) {
+      return i;
+    }
+  }
+  return -1;
+}
+console.log(findLastIndex([1, 2, 3, , undefined, undefined, undefined, 2, undefined, undefined, undefined]));
+const dayjs = require('dayjs')
+console.log(dayjs('2022-06-01').add(-1,'day').format('YYYY-MM-DD HH:mm:ss'));
+
+console.log(dayjs('2019-01-25 12:23:54.786').valueOf()); // 1548381600000

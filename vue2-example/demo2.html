@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="./elementui/index.css" />
+    <style>
+      body {
+        /* background-color: #5b9bd5 ; */
+        background: linear-gradient(
+          to top right,
+          #d4e7f6,
+          skyblue 10px,
+          #e6f1e0
+        );
+      }
+
+      .content {
+        padding: 20px 10px;
+        /* position: absolute;
+      top: 590px;
+      right: 2%; */
+        background-color: white;
+        border-radius: 60px;
+        border: 1px solid skyblue;
+        width: 96%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .el-table {
+        font-size: 20px;
+        transform: scale(0.5);
+        transform-origin: 0 top;
+      }
+
+      .el-table td.el-table__cell div {
+        transform: scale(1.0);
+      }
+
+      .el-table .cell {
+        padding: 2px;
+      }
+
+      .el-table .el-table__cell {
+        padding: 2px;
+      }
+
+      .el-table--border .el-table__cell:first-child .cell {
+        padding-left: 2px;
+      }
+
+      .el-table th.el-table__cell > .cell {
+        padding: 2px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app">
+      <div class="container">
+        <div class="content">
+          <div
+            ref="tableContainer"
+            :style="{marginRight: 'auto',marginLeft: 'auto',width: '95%',height: height+'px'}"
+          >
+            <el-table
+              ref="table1"
+              :row-style="selectedRowStyle"
+              :header-cell-style="{'text-align':'center'}"
+              :cell-style="{'text-align':'center'}"
+              :data="tableData"
+            >
+              <el-table-column prop="cityname" label="地市" width="60">
+              </el-table-column>
+              <el-table-column label="政企收入">
+                <el-table-column
+                  prop="name"
+                  label="政企收入年累计完成进度"
+                  width="130"
+                >
+                </el-table-column>
+                <el-table-column
+                  prop="col1"
+                  label="其中本业务收入占比"
+                  width="130"
+                >
+                  <template slot-scope="scope">
+                    <div
+                      :style="{backgroundColor: color(scope.row.sn),fontWeight: scope.row.cityname === '全省'?'bold':'normal'}"
+                    >
+                      {{ (scope.row.col1*100).toFixed(1)+'%'}}
+                    </div>
+                  </template>
+                </el-table-column>
+              </el-table-column>
+              <el-table-column label="重点产品发展情况">
+                <el-table-column prop="name" label="畅享版企宽">
+                </el-table-column>
+                <el-table-column prop="sn" label="尊享版企宽">
+                </el-table-column>
+                <el-table-column prop="province" label="商务快线">
+                </el-table-column>
+                <el-table-column prop="province" label="千里眼">
+                </el-table-column>
+                <el-table-column prop="province" label="视频彩铃">
+                </el-table-column>
+                <el-table-column prop="province" label="互联网专线">
+                </el-table-column>
+              </el-table-column>
+            </el-table>
+          </div>
+          <div ref="main" id="main" style="width: 96vw;height: 400px;"></div>
+        </div>
+      </div>
+    </div>
+    <script src="./vue2/2.7.14.js"></script>
+    <script src="./elementui/index.js"></script>
+    <script src="./axios/1.1.2.js"></script>
+    <script src="./dayjs/dayjs.min.js"></script>
+    <script src="../node_modules/echarts/dist/echarts.min.js"></script>
+    <script>
+      new Vue({
+        el: "#app",
+        data: function () {
+          return {
+            xhz: ["aa", "dd", "ee", "fd", "df"],
+            date: dayjs().format("M月D日"),
+            height: "0",
+            tableData: [
+              {
+                date: "2016-05-03",
+                cityname: "济南",
+                name: "王小虎",
+                province: "上海",
+                city: "普陀区",
+                address: "上海市普陀区金沙江路 1518 弄",
+                zip: 200333,
+              },
+              {
+                date: "2016-05-07",
+                cityname: "济南",
+                name: "王小虎",
+                province: "上海",
+                city: "普陀区",
+                address: "上海市普陀区金沙江路 1518 弄",
+                zip: 200333,
+              },
+            ],
+          };
+        },
+        methods: {
+          selectedRowStyle({ row, rowIndex }) {
+            if (row.cityid === 999) {
+              return { "font-weight": "700" };
+            }
+          },
+          initEchart() {
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = echarts.init(this.$refs.main);
+
+            // 指定图表的配置项和数据
+            var option = {
+              title: {
+                text: "ECharts 入门示例",
+              },
+              tooltip: {},
+              legend: {
+                data: ["销量"],
+              },
+              xAxis: {
+                data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"],
+              },
+              yAxis: {},
+              series: [
+                {
+                  name: "销量",
+                  type: "bar",
+                  data: [5, 20, 36, 10, 10, 20],
+                },
+              ],
+            };
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+          },
+        },
+        computed: {
+          color() {
+            return (sn) => {
+              if (sn !== 18 && sn > 14) {
+                return "#deebf7";
+              } else if (sn < 4) {
+                return "#ffc7ce";
+              } else {
+                return "rgba(0,0,0,0)";
+              }
+            };
+          },
+        },
+        mounted() {
+          axios({ url: "./多级表头数据.json" }).then((res) => {
+            this.tableData = res.data;
+            this.tableData.sort((a, b) => {
+              if (a.cityid === 999) {
+                return true;
+              } else {
+                return a.col1 - b.col1;
+              }
+            });
+            this.tableData.map((item) => {
+              item.sn = this.tableData.indexOf(item) + 1;
+            });
+            this.tableData.reduce(function (prev, next) {
+              if (prev.col1 === next.col1) {
+                next.sn = prev.sn;
+              }
+              return next;
+            });
+            this.tableData.sort(function (a, b) {
+              return a.cityid - b.cityid;
+            });
+            this.$nextTick(() => {
+              const tableHeight = this.$refs?.table1?.$el.offsetHeight;
+              console.log(tableHeight, "axios");
+              this.height = tableHeight * 1;
+            });
+          });
+          this.initEchart();
+        },
+        created: function () {
+          console.log("created");
+          axios({ url: "../package.json" }).then((res) => {
+            console.log(res);
+          });
+        },
+      });
+    </script>
+  </body>
+</html>

@@ -57,3 +57,11 @@ https://github.com/redisson/redisson/tree/master/redisson-tomcat
 2. oem软件安装完成后，webroot/WEB-INF/下的jar报表会和服务器端的jar包重复，比如mysql的驱动包，同时存在两个版本：5.1.49（软件自带），8.0.27（服务器端）
 3. 插件一致性检测
 ![image](../static/img/插件一致性检测.png)
+
+
+
+
+# 2023-07-05
+## 1、智能运维-负载管理-模板限制 是否可以修改数据库中的值
+## 2、智能运维-宕机处理-dump解析
+## 3、开放平台-报表数据服务 模板里只有一列数据的话会报错
