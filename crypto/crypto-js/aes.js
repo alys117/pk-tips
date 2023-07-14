@@ -1,26 +1,28 @@
-const CryptoJS = require('crypto-js'); 
-const password = 'abc123'
-let key = CryptoJS.SHA1(CryptoJS.SHA1(password)).toString().substring(0, 32);
- 
-//解密方法
-const decrypt = function (word) {
-    let srcs = CryptoJS.enc.Base64.parse(word);
-    let decrypted = CryptoJS.AES.decrypt({ ciphertext: srcs }, key, { mode: CryptoJS.mode.ECB, padding: CryptoJS.pad.Pkcs7 });
-    let content = decrypted.toString(CryptoJS.enc.Utf8);
-    return content;
-}
- 
-//加密方法
-const encrypt = function (word) {
-    let srcs = CryptoJS.enc.Utf8.parse(word);
-    let encrypted = CryptoJS.AES.encrypt(srcs, key, { mode: CryptoJS.mode.ECB, padding: CryptoJS.pad.Pkcs7 });
-    return encrypted.ciphertext.toString(CryptoJS.enc.Base64);
-}
+// 加密：
+    // 转换秘钥
+const CryptoJS = require('crypto-js');
+const SECRET_KEY = 'xbZmgrx2DXPsfSOMeMwqkFCyYX='
 
-const aaa = encrypt('123456')
-console.log(aaa);
-const bbb = decrypt(aaa)
-console.log(bbb,1);
+var SHA1PRNG = require('./sha1prng');
+var result = SHA1PRNG(SECRET_KEY)
+console.log('SHA1PRNG :>>', result.toString('hex'));
+let realKey = CryptoJS.SHA1(CryptoJS.SHA1(SECRET_KEY)).toString().substring(0, 32); //真正的key
+console.log('realKey :>> ', realKey);
+
+let message = 'http://hfx.net/i/7mwjNg'
+let key =  CryptoJS.enc.Hex.parse(realKey);
+let srcs = CryptoJS.enc.Utf8.parse(message);
+let encrypted = CryptoJS.AES.encrypt(srcs, key, {mode:CryptoJS.mode.ECB,padding: CryptoJS.pad.Pkcs7});
+let cipherText = encrypted.toString();
+console.log('cipherText :>> ', cipherText);
+ 
+ 
+// 解密:
+let content1 = CryptoJS.enc.Base64.parse(cipherText);
+let decrypt = CryptoJS.AES.decrypt({ciphertext: content1}, key, {mode:CryptoJS.mode.ECB,padding: CryptoJS.pad.Pkcs7});
+let content = decrypt.toString(CryptoJS.enc.Utf8);
+console.log("解密 :>>", content);
+
 
 
 
@@ -88,3 +90,4 @@ function bytesToString(params,ascii) { //该方法只适用于utf-8编码和asci
     }
     return result;
 }
+
