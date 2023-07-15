@@ -113,6 +113,9 @@ tip.panke.js
 # intellij idea
 .idea
 
+package-lock.json
+yarn.lock
+
 *.mp3
 *.wav
 *.flac
