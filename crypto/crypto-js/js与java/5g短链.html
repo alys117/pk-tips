@@ -8,6 +8,24 @@
     <title>Document</title>
 </head>
 <body>
+    <div style="border: 1px solid #ccc; padding: 10px;margin-top: 10px;">
+        <p>明文</p>
+        <input type="text" id="input1" value="http://hfx.net/i/7mwjNg" style="width: 500px;">
+        <button onclick="encrypt5G()">加密</button>
+        <p>结果</p>
+        <div style="border: 1px solid salmon;background-color: aliceblue; width: 500px;height: 2rem;line-height: 2rem;">
+            <span id="result1"></span>
+        </div>
+    </div>
+    <div style="border: 1px solid #ccc; padding: 10px;margin-top: 10px;">
+        <p>密文</p>
+        <input type="text" id="input2" value="7KfAw7zAOosmYGmUe4wkrJmG8rp0gfIdXbzUjXCKVf4=" style="width: 500px;">
+        <button onclick="decrypt5G()">解密</button>
+        <p>结果</p>
+        <div style="border: 1px solid salmon;background-color: aliceblue; width: 500px;height: 2rem;line-height: 2rem;">
+            <span id="result2"></span>
+        </div>
+    </div>
     <script>
         const wordArray = CryptoJS.enc.Base64.parse('xbZmgrx2DXPsfSOMeMwqkFCyYX=');
         console.log('wordArray :>> ', wordArray);
@@ -31,6 +49,18 @@
         var a2 = decrypt(a1)
         console.log('密文 :>> ', a1);
         console.log('解密 :>> ', a2);
+
+
+        function encrypt5G(){
+            const mingwen = document.getElementById('input1').value
+            const miwen = encrypt(mingwen)
+            document.getElementById('result1').innerHTML = miwen
+        }
+        function decrypt5G(){
+            const miwen = document.getElementById('input2').value
+            const mingwen = decrypt(miwen)
+            document.getElementById('result2').innerHTML = mingwen
+        }
     </script>
 </body>
 </html>

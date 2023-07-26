@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../../node_modules/devtools-detector/lib/devtools-detector.js"></script>
+  </head>
+  <body>
+    <script>
+        devtoolsDetector.addListener(function (isOpen) {
+          view.innerText = isOpen
+            ? "devtools status: open"
+            : "devtools status: close";
+        });
+        devtoolsDetector.launch();
+    </script>
+  </body>
+</html>

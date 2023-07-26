@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js" integrity="sha512-E8QSvWZ0eCLGk4km3hxSsNmGWbLtSCSUcewDQPQWZF6pEU8GlT8a5fF32wOl1i8ftdMhssTrF/OhyGWwonTcXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+    <script src="./DesNoDepends.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div style="border: 1px solid #ccc; padding: 10px;margin-top: 10px;">
+        <p>明文</p>
+        <input type="text" id="input1" value="userid=wuhaicheng&cityid=999" style="width: 500px;">
+        <button onclick="encrypt()">加密</button>
+        <p>结果</p>
+        <div style="border: 1px solid salmon;background-color: aliceblue; width: 500px;height: 5rem;line-height: 1.2rem;word-break: break-all;">
+            <span id="result1"></span>
+        </div>
+    </div>
+    <div style="border: 1px solid #ccc; padding: 10px;margin-top: 10px;">
+        <p>密文</p>
+        <textarea rows="3" id="input2" value="" style="width: 500px;"></textarea>
+        <button onclick="decrypt()">解密</button>
+        <p>结果</p>
+        <div style="border: 1px solid salmon;background-color: aliceblue; width: 500px;height: 2rem;line-height: 2rem;">
+            <span id="result2"></span>
+        </div>
+    </div>
+    <script>
+        function encrypt(){
+            const mingwen = document.getElementById('input1').value
+            const miwen = strEnc(mingwen,'1','2','3')
+            document.getElementById('result1').innerHTML = miwen
+        }
+        function decrypt(){
+            const miwen = document.getElementById('input2').value
+            const mingwen = strDec(miwen,'1','2','3')
+            document.getElementById('result2').innerHTML = mingwen
+        }
+    </script>
+</body>
+</html>
