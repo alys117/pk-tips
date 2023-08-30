@@ -1,0 +1,184 @@
+.time-line{
+    min-height:56px;
+    background: #fff;
+    margin-top:15px;
+    border-radius: 4px;
+}
+.s_chooseTime{
+    min-height:56px;
+}
+.s_ownTime{
+    min-height:56px;
+    text-align: right;
+    padding-right: 47px;
+}
+.s_chooseTime ul{
+    min-height:56px;
+}
+.s_chooseTime ul li{
+    float:left;
+    font-size: 14px;
+    color: #3A4560;
+    min-width:90px;
+    min-height:26px;
+    line-height:26px;
+    text-align: center;
+    cursor: pointer;
+}
+.s_chooseTimeLi{
+    border-right:2px solid #DADDE6;
+}
+.timeline-active{
+    color: #3F80FA!important;
+}
+.own_timeTitle{
+    display: inline-block;
+    min-height:36px;
+    line-height:36px;
+    font-size: 14px;
+    color: #3A4560;
+}
+.s_jeitem{
+    display: inline-block;
+    position: relative;
+}
+.s_jeinput{
+    background: #FFFFFF;
+    border: 1px solid #DADDE6;
+    border-radius:3px;
+    padding-left:5px;
+    min-width:200px;
+    min-height:30px;
+    line-height:30px;
+    border-top-right-radius: 0%;
+    border-bottom-right-radius: 0%;
+}
+.calender-icon{
+    display: inline-block;
+    min-height:34px;
+    line-height:31px;
+    min-width: 36px;
+    text-align: center;
+    border: 1px solid #DADDE6;
+    border-radius: 3px;
+    border-top-left-radius: 0%;
+    border-bottom-left-radius: 0%;
+    font-size:18px;
+    color: #3A4560;
+    position: absolute;
+    top:0px;
+}
+.fresh-ballLine{
+    min-height:240px;
+}
+.kinds_module{
+    min-height:240px;
+    min-width: 15.83%;
+}
+.module_title{
+    font-size: 17px;
+    color: #3A4560;
+
+    line-height:45px;
+    text-align: center;
+    position: relative;
+}
+.bg-white{
+    background: #fff;
+    min-height:240px;
+    border-radius: 4px;
+}
+.margin-herizon{
+    margin-left:1%;
+}
+.echarts-liquidfill{
+    width:150px;
+    height:150px;
+    margin:0 auto;
+}
+/*风险echars样式*/
+.echarts_risk{
+    width:38.66%;
+    background:#fff;
+    float:left;
+    border-radius:3px;
+    position: relative;
+}
+.eharts_title{
+    min-height:40px;
+    line-height:40px;
+    border-bottom:1px solid #EDEFF5;
+    padding:0 20px;
+    position: absolute;
+    width:100%;
+}
+.eharts_title span{
+    font-size: 17px;
+    font-weight: 600;
+    color: #3A4560
+}
+.echarts_body{
+    height:420px;
+    padding:20px 4px;
+    padding-top:10px;
+}
+.echarts_trendBody{
+    height:420px;
+    padding:20px;
+    padding-top:10px;
+}
+.echarts_trendBody{
+    height:420px;
+    padding:20px;
+    padding-top:10px;
+}
+.echarts_line{
+    overflow: hidden;
+}
+.echarts_trend{
+    margin-left:1%;
+    width:60.32%;
+    background:#fff;
+    float:left;
+    border-radius:3px;
+    position: relative;
+}
+/*风险top5和风险资产top5的样式*/
+.table-risk{
+    min-height:340px;
+}
+.tableRisk-content{
+    min-height:340px;
+    background: #fff;
+}
+.tableRisk-contentTile{
+    min-height:40px;
+    line-height:40px;
+    border-bottom:1px solid #EDEFF5;
+    padding:0 20px;
+}
+.tableRisk-contentTile span{
+    font-size: 17px;
+    font-weight: 600;
+    color: #3A4560
+}
+.risk_table th,.risk_table td{
+    border:0!important;
+    text-align: center;
+    padding: 7px 10px!important;
+    color:#3A4560;
+}
+.risk_table thead{
+    background: #D5E6F7;
+}
+.risk_table th{
+    font-size: 15px;
+    color: #3A4560;
+    font-weight: bold;
+}
+.risk_table tbody tr:nth-child(even){
+    background: #E7EDF3;
+}
+.risk_table tbody tr:nth-child(odd){
+    background: #F5F9FD;
+}

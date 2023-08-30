@@ -1,12 +1,13 @@
 <html>
-<head>
-  <meta charset="utf-8">
-  <script src="https://unpkg.com/vue@2.6.0/dist/vue.js"></script>
-</head>
-<body>
-  <div id="app">
-    <kaka :jojo="count"></kaka>
-<!-- 
+  <head>
+    <meta charset="utf-8" />
+    <script src="./vue2/2.7.14.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <kaka :jojo="count"></kaka>
+    </div>
+    <!-- 
   在template中定义模板，如果要换行的话，要加上一个“\”，
   如果是比较简单的模板还好，如果比较多的话，就会感觉眼花缭乱的，
   因此我们有一个看起来舒服的方式：x-template ,其实可以是任意名字，正如下面我用的  type="text/x-ray"
@@ -14,27 +15,26 @@
     <script type="text/x-ray" id="my-component">
       <div>
         {{ jojo }}
-      <p>This is the content of component</p>
-      <p>Hello Vue!</p>
+        <p>This is the content of component</p>
+        <p>Hello Vue!</p>
       </div>
-      <div>Hello</div>
+      <div>这个div不会显示</div>
     </script>
-  </div>
-  <script>
-    Vue.component('kaka', {
-      template: '#my-component',
-      props: ['jojo']
-    });
-    var app = new Vue({
-      data(){
-        return {
-          count: 13
-        }
-      },
-      el: "#app"
-    });
-  </script>
-</body>
+    <script>
+      Vue.component("kaka", {
+        template: "#my-component",
+        props: ["jojo"],
+      });
+      var app = new Vue({
+        data() {
+          return {
+            count: 13,
+          };
+        },
+        el: "#app",
+      });
+    </script>
+  </body>
 </html>
 <!-- 
   以上会显示两行的内容。

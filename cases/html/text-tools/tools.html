@@ -1,0 +1,415 @@
+<html>
+<header>
+<title>工具箱</title>
+</header>
+<!--加载模块的css-->
+<link href="css/txtUtils/utils.css" rel="stylesheet"/>
+<link href="css/txtUtils/control-center.css" rel="stylesheet"/>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.4/jquery.js"></script>
+<!--[if IE 9]>
+<style>
+    .IE9-margin {
+        margin-top: 40px !important;
+    }
+
+    .IE-div {
+        display: inline-block;
+        vertical-align: 7px;
+    }
+
+    .IE-div .help_tips {
+        bottom: -51px !important;
+    }
+</style>
+<![endif]-->
+<script>
+    //将任务管理设置高亮并展开
+    $('#menu_46_li').addClass('open');
+    $('#menu_46_i').addClass('Active-title');
+    $('#menu_46_title').addClass('Acive-icon');
+
+    $('#son_menu_7_li').addClass('Active-title');
+    $('#son_menu_7_title').addClass('Active-title');
+</script>
+<body>
+<div class="app">
+    <div class="layout">
+        <!-- 左侧菜单开始-->
+        <!-- 左侧菜单结束 -->
+        <!-- Page Container START -->
+        <div class="page-container">
+            <!-- 头部个人信息开始 -->
+            <!-- Content Wrapper START -->
+            <div class="main-content">
+                <div class="container-fluid">
+                    <div class="addTask mrg-top-20">
+                        <form id="emailForm" action="" method="post">
+                            <input type="hidden" id="repetitionStatus" name="repetitionStatus" value="0">
+                            <div class="warp clear" style="width: 90%">
+                                <p style="text-align: center;margin: 21px;">
+                                    <font size="6">文本整理工具</font></p>
+                                <p></p>
+                                <table border="1">
+                                    <tbody>
+                                    <tr>
+                                        <td>
+
+			<textarea name="email" id="neirong" type="text" style="WIDTH: 100%; HEIGHT: 600px;overflow:auto;" cols="440"
+                      rows="1">
+下面是重复内容，您可以点击进行测试：
+
+drservat@opsga.com
+
+info@orlandparkplasticsurgery.com
+chenmd@alanchensurgery.com
+
+greg@delangemd.com
+greg@delangemd.com
+
+				左边是空白
+                                            </textarea> </td>
+                                        <td style="width: 120px;padding-left:10px">
+                                            <p>
+                                                <input title="将右侧的内容移动到左侧。" value="<<内容到左边"
+                                                       onclick="return moveContent();" type="button">
+                                            </p>
+                                            <p>
+                                                <input title="将重复的内容合并，仅保留一条。" value="去重重复" onclick="return sx();"
+                                                       type="button">
+                                            </p>
+                                            <p>
+                                                <input title="添加前缀。" type="button"
+                                                       onclick="filterSpecifiedSuffix(0)"
+                                                       value="添加前缀">
+                                            </p>
+                                            <p>
+                                                <input title="添加后缀。" type="button"
+                                                       onclick="filterSpecifiedSuffix(1)"
+                                                       value="添加后缀">
+                                            </p>
+                                            <p>
+                                                <input title="筛选出包含指定内容的文本" type="button"
+                                                       onclick="screenText()"
+                                                       value="筛选内容">
+                                            </p>
+                                            <p>
+                                                <input title="筛选指定长度" type="button"
+                                                       onclick="screenTextForLength()"
+                                                       value="筛选指定长度">
+                                            </p>
+                                            <p>
+                                                <input title="删除首位空白" type="button"
+                                                       onclick="trimText()"
+                                                       value="删除首位空白">
+                                            </p>
+                                            <p>
+                                                <input title="替换指定文本" type="button"
+                                                       onclick="replaceText()"
+                                                       value="替换指定文本">
+                                            </p>
+                                            <p>
+                                                <input title="删除空白行" type="button"
+                                                       onclick="deleteTrimText()"
+                                                       value="删除空白行">
+                                            </p>
+                                            <p>
+                                                <input title="仅提取数字的行" type="button"
+                                                       onclick="screenNum()"
+                                                       value="仅提取数字">
+                                            </p>
+                                            <p>
+                                                <input title="提取纯中文的行" type="button"
+                                                       onclick="screenChinese()"
+                                                       value="仅提取纯中文的行">
+                                            </p>
+											
+                                        </td>
+                                        <td>
+                                            <textarea name="neirong1" id="neirong1" type="text"
+                                                      style="width: 100%; HEIGHT: 600px; overflow:auto;" cols="440"
+                                                      rows="1">这里是结果^_^</textarea>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+								Hello：用于解决工作中遇到的各种小文本处理，除非电脑强悍，GB的文本就别考虑了。
+                                <script type="text/javascript">
+
+                                    function moveContent() {
+                                        $("#neirong").val($("#neirong1").val());
+                                        $("#neirong1").val("");
+                                    }
+
+                                    function sx() {
+                                        document.getElementById("neirong1").value = doDuplicates(document.getElementById("neirong").value);
+                                    }
+
+                                    function doDuplicates(neirong) {
+                                        var rntArray = [], temp, hasValue;
+                                        var array = neirong.split("\n");
+                                        for (var i in array) {
+                                            temp = array[i];
+                                            hasValue = false;
+                                            for (var j in rntArray) {
+                                                if (temp.toUpperCase() === rntArray[j].toUpperCase()) {
+                                                    hasValue = true;
+                                                    break;
+                                                }
+                                            }
+                                            if (hasValue === false) {
+                                                rntArray.push(temp);
+                                            }
+                                        }
+                                        return rntArray.join("\n");
+                                    }
+
+                                    /**
+                                     * 添加前/后缀
+                                     */
+                                    function filterSpecifiedSuffix(istop) {
+                                        var koulingStr = prompt("需要输入要添加的前缀");
+                                        var rntArray = [], temp, hasValue;
+                                        var array = $("#neirong").val().split("\n");
+										var koulings=[];
+                                        if(koulingStr.indexOf(",")!=-1){
+                                            koulings=koulingStr.split(",");
+                                        }else {
+                                            koulings.push(koulingStr);
+                                        }
+                                        for (var i in array) {
+                                            temp = array[i];
+                                            for (var j in koulings) {
+                                                kouling = koulings[j];
+												if(istop==0){
+													rntArray.push(koulingStr+temp);
+												}else{
+													rntArray.push(temp+koulingStr);
+
+												}
+                                            }
+
+                                        }
+                                        $("#neirong1").val(rntArray.join("\n"))
+                                    } 
+									/**
+                                     * 筛选指定内容
+                                     */
+                                    function screenText(istop) {
+                                         var koulingStr = prompt("需要要筛选的内容，多个用∞分割","多个用∞分割");
+                                        var koulings=[];
+                                        if(koulingStr.indexOf("∞")!=-1){
+                                            koulings=koulingStr.split("∞");
+                                        }else {
+                                            koulings.push(koulingStr);
+                                        }
+                                        var rntArray = [], temp, hasValue;
+                                        var array = $("#neirong").val().split("\n");
+                                        for (var i in array) {
+                                            temp = array[i];
+                                            for (var j in koulings) {
+                                                kouling = koulings[j];
+                                                if (temp.indexOf(kouling)!=-1) {
+                                                    rntArray.push(temp);
+													break;
+                                                }
+                                            }
+
+                                        }
+                                        $("#neirong1").val(rntArray.join("\n"))
+                                    }
+									/**
+                                     * 筛选指定内容
+                                     */
+                                    function screenTextForLength() {
+                                        var koulingStr = prompt("请输入例如：>5，<5，=5之类的");
+										var fuhao=koulingStr.substring(0,1);
+										var num=koulingStr.substring(1);
+                                        
+                                        var rntArray = [], temp, hasValue;
+                                        var array = $("#neirong").val().split("\n");
+                                        for (var i in array) {
+                                            temp = array[i];
+                                          if(fuhao==">"){
+											if(temp.length>num){
+												rntArray.push(temp);
+											}
+										  }
+                                          if(fuhao=="<"){
+											if(temp.length<num){
+												rntArray.push(temp);
+											}
+										  }    
+										 if(fuhao=="="){
+											if(temp.length==num){
+												rntArray.push(temp);
+											}
+										  }  	
+                                        }
+                                        $("#neirong1").val(rntArray.join("\n"))
+                                    }
+									/**
+                                     * 筛选指定内容
+                                     */
+                                    function trimText() {
+                                        var rntArray = [], temp;
+                                        var array = $("#neirong").val().split("\n");
+                                        for (var i in array) {
+                                            temp = array[i].trim();
+											rntArray.push(temp);
+                                        }
+                                        $("#neirong1").val(rntArray.join("\n"))
+                                    }
+									/**
+                                     * 筛选指定内容
+                                     */
+                                    function replaceText() {
+                                        var str1 = prompt("请输入被替换的关键词");
+										var str2 = prompt("请输入替换的内容");
+                                        $("#neirong1").val($("#neirong").val().replaceAll(str1,str2));
+                                    }
+/**
+                                     * 删除空白行
+                                     */
+                                    function deleteTrimText() {
+                                        var rntArray = [], temp;
+                                        var array = $("#neirong").val().split("\n");
+                                        for (var i in array) {
+											temp = array[i];
+											if(temp!=''){
+												rntArray.push(temp);
+											}
+											
+                                        }
+                                        $("#neirong1").val(rntArray.join("\n"))
+                                    }
+									/**
+                                     * 筛选数字
+                                     */
+                                    function screenNum() {
+                                        var rntArray = [], temp;
+                                        var array = $("#neirong").val().split("\n");
+										var reg=new RegExp("^[0-9]*$");
+                                        for (var i in array) {
+                                            temp = array[i];
+											if(temp!=''&& reg.test(temp)){
+												rntArray.push(temp);
+											}
+										  }  	
+                                      
+                                        $("#neirong1").val(rntArray.join("\n"))
+                                    }
+									/**
+                                     * 筛选screenChinese
+                                     */
+                                    function screenChinese() {
+                                        var rntArray = [], temp;
+                                        var array = $("#neirong").val().split("\n");
+										var reg=new RegExp("^[\u4e00-\u9fa5]*$");
+                                        for (var i in array) {
+                                            temp = array[i];
+											if(temp!=''&& reg.test(temp)){
+												rntArray.push(temp);
+											}
+										  }  	
+                                      
+                                        $("#neirong1").val(rntArray.join("\n"))
+                                    }
+                                </script>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- Page Container END -->
+
+    </div>
+</div>
+<!-- plugins js -->
+<!--让textarea自适应高度-->
+<script src="js/autosize.js"></script>
+
+<!--引入公共的模块-->
+<style type="text/css">
+    #codeTextarea {
+        width: 500px;
+        height: 310px;
+    }
+
+    .textAreaWithLines {
+        font-family: courier;
+        border: 1px solid #ddd;
+    }
+
+    .textAreaWithLines textarea, .textAreaWithLines div {
+        border: 0px;
+        line-height: 120%;
+        font-size: 12px;
+    }
+
+    .lineObj {
+        color: #666;
+    }
+</style>
+<script type="text/javascript">
+    var lineObjOffsetTop = 2;
+
+    function createTextAreaWithLines(id) {
+        var el = document.createElement('DIV');
+        var ta = document.getElementById(id);
+        ta.parentNode.insertBefore(el, ta);
+        el.appendChild(ta);
+        el.className = 'textAreaWithLines';
+        el.style.width = (ta.offsetWidth + 30) + 'px';
+        ta.style.position = 'absolute';
+        ta.style.left = '30px';
+        el.style.height = (ta.offsetHeight + 2) + 'px';
+        el.style.overflow = 'hidden';
+        el.style.position = 'relative';
+        el.style.width = (ta.offsetWidth + 30) + 'px';
+        var lineObj = document.createElement('DIV');
+        lineObj.style.position = 'absolute';
+        lineObj.style.top = lineObjOffsetTop + 'px';
+        lineObj.style.left = '0px';
+        lineObj.style.width = '27px';
+        el.insertBefore(lineObj, ta);
+        lineObj.style.textAlign = 'right';
+        lineObj.className = 'lineObj';
+        var string = '';
+        for (var no = 1; no < 10011; no++) {
+            if (string.length > 0) string = string + '<br>';
+            string = string + no;
+        }
+        ta.onkeydown = function () {
+            positionLineObj(lineObj, ta);
+        };
+        ta.onmousedown = function () {
+            positionLineObj(lineObj, ta);
+        };
+        ta.onscroll = function () {
+            positionLineObj(lineObj, ta);
+        };
+        ta.onblur = function () {
+            positionLineObj(lineObj, ta);
+        };
+        ta.onfocus = function () {
+            positionLineObj(lineObj, ta);
+        };
+        ta.onmouseover = function () {
+            positionLineObj(lineObj, ta);
+        };
+        lineObj.innerHTML = string;
+    }
+
+    function positionLineObj(obj, ta) {
+        obj.style.top = (ta.scrollTop * -1 + lineObjOffsetTop) + 'px';
+    }
+
+    createTextAreaWithLines('neirong');
+    createTextAreaWithLines('neirong1');
+</script>
+</body>
+
+</html>
+

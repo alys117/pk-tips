@@ -1,0 +1,423 @@
+.addTask{
+    background: #fff;
+    min-height: calc(100vh - 105px);
+    border-radius: 4px;
+}
+.addTask_title{
+    min-height:50px;
+    line-height:50px;
+    font-size: 17px;
+    font-weight: 600;
+    border-bottom:1px solid #EDEFF5;
+}
+.addTask_line{
+    min-height:50px;
+    font-size: 14px;
+    color: #3A4560;
+}
+.addTask_textarea{
+    min-height:64px!important;
+    max-height: 203px!important;
+}
+.choose-kinds .selectize-input{
+    border-radius: 3px;
+}
+.choose-kinds .selectize-dropdown-content{
+    max-height:75px!important;
+}
+.task-radio input[type=radio]:checked + label:before{
+    border-color: #0f9aee!important;
+    font-size: 12px!important;
+}
+.task-radio{
+    padding: 9px 0;
+    position: relative;
+}
+.lineHeight-45{
+    line-height:45px;
+}
+.scan-kinds{
+    line-height: 40px;
+}
+.lineHeight22{
+    line-height: 22px;
+}
+.task-radio img{
+    margin-bottom: 2px;
+}
+.task-radio img:hover + .tips_radio{
+    display: block;
+}
+.own_optionTime img:hover + .tips_radio{
+    display: block;
+}
+.tips_radio{
+    position: absolute;
+    
+    height:42px;
+    line-height:42px;
+    opacity: 0.8;
+    background: #3A4560;
+    border-radius: 2px;
+    color:#fff;
+    text-align: center;
+    font-size: 14px;
+    left:80px;
+    display: none;
+    z-index: 999;
+}
+.own_leftPosition{
+	left:594px!important;
+    max-width: 444px;
+    min-width: 215px;
+}
+.own_leftPosition:before{
+    position: absolute;
+    top: -8px;
+    width: 0;
+    height: 0;
+    left:10.5%;
+    margin-left: -10px;
+    content: " ";
+    border-bottom: 8px solid #3A4560;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+}
+
+.spe-webScan{
+    width: 310px;
+}
+.spe-webScan:before{
+    position: absolute;
+    top: -8px;
+    width: 0;
+    height: 0;
+    left:8%;
+    margin-left: -10px;
+    content: " ";
+    border-bottom: 8px solid #3A4560;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    
+}
+.spe-comScan{
+    width: 333px;
+}
+.spe-comScan:before{
+    position: absolute;
+    top: -8px;
+    width: 0;
+    height: 0;
+    left:7.5%;
+    margin-left: -10px;
+    content: " ";
+    border-bottom: 8px solid #3A4560;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    
+}
+.spe-httpScan{
+    width: 444px;
+}
+.spe-httpScan:before{
+    position: absolute;
+    top: -8px;
+    width: 0;
+    height: 0;
+    left:5.5%;
+    margin-left: -10px;
+    content: " ";
+    border-bottom: 8px solid #3A4560;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    
+}
+.option_show{
+    display: none;
+}
+.help_tips{
+    position: absolute;
+    width: 170px;
+    height:42px;
+    line-height:42px;
+    opacity: 0.8;
+    background: #3A4560;
+    border-radius: 2px;
+    color:#fff;
+    text-align: center;
+    font-size: 14px;
+    left:-10px;
+    bottom:-30px;
+    display: none;
+    z-index: 999;
+}
+.help_tips:before{
+    position: absolute;
+    top: -8px;
+    width: 0;
+    height: 0;
+    left: 17%;
+    margin-left: -10px;
+    content: " ";
+    border-bottom: 8px solid #3A4560;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    
+}
+
+.dash-border{
+    border: 1px dashed #DADDE6;
+    border-radius: 3px;
+}
+.lineHeight-32{
+    line-height:32px;
+}
+.own_optionTime input{
+    padding-top: 5px!important;
+    padding-bottom: 5px!important;
+    height:30px;
+}
+.own_optionTime{
+    display: none;
+}
+.s_jedate{
+    position: relative;
+}
+.jedate_options{
+    display: none;
+}
+.control_modal{
+    width:100px;
+    height: 40px;
+    line-height: 40px;
+    border: 1px solid #3F80FA;
+   
+    text-align: center;
+    border-radius: 3px;
+}
+.control_modal span{
+    color: #3F80FA!important;
+}
+.help_icon{
+    width:16px;
+    height:16px;
+}
+.help_icon:hover + .help_tips{
+    display: block;
+}
+.excel .modal-content{
+    min-width: 450px;
+    min-height: 220px;
+}
+#excel{
+    top:70px;
+}
+.excel_title{
+    min-height:45px;
+    line-height: 45px;
+    border-bottom: 1px solid #EDEFF5;
+}
+.excel_title span{
+    font-size: 16px;
+    color: #3A4560;
+}
+.download_excel a{
+    color:#3F80FA;
+    text-decoration: underline;
+}
+.icons_files{
+    display: inline-block;
+    width:120px;
+    height:36px;
+    line-height:33px;
+    text-align: center;
+    border:1px solid #3F80FA;
+    color:#3F80FA;
+    border-radius: 3px;
+    position: relative;
+}
+.icons_files::before{
+    font-size: 19px;
+    position: absolute;
+    left: 12px;
+    top: 8px;
+}
+.icons_tips{
+    color:#EF1212;
+    font-size:12px;
+}
+.excel_modalBtn button{
+    width:120px;
+    height:36px;
+    line-height:34px;
+    text-align: center;
+    outline:none;
+    border-radius: 3px;
+}
+.modalBtn_confirm{
+    background: #3F80FA;
+    border:0;
+    color:#fff;
+}
+.modalBtn_cancel{
+    background: #fff;
+    border:1px solid #3F80FA;
+    color:#3F80FA;
+}
+.submit_task{
+    background: #3F80FA;
+    border:0;
+    color:#fff; 
+}
+.cancel_task{
+    background: #fff;
+    border:1px solid #3F80FA;
+    color:#3F80FA;
+}
+#task{
+    top:70px;
+}
+.task{
+    min-width: 1210px;
+    
+}
+.task .modal-content{
+    min-height:225px;
+}
+.plus_add{
+    border: 1px solid #DADDE6;
+    border-radius: 4px;
+    width:38px;
+    height:36px;
+    line-height: 36px;
+    text-align: center;
+    font-size:23px;
+    vertical-align: -4px;
+}
+.plus_add span{
+    color:#3F80FA;
+}
+.minus{
+    border: 1px solid #DADDE6;
+    border-radius: 4px;
+    width:38px;
+    height:36px;
+    line-height: 36px;
+    text-align: center;
+    font-size:23px;
+    vertical-align: -4px;
+}
+.minus span{
+    color:#F35655;
+}
+.task_moduleIpt{
+    height:36px;
+   
+}
+.min-width-272{
+    min-width: 272px;
+}
+.task-target{
+    width:180px;
+} 
+.task-targetName{
+    width:160px;
+    
+}
+.task-scan{
+    width:120px;
+    vertical-align: -8px;
+}
+.choose-kinds .selectize-input{
+    height:36px;
+    padding: 6px 8px;
+    vertical-align: bottom;
+}
+.task_kinds{
+    width:200px;
+}
+.modal-taskKinds{
+    border:1px dashed #D5D5D5;
+    display: none;
+    padding:0 5px;
+}
+.pdd-vertical-6{
+    padding:6px 0px!important;
+}
+.task_kinds-spe{
+    vertical-align: top;
+}
+.num_ipt{
+    width:35px;
+    height:28px;
+    line-height:28px;
+    border: 1px solid #D5D5D5;
+    padding:2px;
+    vertical-align: -7px;
+    color:#3A4560!important;
+    display: none;
+}
+.vertical-top{
+    vertical-align: top;
+}
+.s_width{
+    min-width:160px!important;
+}
+/* .first_lineTips{
+    min-height:67px;
+} */
+.s_lastLinetips{
+    display: none;
+    position: relative;
+}
+#excel_error{
+    top:70px;
+}
+.excel_error{
+    min-width: 900px;
+}
+.modal-title{
+    min-height:40px;
+    line-height: 40px;
+}
+.warnning_img{
+    margin-bottom:9px;
+}
+.error_table th,.error_table td{
+    border:0!important;
+    text-align: center;
+    padding: 7px 10px!important;
+    color:#3A4560;
+}
+.error_table tbody tr:nth-child(even){
+    background: #E7EDF3;
+}
+.error_table tbody tr:nth-child(odd){
+    background: #F5F9FD;
+}
+.excel_error .excel_content{
+    border-bottom: 1px solid #DADDE6;
+    max-height: 550px;
+    overflow-y: scroll;
+}
+.excel_error .excel_content::-webkit-scrollbar {
+    display: none;
+}
+.radio-hide{
+    display: none;
+}
+.scan-chooseKinds .item{
+    max-width: 80px;
+    overflow: hidden;
+    -ms-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.scan-edit-title {
+    padding: 20px 5px 8px 5px;
+    border-bottom: 1px solid #EDEFF5;
+    width: 80%;
+    margin-left: 50px;
+    font-weight: 600;
+    color: #333;
+}

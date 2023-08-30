@@ -60,7 +60,7 @@
       const miwen = document.getElementById('input2').value
       const decrypt = new JSEncrypt()
       decrypt.setPrivateKey('-----BEGIN PRIVATE KEY-----MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBAJ4VC374ew5NrLx781nRKw4o1eKic7uzRMPzJrFma0truxh1By4NvswLWfP0GQU/Uo4gK4XqwB26ti8JTYUoZGQogbflAC4RKDuQCAU0VaZsjYh/LcGb5LxhsF7VlbzPirQ4+yQ8Tidgw6ZYYSPRGApZIYJr3W3q5UJ/MDgxVGyhAgMBAAECgYBnJYAsxuE0QgZ1rcLpVgvr30U/7ZPqY1x5JsyWcCeOPKsFmEapDBr0dGurPBifTeQGDIOZi8TzIQMCyeUk/2gQ0yeCQk/0/7Drsv8cebwdzugtxbJaKYcdii6TI1r46AO8+nDj835gZb7wBvtOJaFMXwAEEs7SFqFdD1Xi/vWT4QJBANclCIlYaHTiJXEmi7rJSDjyYacYxXmhPjxUhXPwdg/KtC9oLJ1yyTUkeY4RCYu5CJTQTsqCqfxfE16vWdAJ8B0CQQC8Gf9dRTx4ke25L+cGYtXkWu9ljp8435sEg/auLY3mboQpPn5gi9F411rT8YHYj8MPqZsP7yHpvParPmQm7g9VAkANYJ0eRSQBmIoxde8cRyW5fMC7rhuhS3heMfc2VU5R/w2jIPwdMiT2q/Tu83o/eNrive0YRHWjXpoKuiaAfA21AkBtpVHf0o4PUjEac7vdUxuPQxqtPle91UoNdccDfPZsThun1w/fw2DVaeM+DFc+H3760EjdHu3LzCSVaYcD0l0JAkBISb10PkmMLUvvKFJRX5c8PWLbBSFsVHreB4J0FfdkQT65oQz8ejTxr/x3pYRzEbA9JBjhq24BYoxEo2mmYLLw-----END PRIVATE KEY-----')
-      let miwe1 = miwen.replace(/-/g, '+').replace(/\_/g, '/')
+      let miwe1 = miwen.replace(/-/g, '+').replace(/_/g, '/')
       miwe1 = miwe1 + '===='.substring(0, 4 - miwe1.length % 4)
       const mingwen = decrypt.decrypt(miwe1)
       document.getElementById('result2').innerHTML = mingwen

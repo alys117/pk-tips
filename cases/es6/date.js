@@ -15,3 +15,5 @@ console.log('d1.toUTCString() :>> ', d1.toUTCString());
 console.log('d1.toTimeString() :>> ', d1.toTimeString());
 console.log('d1.valueOf() :>> ', d1.valueOf());
 console.log('d1.getTime() :>> ', d1.getTime());
+
+console.log(import.meta.url);

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+        <ul>
+            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus maiores quibusdam aliquam consectetur ab? Eaque tempora, amet quod perferendis minima reiciendis quasi numquam saepe optio commodi assumenda dolorem. Debitis, animi.</li>
+            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque molestiae distinctio nam magni excepturi. Corrupti asperiores nulla facilis modi praesentium doloribus corporis, impedit, ratione temporibus placeat est beatae libero culpa.</li>
+            <li>Lorem ipsum dolor sit amet.</li>
+        </ul>
+    </div>
+    <script>
+     async function aa(){
+        const mydata = await new Promise((resolve, reject) => {
+          setTimeout(() => {
+            console.log("promise");
+            resolve("my data here");
+          }, 1000);
+        });
+        console.log(mydata);
+     }
+     await aa()
+      console.log(123);
+    </script>
+  </body>
+</html>
