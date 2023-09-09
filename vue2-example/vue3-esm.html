@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/element-plus@2.3.12/dist/index.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <div id="app">
+      <!-- <el-button type="primary" @click="drawer = !drawer">Toggle</el-button>
+      <el-drawer v-drag title="Basic Drawer" :visible.sync="drawer">
+      </el-drawer> -->
+    </div>
+    <script type="module">
+      import { createApp } from 'https://cdn.jsdelivr.net/npm/vue@3.3.4/+esm'
+      // import elementPlus from 'https://cdn.jsdelivr.net/npm/element-plus@2.3.12/+esm'
+      const App = {
+        template: `<div>{{ message }}</div>`,
+        data() {
+          return {
+            message: "Hello Element Plus",
+          };
+        },
+      };
+      const app = createApp(App);
+      // app.use(ElementPlus);
+      app.mount("#app");
+    </script>
+  </body>
+</html>

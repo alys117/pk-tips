@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./elementui/index-single.css" />
+  </head>
+  <body>
+    <div style="width: 100px; height: 100px; background-color: aquamarine; position: absolute; bottom: 10px; overflow: hidden;"">
+      <img style="position: absolute;left: -12px; width: 24px;" src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAqVJREFUeF7tmj3MTUEQhp+vVYlErRUkChKdUCg0QvxFNGqi1hKNWkKr9Zeg0yGRaIiKRC0iQUEkGgUZOTc51u59z+61+518O6e7md2dmWffOWd3767R+bPWef44AFdA5wS8BDoXgL8EW5bAZeAE8Bl4Btjv8TO2XwGetlBnSwBPgANDUm+AXUGCY7slf3CjAfgVJBTCV/YqPFoqQCWo7A6gBgFXQA2qiTGVxJW9SqiugCpY44OqGVb2KqG6AqpgdQVECSiJK3uVufISWAHrFuAw8A14BXwUY6kZVvbY8GeBD6tsnEoVsAO4C+wcoroHnGoM4DpwcbS5Mv9vcye0BECY/MKnGkvNsLKHuYXtbYeZDUEFHTpNJb8eCrgFnAsCzIaQAyCV/GvgDPCucQlsB24Du1eBMBVAKvkXwGng/YTaUxJX9piLbcAdYF8phCkAUsnbCY7V3JcJyVsTlaCyp9xsBe4D+0sgKACp5B8Dx4EfE5OvCcDG3gQ8BA7lQlgGIJW8OTqWkfiiqZphZZ/i8hFwJAdCCsBm4PnoOz/FeW4bdSaYO96y9vZ1sENWO5H+60kBOAo8+J8RRMZqCcDcXwBu9gzAFPDPfw09lUD4P8QfMfhLUNR515/BBZuuF0IKQhdLYQWhi82QgrAe2+EbwPmcVV/sfaf2ArE+czkQ+QTYRmjxZJ8FqM/gsg/EHI7ErgGXhiCLkl8FgPWdw6HoSeDnsML7WrJ0LymBEj/WR+32lL3U79J+DqAK1vigaoaVvUqoroAqWF0BUQJK4speZa68BKpg9RLwEogRUDWu7FXE6u+AKljjg6rL0i+BPUNXu3Cxt0VsLRWgrsvbbZOrwHdgQ16XbzGh2T5aKiA7uBYdHEALynP24QqY8+y0iM0V0ILynH38BphO0kEdS9VDAAAAAElFTkSuQmCC'      alt="">
+    </div>
+    <div id="app">
+      <el-button type="primary" @click="drawer = !drawer">Toggle</el-button>
+      <el-drawer v-drag title="Basic Drawer" :visible.sync="drawer">
+      </el-drawer>
+    </div>
+    <script src="./vue2/2.7.14.js"></script>
+    <script src="./elementui/index.js"></script>
+    <!-- <script src="./drawer-drag.js" type="module"></script> -->
+    <script>
+      Vue.directive('drag', {
+    bind(el, binding, vnode, oldVnode) {
+      const minWidth = 400
+      const dragDom = el.querySelector('.el-drawer')
+      dragDom.style.overflow = 'auto'
+  
+      const resizeElL = document.createElement('div')
+      const img = new Image(24, 38)
+      img.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAqVJREFUeF7tmj3MTUEQhp+vVYlErRUkChKdUCg0QvxFNGqi1hKNWkKr9Zeg0yGRaIiKRC0iQUEkGgUZOTc51u59z+61+518O6e7md2dmWffOWd3767R+bPWef44AFdA5wS8BDoXgL8EW5bAZeAE8Bl4Btjv8TO2XwGetlBnSwBPgANDUm+AXUGCY7slf3CjAfgVJBTCV/YqPFoqQCWo7A6gBgFXQA2qiTGVxJW9SqiugCpY44OqGVb2KqG6AqpgdQVECSiJK3uVufISWAHrFuAw8A14BXwUY6kZVvbY8GeBD6tsnEoVsAO4C+wcoroHnGoM4DpwcbS5Mv9vcye0BECY/MKnGkvNsLKHuYXtbYeZDUEFHTpNJb8eCrgFnAsCzIaQAyCV/GvgDPCucQlsB24Du1eBMBVAKvkXwGng/YTaUxJX9piLbcAdYF8phCkAUsnbCY7V3JcJyVsTlaCyp9xsBe4D+0sgKACp5B8Dx4EfE5OvCcDG3gQ8BA7lQlgGIJW8OTqWkfiiqZphZZ/i8hFwJAdCCsBm4PnoOz/FeW4bdSaYO96y9vZ1sENWO5H+60kBOAo8+J8RRMZqCcDcXwBu9gzAFPDPfw09lUD4P8QfMfhLUNR515/BBZuuF0IKQhdLYQWhi82QgrAe2+EbwPmcVV/sfaf2ArE+czkQ+QTYRmjxZJ8FqM/gsg/EHI7ErgGXhiCLkl8FgPWdw6HoSeDnsML7WrJ0LymBEj/WR+32lL3U79J+DqAK1vigaoaVvUqoroAqWF0BUQJK4speZa68BKpg9RLwEogRUDWu7FXE6u+AKljjg6rL0i+BPUNXu3Cxt0VsLRWgrsvbbZOrwHdgQ16XbzGh2T5aKiA7uBYdHEALynP24QqY8+y0iM0V0ILynH38BphO0kEdS9VDAAAAAElFTkSuQmCC'
+      dragDom.appendChild(img)
+      dragDom.appendChild(resizeElL)
+      resizeElL.style.cursor = 'w-resize'
+      resizeElL.style.position = 'absolute'
+      resizeElL.style.height = '100%'
+      resizeElL.style.width = '10px'
+      resizeElL.style.left = '0px'
+      resizeElL.style.top = '0px'
+      img.style.position = 'absolute'
+      img.style.left = '-12px'
+      img.style.top = '50%'
+  
+      resizeElL.onmousedown = (e) => {
+        const elW = dragDom.clientWidth
+        const EloffsetLeft = dragDom.offsetLeft
+        const clientX = e.clientX
+        document.onmousemove = function(e) {
+          e.preventDefault()
+          // 左侧鼠标拖拽位置
+          if (clientX > EloffsetLeft && clientX < EloffsetLeft + 10) {
+            // 往左拖拽
+            if (clientX > e.clientX) {
+              dragDom.style.width = elW + (clientX - e.clientX) + 'px'
+            }
+            // 往右拖拽
+            if (clientX < e.clientX) {
+              if (dragDom.clientWidth >= minWidth) {
+                dragDom.style.width = elW - (e.clientX - clientX) + 'px'
+              }
+            }
+          }
+        }
+        // 拉伸结束
+        document.onmouseup = function(e) {
+          document.onmousemove = null
+          document.onmouseup = null
+        }
+      }
+    }
+  })
+      new Vue({
+        el: "#app",
+        data() {
+          return {
+            drawer: false
+          }
+        },
+        created: function () {
+          console.log("created");
+        },
+      });
+    </script>
+  </body>
+</html>

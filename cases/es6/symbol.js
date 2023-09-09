@@ -23,3 +23,9 @@ Object.getOwnPropertyNames(obj).forEach(key => {
 let clone = Object.assign({}, obj)
 
 console.log(clone); // cloned带有
+
+
+
+const myIterable = {a:1,b:'2uui',[Symbol('$c')]:3};
+console.log(Object.getOwnPropertyNames(myIterable));
+console.log(Object.getOwnPropertySymbols(myIterable));
