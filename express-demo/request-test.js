@@ -159,7 +159,17 @@ app3.post(
     res.end(JSON.stringify({ msg: 'app3 8085', code: 200 }))
   }
 )
-
+app3.get('/hello', function (req, res) {
+  app3.get('/123', function (req, res) {
+    res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' })
+    console.log('get请求/123', req.body)
+    res.end(JSON.stringify({ msg: 'ok123', code: 200 }))
+  })
+  console.log(app3);
+  res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' })
+  console.log('get请求/hello', req.body)
+  res.end(JSON.stringify({ msg: 'ok', code: 200 }))
+})
 const server_8083 = app.listen(8083, function () {
   const host = server_8083.address().address
   const port = server_8083.address().port
@@ -176,4 +186,5 @@ const server_8085 = app3.listen(8085, function () {
   const host = server_8085.address().address
   const port = server_8085.address().port
   console.log('应用访问地址为 http://%s:%s', host, port)
+  console.log(app3);
 })

@@ -1,24 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <style>
+    body {
+      background-image: linear-gradient(90deg, rgb(203, 239, 238) 0%, rgb(223, 252, 248) 100%);
+    }
+  </style>
 </head>
+
 <body>
   <script>
     const str = 'abababab';
     const reg = /ab/g
 
     console.log('reg.lastIndex :>> ', reg.lastIndex);
-    console.log('reg.exec (str) :>> ', reg.exec (str));
+    console.log('reg.exec (str) :>> ', reg.exec(str));
 
     console.log('reg.lastIndex :>> ', reg.lastIndex);
-    console.log('reg.exec (str) :>> ', reg.exec (str));
+    console.log('reg.exec (str) :>> ', reg.exec(str));
 
     console.log('reg.lastIndex :>> ', reg.lastIndex);
-    console.log('reg.exec (str) :>> ', reg.exec (str));
+    console.log('reg.exec (str) :>> ', reg.exec(str));
 
     console.log('--------------------');
 
@@ -27,13 +34,13 @@
     const reg2 = /aba/g
     const str2 = 'ababababa';
     console.log('reg2.lastIndex :>> ', reg2.lastIndex);
-    console.log('reg2.exec (str2) :>> ', reg2.exec (str2));
+    console.log('reg2.exec (str2) :>> ', reg2.exec(str2));
 
     console.log('reg2.lastIndex :>> ', reg2.lastIndex);
-    console.log('reg2.exec (str2) :>> ', reg2.exec (str2));
+    console.log('reg2.exec (str2) :>> ', reg2.exec(str2));
 
     reg2.lastIndex = 1
-    console.log('reg2.exec (str2) :>> ', reg2.exec (str2));
+    console.log('reg2.exec (str2) :>> ', reg2.exec(str2));
     console.log('reg2.lastIndex :>> ', reg2.lastIndex);
 
 
@@ -42,9 +49,10 @@
     const reg3 = /ab/
     const mystr = 'ababababa';
     console.log('reg3.lastIndex :>> ', reg3.lastIndex);
-    console.log('reg3.exec (mystr) :>> ', reg3.exec (mystr));
+    console.log('reg3.exec (mystr) :>> ', reg3.exec(mystr));
     console.log('reg3.lastIndex :>> ', reg3.lastIndex);
-    console.log('reg3.exec (mystr) :>> ', reg3.exec (mystr));
+    console.log('reg3.exec (mystr) :>> ', reg3.exec(mystr));
   </script>
 </body>
+
 </html>

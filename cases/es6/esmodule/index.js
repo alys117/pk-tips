@@ -9,5 +9,9 @@ getUsers.addImpl("number", (a) => { console.log("查询一个数字的fn", a); }
 
 getUsers();
 getUsers(1);
-getUsers("1","dd");
+getUsers("1", "dd");
 // getUsers("1","dd",123,123);
+const a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+a.forEach((item, index) => {
+  console.log(123);
+})

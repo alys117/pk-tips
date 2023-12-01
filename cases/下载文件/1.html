@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <img src="https://www.baidu.com/img/bd_logo1.png" id="poster1_click" alt="poster1" />
+  <!-- <img src="http://localhost:8075/webroot/decision/resources?path=/com/fr/web/resources/dist/images/2x/background/login-img.png" alt=""> -->
+  <button onclick="dd()">btn下载</button>
+  <a download href="http://localhost:8075/webroot/decision/resources?path=/com/fr/web/resources/dist/images/2x/background/login-img.png?response-content-type=application/octet-stream">
+    下载
+  </a>
+  <script>
+// 下载
+function downloadIamge(selector, name) {
+    // 通过选择器获取img元素
+    var img = document.querySelector(selector)
+    // 将图片的src属性作为URL地址
+    var url = img.src
+    var a = document.createElement('a')
+    var event = new MouseEvent('click')
+    
+    a.download = name || '下载图片名称'
+    a.href = url
+    a.target = '_blank'
+    
+    a.dispatchEvent(event)
+}
+
+// 调用方式
+// 参数一： 选择器，代表img标签
+// 参数二： 图片名称，可选
+downloadIamge('#poster1_click', '图片名称')
+
+
+
+
+function savePic(e) {
+	console.log(e);
+    //获得图片元素
+	var img = document.getElementById('poster' + e + '_click');
+	let image = new Image();
+	// 解决跨域 Canvas 污染问题
+	image.setAttribute("crossOrigin", "anonymous");
+	image.onload = function() {
+		let canvas = document.createElement("canvas");
+		canvas.width = image.width;
+		canvas.height = image.height;
+		let context = canvas.getContext("2d");
+		context.drawImage(image, 0, 0, image.width, image.height);
+		let url = canvas.toDataURL("image/jpg"); //得到图片的base64编码数据
+		let a = document.createElement("a"); // 生成一个a元素
+		let event = new MouseEvent("click"); // 创建一个单击事件
+		a.download = '测试海报页面'; // 设置图片名称
+		a.href = url; // 将生成的URL设置为a.href属性
+		a.dispatchEvent(event); // 触发a的单击事件
+		};
+	image.src = img.src;
+};
+  function dd(){
+    downloadIamge('http://localhost:8075/webroot/decision/resources?path=/com/fr/web/resources/dist/images/2x/background/login-img.png', 'a.png')
+  }
+
+  </script>
+</body>
+</html>

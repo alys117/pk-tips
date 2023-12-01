@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script type="module" src="./84to02.js"></script>
+  <script type="module">
+    import { wgs84_to_gcj02, gcj02_to_wgs84 } from "./84to02.js";
+
+
+    for(let i = 0; i < 12; i++) {
+      console.log(wgs84_to_gcj02(117.217714, 31.808813));
+      
+      console.log(gcj02_to_wgs84(117.217714, 31.808813));
+      
+    }
+    console.log('42');
+  </script>
+</head>
+<body>
+  
+</body>
+</html>
