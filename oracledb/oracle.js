@@ -7,7 +7,7 @@ var config = {
   user:'sdbass',　　//用户名
   password:'ibmdb2',　　//密码
   //IP:数据库IP地址，PORT:数据库端口，SCHEMA:数据库名称
-  connectString : "192.168.0.253:1521/sdcrm"
+  connectString : "192.168.0.252:1521/orclpdb"
 };
 oracledb.getConnection(
   config,

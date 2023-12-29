@@ -8,6 +8,7 @@ var cookieParser = require('cookie-parser');
 const express=require("express"); 
 var app=express();
 app.use(jsonParser)
+app.use(bodyParser.text()) // 处理Content-Type是text/plain
 app.use(urlencodedParser)
 app.use(cookieParser());
 var allowCrossDomain = function(req, res, next) {
@@ -39,6 +40,9 @@ app.all('/set-cookie', (req, res, next) => {
 app.all('*', (req, res, next) => {
   console.log(req.headers);
   console.log(req.method,req.cookies);
+  console.log(req.query, req.params, req.path);
+  console.log('--------body--------');
+  console.log(req.body);
   // -----跨域请求----- 可用pp.use(allowCrossDomain)代替
   console.log('req.get("Origin") :>> ', req.get('Origin'));
   res.header('Access-Control-Allow-Origin', req.get('Origin')) // 允许的地址,http://127.0.0.1:9000这样的格式
@@ -49,10 +53,13 @@ app.all('*', (req, res, next) => {
   // -----跨域请求-----
   
   res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' })   
-  res.end("跨域数据")
+  res.end(JSON.stringify({status: 'ok', data: '跨域数据'})) 
 })
 app.listen(8000, function(){
   console.log('启动监听 8000');
 });
 
 // https://blog.csdn.net/Ed7zgeE9X/article/details/124310751
+// curl -X POST  http://localhost:8000 -H 'Content-Type: text/plain' -d 'Hello, plain!'
+// curl -X POST  http://localhost:8000 -H 'Content-Type: application/json' -d '{"msg":"hello, json!"}'
+// curl -X POST  http://localhost:8000 -H 'Content-Type: application/x-www-form-urlencoded' -d 'msg=hello, x-www-form-urlencoded!'

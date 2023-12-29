@@ -1,0 +1,9 @@
+
+  CREATE OR REPLACE EDITIONABLE PROCEDURE "SDBASS"."PROC_COUNT_DIM_PUB_CITY" (num_A in integer, num_B in integer, num_C out integer) as
+begin
+  if num_A = 1 then
+    num_C := num_A + num_B;
+    else
+      num_C := 10+num_B;
+  end if;
+end;
