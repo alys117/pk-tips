@@ -1,5 +1,6 @@
 const http = require('http')
 const fs = require('fs')
+const path = require('path')
 
 const bufferSplit = function (buffer, deli) {
   let arr = []
@@ -49,6 +50,11 @@ const server = http.createServer((req, res) => {
         // console.log(name);
         // console.log(filename);
         //文件上传
+        const dirReady = mkdirsSync('./static')
+        if(!dirReady){
+          console.log('创建目录失败');
+          return;
+        }
         fs.writeFile(`./static/${filename}`, data, (err) => {
           if (err) {
             console.log(err)
@@ -66,6 +72,19 @@ const server = http.createServer((req, res) => {
     res.end(JSON.stringify({ msg: '上传成功' }))
   })
 })
-server.listen(8000, '0.0.0.0', () => {
-  console.log('文件上传服务器开启成功')
+
+function mkdirsSync(dirname, mode){
+  console.log(dirname);
+  if(fs.existsSync(dirname)){
+      return true;
+  }else{
+      if(mkdirsSync(path.dirname(dirname), mode)){
+          fs.mkdirSync(dirname, mode);
+          return true;
+      }
+  }
+}
+const port = 8000
+server.listen(port, '0.0.0.0', () => {
+  console.log('文件上传服务器开启成功，监听在：'+port)
 })

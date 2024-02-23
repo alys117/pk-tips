@@ -10,6 +10,7 @@ var data = Mock.mock({
         city: '@city(true)',
         'age|5-40': 12,
         'tip|2-5': '☆',
+        'rate|0-0.2-5': 0,
         'price|5-10.1-4' : 10, 
         sentence: '@csentence(10,14)',
         phone: /^1[358][1-9]\d{8}/,

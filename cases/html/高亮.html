@@ -28,6 +28,19 @@
 }
     </code>
   </pre>
-</body>
 
+  <button onclick="copyPageUrl()">aa</button>
+
+  <textarea name="ttt" id="aaa" cols="30" rows="5"></textarea>
+</body>
+<script>
+  async function copyPageUrl() {
+  try {
+    await navigator.clipboard.writeText(location.href);
+    console.log('Page URL copied to clipboard');
+  } catch (err) {
+    console.error('Failed to copy: ', err);
+  }
+}
+</script>
 </html>
