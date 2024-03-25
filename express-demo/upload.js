@@ -18,23 +18,63 @@ app.post('/file_upload', upload.single('media'), function (req, res) {
   let file = req.file;
   console.log(file.originalname,file.filename)
   console.log(req.body)
+  console.log(req.headers)
   // fieldname: 上传文件标签在表单中的name
   let filename = path.join(__dirname, 'tmp/uploads/') + file.filename;
+
   // 判断上传的图片格式
   // mimetype：该文件的Mime type
   if (file.mimetype == "image/jpeg") {
       filename += ".jpg";
-  }
-  if (file.mimetype == "image/png") {
+  }else if (file.mimetype == "image/png") {
       filename += ".png";
-  }
-  if (file.mimetype == "image/gif") {
+  }else if (file.mimetype == "image/gif") {
       filename += ".gif";
+  }else{
+    filename += "."+file.originalname.split('.').pop();
   }
   fs.renameSync(file.path, filename);
   console.log(req.file);
   // 响应
   res.json("上传成功");
+})
+
+app.post('/files_upload', upload.fields([{name: 'abc', maxCount:2}, {name:'book'}]), function (req, res) {
+  console.log(req.files)
+  console.log(req.body)
+  console.log(req.headers)
+ 
+  req.files['abc'].forEach((file, index) => {
+    console.log(file.originalname,file.filename)
+    let filename = path.join(__dirname, 'tmp/uploads/') + file.filename;
+    filename += "."+ req.files['abc'][0].originalname.split('.').pop();
+    fs.renameSync(file.path, filename);
+  })
+  req.files['book'].forEach((file, index) => {
+    console.log(file.originalname,file.filename)
+    let filename = path.join(__dirname, 'tmp/uploads/') + file.filename;
+    filename += "."+ req.files['book'][0].originalname.split('.').pop();
+    fs.renameSync(file.path, filename);
+  })
+  // 响应
+  res.json("多文件上传成功");
+})
+
+app.post('/files_upload_any', upload.any(), function (req, res) {
+  console.log(req.files)
+  console.log('-----body-----');
+  console.log(req.body)
+  console.log('-----headers-----');
+  console.log(req.headers)
+
+  req.files.forEach((file, index) => {
+    let filename = path.join(__dirname, 'tmp/uploads/') + file.filename;
+    filename += "."+ req.files[0].originalname.split('.').pop();
+    fs.renameSync(file.path, filename);
+  })
+ 
+  // 响应
+  res.json("多文件上传成功");
 })
 
 // curl -X POST -d "aaa=bbb" "http://localhost:8081/process_post/aa/77?first_name=ke&last_name=pan"

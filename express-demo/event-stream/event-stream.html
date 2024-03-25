@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    fetch('http://localhost:8000/v1/chat/completions').then(function(response) {
+      var reader = response.body.getReader();
+      var decoder = new TextDecoder();
+      var buffer = '';
+      reader.read().then(function processText({ done, value }) {
+        if (done) {
+          console.log('Stream complete');
+          return;
+        }
+        buffer += decoder.decode(value, { stream: true });
+        let parts = buffer.split('\n');
+        buffer = parts.pop();
+        for (let part of parts) {
+          console.log('Received', part);
+        }
+        return reader.read().then(processText);
+      });
+    });
+  </script>
+</body>
+</html>

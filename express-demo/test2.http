@@ -1,0 +1,16 @@
+POST /httpclient/abc HTTP/1.1
+Host: 192.168.10.110:8000
+Content-Type: application/json
+
+{
+  "url":"http://127.0.0.1:8000/sdfsdf",
+  "method": "post",
+  "headers": {
+    "hero": "ironman",
+    "content-type": "application/json; charset=utf-8"
+  },
+  "body": {
+    "name": "abc123"
+  },
+  "custom": "some custom data"
+}

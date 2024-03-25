@@ -54,15 +54,17 @@
 <main>
     <h1>:(</h1>
     <p>Oops!! 非常抱歉，出错啦~</p>
-    <a class="btn" onclick="action()">错误详情</a>
-    <p style="opacity: 0;">你可以去浏览我的 <a href="http://www.sd4a.com">首页</a> 或 <a href="http://www.sd4a.com">博客</a> ~</p>
+    <a class="btn" onclick="action()">😠</a>
+    <div style="height: 2em;">   
+        <p style="opacity: 1;">你可以去浏览我的 <a href="http://www.sd4a.com">首页</a> 或 <a href="http://www.sd4a.com">博客</a> ~</p>
+    </div>
 </main>
 <script>
     function action(){
       window.show = !window.show;
       document.getElementsByTagName('p')[1].innerHTML=unescape(location.search).slice(1,unescape(location.search).length);
       document.getElementsByTagName('p')[1].style.opacity = (window.show?'1':'0');
-      document.getElementsByTagName('a')[0].innerHTML=window.show?'隐藏错误详情':'错误详情';
+      document.getElementsByTagName('a')[0].innerText=window.show?'🦠':'😠';
     }
 </script>
 </body>

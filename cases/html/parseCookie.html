@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script type="text/javascript" src="http://localhost:8075/webroot/decision/view/report?op=emb&resource=finereport.js"></script>
+</head>
+
+<body>
+  <input type='file' onchange="aa(event)" />
+  <script>
+    function aa(ev) {
+
+          // @ts-ignore
+          const file = ev.target.files[0];
+          // ext get file type 
+          console.log(file, file.type);
+          const fr = new FileReader();
+          fr.addEventListener('load', function () {
+            // @ts-ignore
+            // eslint-disable-next-line react/no-this-in-sfc
+            let u = new Uint8Array(this.result);
+            const a = new Array(u.length);
+            let i = u.length;
+            while (i--)
+              // map to hex
+              a[i] = (u[i] < 16 ? '0' : '') + u[i].toString(16);
+            // @ts-ignore
+            u = null; // free memory
+            // hex value
+            console.log(a, '--a--'); 
+          });
+          fr.readAsArrayBuffer(file); 
+    }
+
+
+    function ParseSetCookie(a) {
+      var arr = a.replace(/expires=(.*?)GMT/g, function ($1) {
+        return "expires=" + new Date($1).getTime();
+      }).split(", ");
+
+      var cookies = [];
+      for (var i = 0; i < arr.length; i++) {
+        let cookie = parse(/([^=;\s]+)=([^;]+);?/g, arr[i].replace(/; httponly/g, "$&=true"));
+        cookies.push(cookie);
+      }
+      function parse(reg, text) {
+        if (!reg || !text) return {}
+        const hash = {};
+        let res = reg.exec(text);
+        while (res !== null) {
+          hash[res[1]] = res[2];
+          res = reg.exec(text);
+        }
+        return hash;
+      }
+      return cookies;
+    }
+
+    var cookiestr = "demo_token=pq9Qqy1XVc-HQ==; expires=Thu, 05 Dec 2019 01:42:53 GMT; path=/; httponly, demo_SESS=f1f1EJ0MG_IU4_jwGLmRqe23sB0BJeWpMY171V0PaCgKnkPW8YIiZ-ILg8XBLvjq; path=/; expires=Thu, 05 Dec 2019 01:42:53 GMT; httponly";
+
+
+    var result = ParseSetCookie(cookiestr);
+
+    //输出是一个数组,里面有你想要的
+    console.log(result);
+    fetch("http://192.168.8.101:8080/remoteTree?n=0").then(res => res.json()).then(data => {
+      console.log(data);
+    }).catch(err => {
+      console.log(err);
+    })
+
+  </script>
+</body>
+
+</html>
