@@ -1,0 +1,66 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>自定义工具栏</title>
+  <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1"/>
+</head>
+<script type="text/javascript"
+  src="http://localhost:8075/webroot/decision/view/report?op=emb&resource=finereport.js"></script>
+<script type="text/javascript">
+  function frSubmit(area = '华东') {
+    var url = "http://localhost:8075/webroot/decision/view/report?viewlet=GettingStarted.cpt&op=view";
+    FR.doHyperlinkByPost(url, { 地区: area }, "reportFrame");
+    const now = FR.remoteEvaluate('=now()')
+    console.log(now, '----------远程调用函数失败-----------');
+  }
+  function mySubmit(area = '华东') {
+    let __parameters__ = encodeURIComponent(encodeURIComponent(JSON.stringify({ 地区: area })));
+    const f = document.getElementById("idForm");
+    f.action = "http://localhost:8075/webroot/decision/view/report?viewlet=GettingStarted.cpt&op=view";
+    f.action = f.action + "__parameters__=" + __parameters__;
+    f.submit()
+  }
+  function mySubmitforToken(token = '123') {
+    const url = "http://localhost:8080/WebReport/decision/view/report?viewlet=GettingStarted.cpt&op=view";
+    const params = {
+      token: '__h5_token__@' + new Date().getTime()
+    }
+    const tmpForm = post(url, params, 'reportFrame')
+    document.body.removeChild(tmpForm)
+  }
+  /**
+* js 构建post请求
+*
+* @url 请求地址
+* @params 参数的json串
+*/
+function post(url, params, target) {
+    var temp = document.createElement("form");
+    temp.action = url;
+    temp.method = "post";
+    temp.style.display = "none";
+    for (var x in params) {
+        var opt = document.createElement("input");
+        opt.name = x;
+        opt.value = params[x];
+        temp.appendChild(opt);
+    }
+    temp.target = target
+    document.body.appendChild(temp);
+    temp.submit();
+    return temp;
+}
+</script>
+
+<body>
+  <form id="idForm" name="paraForm" method="post" target="reportFrame">
+    <input type="text" name="tip" value="123">
+    <input type="button" name="show" value="查询表单" onclick="frSubmit('华北')" />
+    <input type="button" name="show" value="自定义表单" onclick="mySubmit('华北')" />
+    <input type="button" name="show" value="测试token" onclick="mySubmitforToken('__h5_token__@1234')" />
+  </form> <!-- 自定义工具栏-->
+  <iframe id="reportFrame" name="reportFrame" width="800px" height="400px"></iframe>
+</body>
+
+</html>

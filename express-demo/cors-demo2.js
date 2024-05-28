@@ -56,16 +56,15 @@ app.all('*', async (req, res, next) => {
   function wait(ms) {
     return new Promise(resolve => setTimeout(() => resolve(), ms));
   };
-  await wait(100000)
+  await wait(15000)
   res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' })
-  res.end(JSON.stringify(
-    {
-      headers: {
-        x: 'wawa'
-      },
-      body: JSON.stringify({ status: 'ok', data: '跨域数据', msg: '密码错误', success: true })
-    })
-  )
+  res.end(JSON.stringify({
+    status: 'ok',
+    data: '跨域数据',
+    msg: '密码错误',
+    success: true,
+    authCode: '1001'
+  }))
 })
 
 app.listen(8000, function () {

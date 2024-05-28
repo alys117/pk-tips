@@ -12,7 +12,7 @@
             //    "proxyUri": "http://192.168.0.105:9080/"
             // },
             // var url = "/proxy/webroot/widgets/jsp/sso/sso.jsp?user=Alice";
-            var url = "http://localhost:8075/webroot/widgets/jsp/sso/sso.jsp?user=Alice&_"+new Date().getTime();// 该地址已经做好跨域
+            var url = "http://localhost:8080/widgets/jsp/sso/sso.jsp?user=Alice&_"+new Date().getTime();// 该地址已经做好跨域
             $.ajax({
                 url: url,//单点登录的管理平台报表服务器
                 timeout: 5000,//超时时间（单位：毫秒）
@@ -24,12 +24,11 @@
                 },
                 error: function () {
                     alert("超时或服务器其他错误");// 登录失败（超时或服务器其他错误）
-                    Login('eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MDU0ODk3MTEsInN1YiI6IkFsaWNlIn0.A_fsjIgxKKuZ0vAGMnIdisav5En_q6Af-PGtt4KAzYU')
                 }
             });
         }
         function Login(Thirdtoken) {
-            var url = "http://localhost:8075/webroot/decision/third/auth/cross/login";
+            var url = "http://localhost:81/webroot/decision/third/auth/cross/login";
             console.log('thirdtoken', Thirdtoken);
             $.ajax({
                 url: url,
@@ -40,7 +39,7 @@
                     if (res.errorCode) {
                         window.alert(res.errorMsg);
                     } else {
-                      $('#iframe1').attr("src","http://localhost:8075/webroot/decision/view/report?viewlet=templates/tools/authed.cpt");  
+                      $('#iframe1').attr("src","http://localhost:81/webroot/decision/view/report?viewlet=templates/tools/authed.cpt");  
                     }
                 },
                 error: function (err) {
@@ -48,8 +47,7 @@
                 }
             });
         }
-        // getThirdToken();
-        Login('eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MDU0ODk3MTEsInN1YiI6IkFsaWNlIn0.A_fsjIgxKKuZ0vAGMnIdisav5En_q6Af-PGtt4KAzYU')
+        getThirdToken();
         function openIfm2(){
           $('#iframe2').attr("src","http://localhost:8075/webroot/decision/view/report?viewlet=templates/tools/authed.cpt");
         }

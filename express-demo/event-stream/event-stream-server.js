@@ -28,18 +28,21 @@ app.all('*', (req, res) => {
   res.setHeader('Connection', 'keep-alive');
   res.flushHeaders();
 
-  let allData = ''
+  let allData = '### 项目硬件需求\n' +
+  '| 配置 | 数量 | 用途 |\n' +
+  '| --- | --- | --- |\n' +
+  '| 4核16G\\|100G | 1 | 负载均衡服务器：nginx分发 |\n' +
+  '| 4核16G\\|100G | 1 | 缓存服务器：内存服务redis |'
+
+  let arr = allData.split('');
   // 模拟发送事件
   const interval = setInterval(() => {
-    const data = `data: ${new Date().toISOString()}\n`;
-    res.write(data);
-    console.log(data);
-    allData += data
-    if(allData.length > 200) {
+    res.write(arr.shift(1));
+    if(arr.length === 0) {
       clearInterval(interval);
       res.end();
     }
-  }, 400);
+  }, 10);
  
   // 当客户端断开连接时清理资源
   req.on('close', () => {

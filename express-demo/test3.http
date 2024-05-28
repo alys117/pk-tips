@@ -1,0 +1,17 @@
+# POST /files_upload HTTP/1.1
+POST /widgets/jsp/upload/upload.jsp HTTP/1.1
+Host: localhost:8080
+token: __token__
+Content-Type: multipart/form-data; boundary=ohmygod
+
+--ohmygod
+Content-Disposition: form-data; name="abc"; filename="teddy.jpg"
+Content-Type: image/jpeg
+
+< d:/fun/pic/teddy.jpg
+--ohmygod
+Content-Disposition: form-data; name="keep"
+Content-Type: text/plain
+
+I love teddy，使用express-demo目录下的upload.js上传文件
+--ohmygod--

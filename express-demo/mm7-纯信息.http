@@ -1,0 +1,83 @@
+POST https://httpbin.org/post HTTP/1.1
+Host: httpbin.org
+Content-Type: multipart/related; boundary="--NextPart_0_2817_24856";type="text/xml";start="</tnn-200102/mm7-vasp>"
+Content-Transfer-Encoding: 8bit
+Authorization: Basic Og==
+SOAPAction: ""
+MM7APIVersion: V1.5.3_20040621
+Connection: Keep-Alive
+Mime-Version: 1.0
+
+this is a multi-part message in MIME format
+
+
+----NextPart_0_2817_24856
+Content-Type:text/xml;charset="UTF-8"
+Content-Transfer-Encoding:8bit
+Content-ID:</tnn-200102/mm7-vasp>
+
+<?xml version="1.0" encoding="UTF-8"?>
+<env:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/">
+    <env:Header>
+        <mm7:TransactionID xmlns:mm7="http://www.3gpp.org/ftp/Specs/archive/23_series/23.140/schema/REL-6-MM7-1-0"
+                           env:mustUnderstand="1">1712481783400
+        </mm7:TransactionID>
+    </env:Header>
+    <env:Body>
+        <SubmitReq xmlns="http://www.3gpp.org/ftp/Specs/archive/23_series/23.140/schema/REL-6-MM7-1-0">
+            <MM7Version>6.3.0</MM7Version>
+            <SenderIdentification>
+                <VASPID>815106</VASPID>
+                <VASID>10658465</VASID>
+                <SenderAddress>10658465</SenderAddress>
+            </SenderIdentification>
+            <Recipients>
+                <To>
+                    <Number>13605319075</Number>
+                </To>
+            </Recipients>
+            <ServiceCode>666666</ServiceCode>
+            <DeliveryReport>false</DeliveryReport>
+            <ReadReply>false</ReadReply>
+            <Subject>test22</Subject>
+            <ChargedParty>Sender</ChargedParty>
+            <ChargedPartyID>10658465</ChargedPartyID>
+        </SubmitReq>
+    </env:Body>
+</env:Envelope>
+----NextPart_0_2817_24856
+Content-Type:multipart/related;start="smil.smil";type="application/smil";boundary="SubPart_7452684322002_77645"
+Content-ID:smil.smil
+Content-Transfer-Encoding:8bit
+Content-Location:smil.smil
+
+--SubPart_7452684322002_77645
+Content-Type:application/smil
+Content-Transfer-Encoding:8bit
+Content-ID:smil.smil
+
+<?xml version="1.0" encoding="UTF-8"?>
+<smil>
+    <head>
+        <layout>
+            <root-layout width="128" height="128"/>
+            <region id="Text" width="128" height="128" left="0" top="0"/>
+        </layout>
+    </head>
+    <body>
+        <par dur="8000ms">
+            <text src="3.txt" region="Text"/>
+        </par>
+    </body>
+</smil>
+--SubPart_7452684322002_77645
+Content-Type:text/plain;charset=UTF-8
+Content-Transfer-Encoding:8bit
+Content-ID:3.txt
+Content-Location:3.txt
+
+这篇文章介绍了fiddler抓取vscode的restclient插件的请求的情况。
+https://blog.csdn.net/qq_40734247/article/details/133973504
+
+--SubPart_7452684322002_77645--
+----NextPart_0_2817_24856--

@@ -28,6 +28,21 @@
       "username": "root",
       "password": "123456",
       "database": "sdbass"
+    },
+    {
+      "mysqlOptions": {
+        "authProtocol": "default",
+        "enableSsl": "Disabled"
+      },
+      "previewLimit": 50,
+      "server": "192.168.10.110",
+      "port": 3306,
+      "driver": "MySQL",
+      "name": "mysql1",
+      "group": "group1",
+      "database": "sdbass",
+      "username": "root",
+      "password": "ibmdb2"
     }
   ]
 }

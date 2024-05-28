@@ -23,5 +23,5 @@ Content-Type: image/png
 Content-Disposition: form-data; name="tip"
 Content-Type: text/plain
 
-I love teddy
+I love teddy，使用express-demo目录下的upload.js上传文件
 --ohmygod--

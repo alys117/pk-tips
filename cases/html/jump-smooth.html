@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    :root {
+      --height: 0
+    }
+
+    html,
+    body {
+      margin: 0;
+    }
+
+    .header {
+      width: 100%;
+      height: 100px;
+      background-color: moccasin;
+      position: sticky;
+      top: 0px;
+    }
+
+    .fake {
+      width: 100%;
+      height: var(--height);
+      background-color: lightblue;
+    }
+
+    .header>a {
+      width: 100px;
+      height: 80px;
+      line-height: 80px;
+      color: red;
+    }
+
+    .main {
+      width: 100%;
+      height: calc(100vh - 150px);
+      background-color: floralwhite;
+      overflow-y: scroll;
+      /* 方法一 */
+      /* scroll-behavior: smooth; */
+    }
+
+    .main>p {
+      display: block;
+      width: 100%;
+      height: 1000px;
+      color: darkgray;
+    }
+
+    .footer {
+      width: 100%;
+      height: 50px;
+      background-color: rgb(3, 3, 26);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 平滑滚动样式 -->
+  <header class="header">
+    <a href="#a1">第1章</a>
+    <a href="#a2">第2章</a>
+    <!-- <a href="#a3">3</a> -->
+    <a onclick="smoothScroll(document.getElementById('a3'))">第3章</a>
+    <a onclick="smoothScroll(document.getElementById('a4'))">第4章</a>
+    <a onclick="smoothScroll(document.getElementById('a5'))">第5章</a>
+    <button onclick="test()">测试</button>
+    <button onclick="scrollToBottom()">滚到底</button>
+  </header>
+  <header class="fake"></header>
+  <main class="main">
+    <p id="a1">1、Lorem ipsum dolor sit amet consect<span style="font-size:17px;font-family:'微软雅黑';">热热--发</span><span
+        style="color:rgb(210,153,76);font-size:15px;font-family:'微软雅黑';">济南</span>fuga adipisci, tempora esse non
+      facilis necessitatibus consequuntur vero possimus inventore laborum suscipit animi repudiandae iste! Laboriosam
+      aliquam iusto omnis minus.</a>
+    <p id="a2">2、Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reprehenderit nisi, quas blanditiis omnis
+      possimus dolore illum vero dicta optio asperiores nam. Illo, cum veniam. Distinctio soluta numquam asperiores nemo
+      ea.</p>
+    <p id="a3"><span style="font-size:17px;font-family:'微软雅黑';">热热</span><span
+        style="font-size:13px;font-family:'微软雅黑';"><sup>1</sup></span><span
+        style="font-size:17px;font-family:'微软雅黑';">--发</span><span
+        style="color:rgb(210,153,76);font-size:15px;font-family:'微软雅黑';"><u>济南</u></span><span
+        style="color:rgb(210,153,76);font-size:15px;font-family:'微软雅黑';"><u><br /><br /></u></span><span
+        style="color:rgb(19,114,162);font-size:15px;font-family:'微软雅黑';">永和九年，岁在癸丑，暮春之初，会于会稽山阴之兰亭，修禊事也。群贤毕至，少长咸集。此地有崇山峻岭，茂林修竹，又有清流激湍，映带左右，引以为流觞曲水，列坐其次。虽无丝竹管弦之盛，一觞一咏，亦足以畅叙幽情。<br /><br />是日也，天朗气清，惠风和畅。仰观宇宙之大，俯察品类之盛，所以游目骋怀，足以极视听之娱，信可乐也。<br /><br />夫人之相与，俯仰一世。或取诸怀抱，悟言一室之内；或因寄所托，放浪形骸之外。虽趣舍万殊，静躁不同，当其欣于所遇，暂得于己，快然自足，不知老之将至；及其所之既倦，情随事迁，感慨系之矣。向之所欣，俯仰之间，已为陈迹，犹不能不以之兴怀，况修短随化，终期于尽！古人云：“死生亦大矣。”岂不痛哉！<br /><br />每览昔人兴感之由，若合一契，未尝不临文嗟悼，不能喻之于怀。固知一死生为虚诞，齐彭殇为妄作。后之视今，亦犹今之视昔，悲夫！故列叙时人，录其所述，虽世殊事异，所以兴怀，其致一也。后之览者，亦将有感于斯文。</span>
+    </p>
+    <p id="a4">
+      昔人已乘黄鹤去，此地空余黄鹤楼。<br>
+      黄鹤一去不复返，白云千载空悠悠。<br>
+      晴川历历汉阳树，芳草萋萋鹦鹉洲。<br>
+      日暮乡关何处是？烟波江上使人愁。
+    </p>
+    <p id="a5">5、Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum exercitationem voluptate magnam
+      fugit vel, minus beatae nisi dicta praesentium aut distinctio neque, maiores quas tenetur quibusdam quam
+      recusandae! Sit, quae.</p>
+  </main>
+  <footer class="footer">
+    <button onclick="scrollToTop()">滚到顶</button>
+  </footer>
+  <script>
+    // 方法二
+    // 补充页面滚动顶部
+    const scrollToTop = () => {
+      var dom = document.getElementsByClassName('main')[0]
+      dom.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "smooth",
+      })
+    }
+    // 页面滚到底部
+    const scrollToBottom = () => {
+      var dom = document.getElementsByClassName('main')[0]
+      console.log(dom, dom.scrollHeight - dom.clientHeight);
+      dom.scrollTo({
+        top: dom.scrollHeight - dom.clientHeight - 100,
+        left: 0,
+        behavior: "smooth",
+      })
+    }
+    // 页面滚动到可见区域
+    const smoothScroll = (element) => {
+      // // 获取根元素
+      // var root = document.documentElement;
+      // var computedStyle = getComputedStyle(root);
+      // var heightVal = computedStyle.getPropertyValue('--height');
+      // console.log('heightVal', heightVal)
+
+      // 设置CSS变量的值
+      // root.style.setProperty('--height', '100px');
+
+      element.scrollIntoView({
+        behavior: "smooth",
+      })
+    }
+    //测试
+    function test() {
+      const a3 = document.querySelector("#a3");
+
+      a3.scrollIntoView({
+        behavior: 'smooth'
+      });
+    }
+  </script>
+</body>
+
+</html>
