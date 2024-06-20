@@ -1,31 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <link rel="stylesheet" href="https://unpkg.com/github-markdown-css"> -->
+  <link rel="stylesheet" href="https://unpkg.com/highlight.js@11.9.0/styles/default.min.css">
   <title>Document</title>
 </head>
+
 <body>
-  <script>
-    fetch('http://localhost:8000/v1/chat/completions').then(function(response) {
-      var reader = response.body.getReader();
-      var decoder = new TextDecoder();
-      var buffer = '';
-      reader.read().then(function processText({ done, value }) {
-        // console.log(done, value);
-        if (done) {
-          console.log('Stream complete');
-          return;
-        }
-        buffer += decoder.decode(value, { stream: true });
-        let parts = buffer.split('\n');
-        buffer = parts.pop();
-        for (let part of parts) {
-          console.log('Received', part);
-        }
-        return reader.read().then(processText);
-      });
-    });
-  </script>
+  <div id="app"></div>
 </body>
+<!-- skypack是一个能将commonjs模块转换为es6模块的cdn，看这篇https://zhuanlan.zhihu.com/p/510447297 -->
+<script type="importmap">
+  {
+    "imports": {
+      "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js",
+      "markdown-it": "https://cdn.skypack.dev/markdown-it",
+      "highlight.js": "https://cdn.skypack.dev/highlight.js"
+    }
+  }
+</script>
+<script type="module">
+  import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+  import Comp from './markdown-demo.js'
+  createApp(Comp).mount('#app')
+</script>
 </html>

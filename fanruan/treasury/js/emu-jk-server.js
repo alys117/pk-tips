@@ -23,12 +23,12 @@ app4.post(
         console.log('getAccount body：', req.body)
         setTimeout(function(){
           res.end('<?xml version="1.0" encoding="UTF-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><ns1:siteAuthResponse xmlns:ns1="http://SoapTreasury4A.boco.com.cn"><siteAuthResult>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;response&gt;&lt;head&gt;&lt;responseTime&gt;2023-04-05 17:48:01&lt;/responseTime&gt;&lt;method&gt;Response&lt;/method&gt;&lt;appId&gt;&lt;/appId&gt;&lt;/head&gt;&lt;body&gt;&lt;result&gt;0&lt;/result&gt;&lt;resultDesc&gt;现场认证审批人密码输入错误或者请求参数不全&lt;/resultDesc&gt;&lt;/body&gt;&lt;/response&gt;</siteAuthResult></ns1:siteAuthResponse></soap:Body></soap:Envelope>')
-        },100)
+        },1)
       }else{
         console.log('getAccount body：', req.body)
         setTimeout(function(){
           res.end('<?xml version="1.0" encoding="UTF-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><ns1:siteAuthResponse xmlns:ns1="http://SoapTreasury4A.boco.com.cn"><siteAuthResult>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;response&gt;&lt;head&gt;&lt;responseTime&gt;2023-04-07 18:59:37&lt;/responseTime&gt;&lt;method&gt;Response&lt;/method&gt;&lt;appId&gt;&lt;/appId&gt;&lt;/head&gt;&lt;body&gt;&lt;result&gt;1&lt;/result&gt;&lt;resultDesc&gt;&lt;/resultDesc&gt;&lt;/body&gt;&lt;/response&gt;</siteAuthResult></ns1:siteAuthResponse></soap:Body></soap:Envelope>')
-        },100)
+        },1)
       }
     }else {
       console.log('no match body：', req.body)

@@ -28,16 +28,30 @@ app.all('*', (req, res) => {
   res.setHeader('Connection', 'keep-alive');
   res.flushHeaders();
 
-  let allData = '### 项目硬件需求\n' +
+  let allData = '##### 项目硬件需求\n' +
   '| 配置 | 数量 | 用途 |\n' +
   '| --- | --- | --- |\n' +
   '| 4核16G\\|100G | 1 | 负载均衡服务器：nginx分发 |\n' +
-  '| 4核16G\\|100G | 1 | 缓存服务器：内存服务redis |'
+  '| 4核16G\\|100G | 1 | 缓存服务器：内存服务redis |\n'+
+  '#### 使用反引号定义代码块，并定义高亮\n'+
+  '```java\n'+
+  'pubic static void main(String[] args) {\n'+
+  '  System.out.println("Hello world");\n'+
+  '}\n'+
+  '```\n'
 
   let arr = allData.split('');
+  let line = ''
   // 模拟发送事件
   const interval = setInterval(() => {
-    res.write(arr.shift(1));
+    const charactor = arr.shift(1)
+    if(charactor === '\n') {
+      console.log(line);
+      line = ''
+    } else {
+      line += charactor
+    }
+    res.write(charactor);
     if(arr.length === 0) {
       clearInterval(interval);
       res.end();
@@ -54,8 +68,3 @@ app.all('*', (req, res) => {
 app.listen(8000, function () {
   console.log('启动监听 8000');
 });
-
-// https://blog.csdn.net/Ed7zgeE9X/article/details/124310751
-// curl -X POST  http://localhost:8000 -H 'Content-Type: text/plain' -d 'Hello, plain!'
-// curl -X POST  http://localhost:8000 -H 'Content-Type: application/json' -d '{"msg":"hello, json!"}'
-// curl -X POST  http://localhost:8000 -H 'Content-Type: application/x-www-form-urlencoded' -d 'msg=hello, x-www-form-urlencoded!'

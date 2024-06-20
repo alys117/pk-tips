@@ -70,11 +70,13 @@
               // 往左拖拽
               if (clientX > e.clientX) {
                 dragDom.style.width = elW + (clientX - e.clientX) + 'px'
+                console.log(dragDom.style.width ,'往左')
               }
               // 往右拖拽
               if (clientX < e.clientX) {
                 if (dragDom.clientWidth >= minWidth) {
                   dragDom.style.width = elW - (e.clientX - clientX) + 'px'
+                  console.log(dragDom.style.width ,'往右')
                 }
               }
             }
