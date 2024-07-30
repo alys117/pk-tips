@@ -118,5 +118,11 @@
     </div>
   </div>
 </body>
-
+<script>
+  let title = `[%{op_time}]嘻嘻嘻日报%{title}`
+  const mat = title.match(/%{(\w+)}/g)
+  console.log( mat)
+  title = title.replace(/%{(\w+)}/g, '2021-09-01')
+  console.log(title)
+</script>
 </html>
