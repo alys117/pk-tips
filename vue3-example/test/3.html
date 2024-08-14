@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <input type="text" id="myInput" />
+  <button onclick="aaa()">paste</button>
+  <script>
+    // 获取input元素
+    var input = document.getElementById('myInput');
+    function aaa() {
+      // 设置input的值
+      input.value = '要粘贴的内容';
+
+      // 触发input的change事件（如果需要）
+      var event = new Event('input', { bubbles: true });
+      input.dispatchEvent(event);
+    }
+    // 监听paste事件
+    input.addEventListener('paste', function (event) {
+      // 阻止默认粘贴行为
+      event.preventDefault();
+      // 获取剪贴板数据
+      var clipboardData = event.clipboardData || window.clipboardData;
+      var pastedData = clipboardData.getData('Text');
+
+      // 设置input的值
+      input.value = pastedData;
+
+      // 触发input的change事件（如果需要）
+      var event = new Event('input', { bubbles: true });
+      input.dispatchEvent(event);
+    });
+  </script>
+</body>
+
+</html>
