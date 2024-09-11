@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .item .a:last-child {
+            color: red;
+        }
+        .item .a{
+            color: blue;
+        }
+
+        .t1 .a{
+            color: pink;
+        }
+        .t2 .a{
+            color: yellowgreen;
+        }
+        .t3 .a{
+            color: orange;
+        }
+        .tip[data-id=var(--abc)]{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <ul class="item">
+        <li class="a">
+            <ul class="item t3">
+                <li class="a">123</li>
+                <li class="a">123</li>
+                <li class="a">123</li>
+            </ul>
+        </li>
+        <li class="a">123</li>
+        <li class="a">123</li>
+        <li class="a">
+            <ul class="item t1">
+                <li class="a">123</li>
+                <li class="a">123</li>
+                <li class="a">
+                    <ul class="item t2">
+                        <li class="a">123</li>
+                        <li class="a">123</li>
+                        <li class="a">123</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <div class="tip" data-id="abc" style="--abc: abc">red</div>
+    <div style="width: 800px;">
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis accusamus, reiciendis voluptate, ut officiis debitis vel quos animi assumenda, molestiae fugit! Voluptate unde cupiditate tempore esse ex ipsam illum quisquam.</p>
+    </div>
+</body>
+</html>

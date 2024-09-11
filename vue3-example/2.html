@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Vue drag实例</title>
+  <script src="//unpkg.com/vue@latest"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">  
+    <div style="display: flex;justify-content: flex-end;">
+      <div v-drag style="height: 50vh; width: 200px;">
+        抽屉内容
+      </div>
+      <div style="background-color: antiquewhite; width: 400px;"></div>
+    </div>
+  </div>
+
+  <script>
+    const App = {
+      data() {
+        return {
+          message: 'Hello Vue3!!',
+          drawer: false
+        }
+      }
+    }
+    const app = Vue.createApp(App)
+    app.directive('drag', {
+      mounted(el, binding, vnode, oldVnode) {
+        console.log('自定义指令 directive');
+        const minWidth = 200
+        let dragDom = el
+        dragDom.style.overflow = 'auto'
+        dragDom.style.position = 'relative'
+
+        const resizeElL = document.createElement('div')
+        const img = new Image(12, 19)
+        img.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAqVJREFUeF7tmj3MTUEQhp+vVYlErRUkChKdUCg0QvxFNGqi1hKNWkKr9Zeg0yGRaIiKRC0iQUEkGgUZOTc51u59z+61+518O6e7md2dmWffOWd3767R+bPWef44AFdA5wS8BDoXgL8EW5bAZeAE8Bl4Btjv8TO2XwGetlBnSwBPgANDUm+AXUGCY7slf3CjAfgVJBTCV/YqPFoqQCWo7A6gBgFXQA2qiTGVxJW9SqiugCpY44OqGVb2KqG6AqpgdQVECSiJK3uVufISWAHrFuAw8A14BXwUY6kZVvbY8GeBD6tsnEoVsAO4C+wcoroHnGoM4DpwcbS5Mv9vcye0BECY/MKnGkvNsLKHuYXtbYeZDUEFHTpNJb8eCrgFnAsCzIaQAyCV/GvgDPCucQlsB24Du1eBMBVAKvkXwGng/YTaUxJX9piLbcAdYF8phCkAUsnbCY7V3JcJyVsTlaCyp9xsBe4D+0sgKACp5B8Dx4EfE5OvCcDG3gQ8BA7lQlgGIJW8OTqWkfiiqZphZZ/i8hFwJAdCCsBm4PnoOz/FeW4bdSaYO96y9vZ1sENWO5H+60kBOAo8+J8RRMZqCcDcXwBu9gzAFPDPfw09lUD4P8QfMfhLUNR515/BBZuuF0IKQhdLYQWhi82QgrAe2+EbwPmcVV/sfaf2ArE+czkQ+QTYRmjxZJ8FqM/gsg/EHI7ErgGXhiCLkl8FgPWdw6HoSeDnsML7WrJ0LymBEj/WR+32lL3U79J+DqAK1vigaoaVvUqoroAqWF0BUQJK4speZa68BKpg9RLwEogRUDWu7FXE6u+AKljjg6rL0i+BPUNXu3Cxt0VsLRWgrsvbbZOrwHdgQ16XbzGh2T5aKiA7uBYdHEALynP24QqY8+y0iM0V0ILynH38BphO0kEdS9VDAAAAAElFTkSuQmCC'
+        dragDom.appendChild(img)
+        dragDom.appendChild(resizeElL)
+        resizeElL.style.cursor = 'w-resize'
+        resizeElL.style.position = 'absolute'
+        resizeElL.style.height = '100%'
+        resizeElL.style.width = '10px'
+        resizeElL.style.left = '0px'
+        resizeElL.style.top = '0px'
+        resizeElL.style.background = 'linear-gradient(to right, transparent 0%, rgba(0, 0, 0, .03) 50%, transparent 100%)'
+        img.style.position = 'absolute'
+        img.style.left = '-1px'
+        img.style.top = '50%'
+        img.style.userSelect = 'none'
+        // img.style.transform = 'rotate(90deg)'
+
+        resizeElL.onmousedown = (e) => {
+          const elW = dragDom.clientWidth
+          const EloffsetLeft = dragDom.offsetLeft
+          const clientX = e.clientX
+          document.onmousemove = function (e) {
+            e.preventDefault()
+            // 左侧鼠标拖拽位置
+            if (clientX > EloffsetLeft && clientX < EloffsetLeft + 10) {
+              // 往左拖拽
+              if (clientX > e.clientX) {
+                dragDom.style.width = elW + (clientX - e.clientX) + 'px'
+                console.log(dragDom.style.width ,'往左')
+              }
+              // 往右拖拽
+              if (clientX < e.clientX) {
+                if (dragDom.clientWidth >= minWidth) {
+                  dragDom.style.width = elW - (e.clientX - clientX) + 'px'
+                  console.log(dragDom.style.width ,'往右')
+                }
+              }
+            }
+          }
+          // 拉伸结束
+          document.onmouseup = function (e) {
+            document.onmousemove = null
+            document.onmouseup = null
+          }
+        }
+      }
+    })
+    app.mount('#app')
+  </script>
+</body>
+
+</html>
