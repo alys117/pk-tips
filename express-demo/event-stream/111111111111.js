@@ -1,60 +1,17 @@
-function revertFormat(arr) {
-  const result = {};
-
-  arr.forEach(item => {
-    if (item.children && item.children.every(child => typeof child === 'object' && !child.children)) {
-      // 如果 children 中的每个元素都是基本类型（不包含更深层的 children）
-      result[item.label] = item.children.map(child => child.label);
-    } else if (item.children && item.children.some(child => typeof child === 'object' && child.children)) {
-      // 如果 children 中至少有一个元素包含更深层的 children
-      result[item.label] = revertFormat(item.children);
-    }
-  });
-
-  return result;
+const draw_data = {
+  x: {
+    x_axis: ['济南', '青岛', '烟台']
+  },
+  y: {
+    '指标1': [1, 2, 3],
+    '指标2': [4, 5, 6],
+  }
 }
 
-// 示例使用
-const aa = [
-  {
-    label: 'label',
-    children: [
-      { label: 'label1' },
-      { label: 'label2' }
-    ]
-  },
-  {
-    label: 'label3',
-    children: [
-      {
-        label: 'label4',
-        children: [
-          { label: 'label5' },
-          { label: 'label6' }
-        ]
-      },
-      { label: 'label7' }
-    ]
-  }
-];
-
-console.log(revertFormat(aa), '123');
-
-const bb = [
-  "text1","text2","text3"
+const datalist = [
+  {'济南': 1, '青岛': 2, '烟台': 3},
+  {'济南': 4, '青岛': 5, '烟台': 6}
 ]
-const bb2 = {
-  "text1": ["text2", "text3"],
-  "text4": ["text5", {"text6": ["text7", "text8"]}]
-};
+写出从 draw_data 转换到 datalist 的代码
 
-setTimeout(() => {
-  [1,2,3].forEach(item => {
-    console.log(Math.random());
-  })
-}, 10);
-setTimeout(() => {
-  [1,2,3].forEach(item => {
-    console.log(Math.random());
-  })
-}, 10);
+const columns = [{label: '济南'}, {label: '青岛'}, {label: '烟台'}]

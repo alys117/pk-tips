@@ -10,7 +10,7 @@
     "coordtransform": "^2.1.2",
     "cors": "^2.8.5",
     "crypto-js": "^4.1.1",
-    "dayjs": "^1.11.9",
+    "dayjs": "^1.11.12",
     "devtools-detector": "^2.0.14",
     "dom-to-image": "^2.6.0",
     "echarts": "^5.4.2",

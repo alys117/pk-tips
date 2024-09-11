@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <button onclick="selectText(document.getElementById('text-to-select'))">全选</button>
+  <button onclick="Backspace()">Backspace</button>
+  <br>
+  <span id="span" ondblclick="console.log(123);">文字</span>
+  <button onclick="dblclick()">双击</button>
+  <p id="text-to-select" contenteditable="true">
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod quidem doloremque hic, repellat architecto excepturi.
+    Recusandae sunt officia alias sed numquam. Minima porro similique iure in aliquid incidunt, aut earum!
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod quidem doloremque hic, repellat architecto excepturi.
+    Recusandae sunt officia alias sed numquam. Minima porro similique iure in aliquid incidunt, aut earum!
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod quidem doloremque hic, repellat architecto excepturi.
+    Recusandae sunt officia alias sed numquam. Minima porro similique iure in aliquid incidunt, aut earum!
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod quidem doloremque hic, repellat architecto excepturi.
+    Recusandae sunt officia alias sed numquam. Minima porro similique iure in aliquid incidunt, aut earum!
+  </p>
+  <input type="text" id="input" value="1234556" />
+  <h2>错误拉</h2>
+  <script>
+    const h5 = document.createElement('h6');
+    h5.innerText = 'hello';
+    document.querySelector('h2').appendChild(h5);
+  </script>
+</body>
+</html>
+<script>
+    function simulateKeyPress(character) {
+      var evt = new KeyboardEvent('keypress', { key: character, char: character, shiftKey: false });
+
+      document.getElementById('input').dispatchEvent(evt);
+
+    }
+    const ev = new MouseEvent('dblclick', {
+      view: window,
+      bubbles: true,
+      cancelable: true
+    });
+    function dblclick(){
+      document.querySelector('#span').dispatchEvent(ev);
+
+    }
+    document.getElementById('input').addEventListener('keypress', function (e) {
+      console.log('keypress', e.key);
+      document.getElementById('input').value += e.key;
+    });
+    function Backspace() {
+      document.getElementById('input').focus();
+      simulateKeyPress(String.fromCharCode(97 + Math.floor(Math.random() * 26)))
+    }
+    function selectText(node) {
+      if (window.getSelection && document.createRange) {
+        var selection = window.getSelection();
+        var range = document.createRange();
+        range.selectNodeContents(node);
+        selection.removeAllRanges();
+        selection.addRange(range);
+      } else if (document.body.createTextRange) { // 支持 IE < 9
+        var textRange = document.body.createTextRange();
+        textRange.moveToElementText(node);
+        textRange.select();
+      }
+    }
+  </script>
+</body>
+
+</html>
