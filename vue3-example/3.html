@@ -14,13 +14,17 @@
 </head>
 
 <body>
-  <div id="app">  
+  <div id="app">
+    <div style="height: 100px;"></div>  
     <div style="display: flex;justify-content: flex-end;">
       <div v-drag style="height: 300px; width: 200px;background-color: aquamarine; overflow: auto;">
-        <div style="height: 600px;background-color: red;">
-          抽屉内容
-        </div>
+        抽屉内容
       </div>
+    </div>
+    <div></div>
+    <div style="background-color: antiquewhite; width: 300px; height: 400px;position: relative; overflow: auto;">
+      <div style="background: red; height: 600px;"></div>
+      <div style="background-color: aqua;position: absolute;top: calc(100% - 30px);bottom: 0; height: 30px; width: 100%;"></div>
     </div>
   </div>
 
@@ -54,31 +58,29 @@
         resizeElL.style.background = 'linear-gradient(to top, transparent 0%, rgba(0, 0, 0, .03) 50%, transparent 100%)'
         img.style.position = 'absolute'
         img.style.left = '50%'
-        img.style.bottom = '-4px'
+        img.style.bottom = '-3px'
         img.style.userSelect = 'none'
         img.style.transform = 'rotate(90deg)'
 
         resizeElL.onmousedown = (e) => {
-          const elH = dragDom.clientHeight
-          const EloffsetTop = dragDom.offsetTop + dragDom.clientHeight
-          const clientY = e.clientY
+          const elH = dragDom.clientHeight //元素本身的高度
+          const EloffsetTop = dragDom.offsetTop //元素向上高度
+          const clientY = e.clientY //鼠标向上的高度
           document.onmousemove = function (e) {
             e.preventDefault()
-            console.log(e.clientY, 'e.clientY', clientY, EloffsetTop);
             // 左侧鼠标拖拽位置
-            if (clientY > EloffsetTop && clientY < EloffsetTop + 10 || true) {
-              console.log(111);
+            if (clientY > EloffsetTop + elH - 10 && clientY < EloffsetTop + elH + 10) {
               // 往左拖拽
               if (clientY > e.clientY) {
-                dragDom.style.height = elH - (clientY - e.clientY) + 'px'
-                console.log(dragDom.style.height ,'往上')
+                if(dragDom.clientHeight >= minHeight){
+                  dragDom.style.height = elH - (clientY - e.clientY) + 'px'
+                  console.log(dragDom.style.height ,'往上')
+                }
               }
               // 往右拖拽
               if (clientY < e.clientY) {
-                if (dragDom.clientHeight >= minHeight) {
-                  dragDom.style.height = elH + (e.clientY - clientY) + 'px'
-                  console.log(dragDom.style.height  ,'往下')
-                }
+                dragDom.style.height = elH + (e.clientY - clientY) + 'px'
+                console.log(dragDom.style.height  ,'往下')
               }
             }
           }

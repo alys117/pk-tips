@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <input type="text" id="input1" value="123">
+  <input type="text" id="input2" value="123">
+  <input type="text" id="input3" value="123">
+  <script>
+setTimeout(() => {
+  document.getElementById('input1').value = '456'; // 修改input1的值
+  document.getElementById('input2').focus(); // input2获取焦点
+  const event = new KeyboardEvent('keypress', { key: 'a' });
+  document.getElementById('input2').dispatchEvent(event); // 模拟按下键盘按键
+},1000)
+  </script>
+</body>
+</html>

@@ -43,7 +43,7 @@ function open_json() {
                         { id: 'easy4', topic: 'Easy to embed' },
                         {
                             'id': 'other3',
-                            'background-image': 'ant.png',
+                            'background-image': 'https://hizzgdev.github.io/jsmind/example/ant.png',
                             'width': '100',
                             'height': '100',
                         },
@@ -89,7 +89,7 @@ function open_json() {
 }
 
 function open_remote() {
-    fetch('data_example.json')
+    fetch('https://hizzgdev.github.io/jsmind/example/data_example.json')
         .then(resp => resp.json())
         .then(mind => _jm.show(mind));
 }
@@ -456,7 +456,7 @@ function open_freemind() {
 }
 
 function prompt_info(msg) {
-    alert(msg);
+    // alert(msg);
 }
 
 open_empty();

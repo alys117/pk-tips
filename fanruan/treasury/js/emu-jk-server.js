@@ -36,6 +36,13 @@ app4.post(
     }
   }
 )
+app4.all('/*', function (req, res) {
+  console.log('req.url', req.url)
+  console.log('req.body', req.body)
+  console.log('req.query', req.query)
+  res.setHeader('Content-Type', 'text/html')
+  res.end(`<input type="text" value="${req.path}">`)
+})
 
 const server_80 = app4.listen(80, function () {
   const host = server_80.address().address

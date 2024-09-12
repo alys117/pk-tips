@@ -31,7 +31,7 @@
 
   <button onclick="copyPageUrl()">aa</button>
 
-  <textarea name="ttt" id="aaa" cols="30" rows="5"></textarea>
+  <textarea id="textarea" name="ttt" id="aaa" cols="30" rows="5"></textarea>
 </body>
 <script>
   async function copyPageUrl() {
@@ -42,5 +42,12 @@
     console.error('Failed to copy: ', err);
   }
 }
+
+const observer = new ResizeObserver(enntires => {
+  for (const entry of enntires) {
+    console.log(entry.borderBoxSize[0],entry.contentRect.width, entry.contentRect.height);
+  }
+});
+observer.observe(document.getElementById('textarea'));
 </script>
 </html>
