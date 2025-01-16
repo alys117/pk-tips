@@ -16,6 +16,7 @@
     "echarts": "^5.4.2",
     "element-plus": "^2.3.12",
     "express": "^4.17.3",
+    "file-type": "^19.6.0",
     "font-awesome": "^4.7.0",
     "global-tunnel-ng": "^2.7.1",
     "hpagent": "^0.1.2",

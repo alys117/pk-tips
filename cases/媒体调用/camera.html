@@ -1,0 +1,87 @@
+
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>拍照测试</title>
+
+	</head>
+	<body>
+		<div>
+			<select id="select" onChange="change();"></select>
+			<button onclick="openVideo()" ;>打开摄像头</button>
+			<button onclick="closeVideo()" ;>关闭摄像头</button>
+			<button id="snap">拍照</button>
+		</div>
+		<div>
+			<video id="video" width="640" height="480" autoplay></video>
+			<canvas id="canvas" width="640" height="480"></canvas>
+		</div>
+		<script>
+			var video = document.getElementById('video');
+			var select = document.getElementById('select');
+
+			function openVideo() {
+
+				navigator.mediaDevices.enumerateDevices().then(function(devices) {
+					debugger
+
+					devices.forEach(function(device) {
+						if (device.kind === "videoinput") {
+
+							var option = document.createElement('option');
+							option.value = device.deviceId;
+							option.text = device.label + '摄像头' + (select.length + "1");
+							select.appendChild(option);
+						}
+					});
+					change();
+				});
+			}
+
+			const canvas = document.getElementById('canvas');
+			const context = canvas.getContext('2d');
+			// 当按钮被点击时拍照
+			document.getElementById('snap').addEventListener('click', function() {
+				context.drawImage(video, 0, 0, canvas.width, canvas.height);
+			});
+
+
+
+
+
+			function closeVideo() {
+
+				var stream = video.srcObject;
+				stopMediaStream(stream);
+				video.srcObject = null;
+
+
+			}
+
+			// 关闭摄像头的函数
+			function stopMediaStream(stream) {
+				if (stream) {
+					stream.getTracks().forEach(function(track) {
+						track.stop(); // 停止所有的track
+					});
+				}
+			}
+
+
+			function change() {
+				var deviceId = select.value;
+				navigator.mediaDevices.getUserMedia({
+						video: {
+							deviceId: deviceId
+						}
+					})
+					.then(function(stream) {
+						video.srcObject = stream;
+						video.play();
+					}).catch(function(err) {
+						console.error("摄像头访问错误:", err);
+					});
+			}
+		</script>
+	</body>
+</html>

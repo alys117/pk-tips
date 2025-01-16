@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <button id="btn1" data-p="a1">防抖1</button>
+  <button id="btn2" data-p="a2">防抖2</button>
+</body>
+<script>
+  function debounce(fn, delay) {
+    let timer = null;
+    return function () {
+      let context = this;
+      let args = arguments;
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        fn.apply(context, args);
+      }, delay);
+    }
+  }
+
+  window._debounceObj = {};
+  ['btn1', 'btn2'].forEach((item) => {
+    document.getElementById(item).addEventListener('click', function () {
+      if (window._debounceObj[item]) {
+        window._debounceObj[item].fn()
+      } else {
+        window._debounceObj[item] = {
+          fn: null
+        }
+        window._debounceObj[item].fn = debounce(() => {
+          console.log(item, this?.getAttribute('data-p'))
+        }, 2000)
+        window._debounceObj[item].fn()
+      }
+    })
+  })
+</script>
+
+</html>

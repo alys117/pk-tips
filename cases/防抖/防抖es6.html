@@ -17,10 +17,11 @@
   const handler = debounce(function(...args) {
     console.log('debounce',this?.tip, args)
   }
-  // .bind(obj, {param: '参数'}) 
+  .bind(obj, {param: '参数'}) 
   , 1000)
   // window.addEventListener('resize', handler)
-  // handler()
+  handler()
   document.getElementById('btn').addEventListener('click', handler)
+  console.log('启动‍监听', '启动‍监听'.length);
 </script>
 </html>

@@ -56,7 +56,7 @@ app.all('*', async (req, res, next) => {
   function wait(ms) {
     return new Promise(resolve => setTimeout(() => resolve(), ms));
   };
-  await wait(100000)
+  await wait(1000);
   res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' })
   res.end(JSON.stringify({
     status: 'ok',

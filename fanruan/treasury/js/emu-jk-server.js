@@ -36,14 +36,43 @@ app4.post(
     }
   }
 )
-app4.all('/*', function (req, res) {
+app4.all('/html', function (req, res) {
   console.log('req.url', req.url)
   console.log('req.body', req.body)
   console.log('req.query', req.query)
   res.setHeader('Content-Type', 'text/html')
-  res.end(`<input type="text" value="${req.path}">`)
+  res.end(
+    `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+    <body>
+    <input type="text" value="${req.path}">
+    <span>${req.path}</span>
+    <p>不能复制</p>
+    <script>
+      console.log('last line')
+      window.addEventListener('message', function (e) {
+        console.log('e', e)
+        document.addEventListener('copy', function (e) {
+          console.log('no copy')
+          e.preventDefault()
+        })
+      })
+    </script>
+    </body></html>`
+  )
 })
-
+app4.all('/*', function (req, res) {
+  console.log('req.url', req.url)
+  console.log('req.body', req.body)
+  console.log('req.query', req.query)
+  res.end(`{"a":1}`)
+})
 const server_80 = app4.listen(80, function () {
   const host = server_80.address().address
   const port = server_80.address().port

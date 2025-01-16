@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="myDiv" style="height: 500px; width: 600px; overflow: auto;">
+    <div style="height: 1000px; background-color: burlywood;">
+      123
+    </div>
+  </div>
+  <script>
+    setTimeout(() => {
+      var divElement = document.getElementById('myDiv');
+      // divElement.scrollTop = divElement.scrollHeight
+      // 滚动到div元素的底部，平滑滚动
+      document.getElementById('myDiv').scrollTo({
+        top: divElement.scrollHeight,
+        behavior: 'smooth'
+      })
+    }, 500)
+  </script>
+</body>
+
+</html>

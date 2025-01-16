@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.26.0/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.17.0/dist/xlsx.full.min.js"></script>
+</head>
+
+<body>
+  <form id="form1" method="POST" enctype="multipart/form-data">
+    <label for="user">用户名：</label><input id="user" type="text" name="user"><br>
+    <label for="pass">密&emsp;码：</label><input id="pass" type="password" name="pass"><br>
+    <input type="file" name="myfile" onchange="showFile(this.files[0])"><br>
+    <input type="submit" value="提交">
+  </form>
+  <button id="btn">axiox上传</button>
+  <script>
+    function showFile(file) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        console.log(e.target.result);
+        const data = new Uint8Array(e.target.result);
+        console.log(XLSX)
+        const workbook = XLSX.read(data, { type: 'array' });
+        console.log(workbook)
+
+        // 假设我们只读取第一个工作表
+        const firstSheetName = workbook.SheetNames[0];
+        //所有工作表名称
+        // console.log(workbook.SheetNames);
+        //所有工作表数据 需要用XLSX.utils.sheet_to_json(worksheet, { header: 1 });转换成数组格式
+        // console.log(workbook.Sheets);
+        const worksheet = workbook.Sheets[firstSheetName];
+        const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+        // console.log(jsonData);
+        // 将JSON数据转换成文本
+        let text = JSON.stringify(jsonData);
+        console.log(text);
+      }
+      reader.readAsArrayBuffer(file);
+    }
+    document.getElementById('btn').addEventListener('click', function (e) {
+      // 文件元素
+      var file = document.querySelector('[type=file]');
+      // 通过FormData将文件转成二进制数据
+      var formData = new FormData();
+      // 将文件转二进制
+      formData.append('myfile', file.files[0]);
+      formData.append('username', 'kokia')
+      axios({
+        method: 'post',
+        url: '/file_upload',
+        data: formData
+      }).then(res => {
+        console.log(res)
+        alert(res)
+      })
+    })
+    var ele = document.getElementById("form1");
+    ele.onsubmit = function (e) {
+      e.preventDefault()
+      var file = document.querySelector('[type=file]');
+      // 通过FormData将文件转成二进制数据
+      var formData = new FormData();
+      // 将文件转二进制
+      formData.append('myfile', file.files[0]);
+      formData.append('username', 'kokia')
+      axios({
+        method: 'post',
+        url: '/file_upload',
+        data: formData
+      }).then(res => {
+        console.log(res)
+        alert(res)
+      })
+    }
+  </script>
+</body>
+
+</html>
