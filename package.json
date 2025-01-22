@@ -15,6 +15,7 @@
     "dom-to-image": "^2.6.0",
     "echarts": "^5.4.2",
     "element-plus": "^2.3.12",
+    "exceljs": "^4.4.0",
     "express": "^4.17.3",
     "file-type": "^19.6.0",
     "font-awesome": "^4.7.0",
@@ -48,6 +49,7 @@
     "ws": "^8.13.0",
     "xlsx": "^0.18.5",
     "xlsx-js-style": "^1.2.0",
+    "xlsx-populate": "^1.21.0",
     "xml2js": "^0.4.23",
     "xml2obj-stream": "^0.1.3"
   },

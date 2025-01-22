@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Read Excel with Images</title>
+  <script src="https://cdn.jsdelivr.net/npm/exceljs/dist/exceljs.min.js"></script>
+</head>
+<body>
+  <input type="file" id="fileInput">
+  <div id="output"></div>
+
+  <script>
+    document.getElementById('fileInput').addEventListener('change', async function(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = async function(e) {
+          const arrayBuffer = e.target.result;
+          const workbook = new ExcelJS.Workbook();
+          await workbook.xlsx.load(arrayBuffer);
+
+          const worksheet = workbook.getWorksheet(1);
+          console.log(worksheet.getCell('C2'));
+          const images = worksheet.getImages(); // 获取所有图片
+
+          const output = document.getElementById('output');
+          images.forEach(image => {
+            const imageId = image.imageId;
+            const imageData = workbook.model.media.find(media => media.index === imageId).buffer;
+            const blob = new Blob([imageData], { type: 'image/png' });
+            const url = URL.createObjectURL(blob);
+
+            const img = document.createElement('img');
+            img.src = url;
+            output.appendChild(img);
+          });
+        };
+        reader.readAsArrayBuffer(file);
+      }
+    });
+  </script>
+</body>
+</html>

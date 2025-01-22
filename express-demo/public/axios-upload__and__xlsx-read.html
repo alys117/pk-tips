@@ -18,6 +18,7 @@
   <button id="btn">axiox上传</button>
   <script>
     function showFile(file) {
+      console.log(file);
       var reader = new FileReader();
       reader.onload = function (e) {
         console.log(e.target.result);
@@ -76,6 +77,20 @@
         alert(res)
       })
     }
+
+
+
+
+
+
+
+
+    const sheng = [ {value: '1',label: '江苏'}, {value: 2, label: '山东'}]
+    const shi = {
+      1: [{value: '1',label: '南京市'},{value: '2',label: '苏州市'}],
+      2: [{value: '1',label: '济南市'},{value: '2',label: '青岛市'}]
+    }
+
   </script>
 </body>
 
