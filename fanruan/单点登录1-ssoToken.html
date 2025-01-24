@@ -9,14 +9,13 @@
     <script>
       // PEM 格式的公钥
       const publicKeyPem = `-----BEGIN PUBLIC KEY-----
-    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkyP6/Ov6eQEgsmgUKqY3
-    X5pH48iy1MUmYVEaYJnbSRSfhDXvh6Ip7VenHemH19N2UELjTFNOEBIRh/3lyYyu
-    iUswEKK8mnGi2AkBCs4PN+XtJakEcuqXsIa3TekQZOUQYHUb5oCYlUdwj5X93XdW
-    rpVFAvTXiY/U8TeEy3vRZzq1bz5kkTZr6lOHCyyGEMiscyJaAL9cXeVRsc71Mp/V
-    Y0RlyqIrOknuuI8SP7Vvu1XFXtIzJH5wSWow+6S/ejBf+k7clxosyWVz0bQ41htk
-    mpvAt6UElybRWxN2dvInWSaN98GjSr09aq/0dGnLR187KvjXCegZu8Z4yRSGeEW6
-    OwIDAQAB
-    -----END PUBLIC KEY-----`;
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkyP6/Ov6eQEgsmgUKqY3X5pH48iy1MUm
+YVEaYJnbSRSfhDXvh6Ip7VenHemH19N2UELjTFNOEBIRh/3lyYyuiUswEKK8mnGi2AkBCs4PN+Xt
+JakEcuqXsIa3TekQZOUQYHUb5oCYlUdwj5X93XdWrpVFAvTXiY/U8TeEy3vRZzq1bz5kkTZr6lOH
+CyyGEMiscyJaAL9cXeVRsc71Mp/VY0RlyqIrOknuuI8SP7Vvu1XFXtIzJH5wSWow+6S/ejBf+k7c
+lxosyWVz0bQ41htkmpvAt6UElybRWxN2dvInWSaN98GjSr09aq/0dGnLR187KvjXCegZu8Z4yRSG
+eEW6OwIDAQAB
+-----END PUBLIC KEY-----`;
     
       // 使用 RSA_PKCS1_PADDING 加密
       function encryptWithPKCS1Padding(plainText, publicKeyPem) {
@@ -31,13 +30,25 @@
       }
     
       // 示例用法
-      const plainText = 'admin1';
+      const plainText = 'admin';
       const encryptedBase64 = encryptWithPKCS1Padding(plainText, publicKeyPem);
       console.log('Encrypted Base64:', encryptedBase64);
     
       // 转换为 URL 安全的 Base64
       const urlSafeStr = encryptedBase64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
       console.log('URL Safe String:', urlSafeStr);
+      const div1 = document.createElement('div')
+      div1.innerText = encryptedBase64;
+      document.body.appendChild(div1)
+      div1.style.border = '1px solid red'
+      div1.style.padding = '10px'
+      div1.style.wordBreak = 'break-all'
+      const div2 = document.createElement('div')
+      div2.innerText = encodeURIComponent(encryptedBase64);
+      document.body.appendChild(div2)
+      div2.style.border = '1px solid red'    
+      div2.style.padding = '10px'
+      div2.style.wordBreak = 'break-all'
     </script>
 </body>
 </html>

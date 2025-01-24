@@ -1,30 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Read Excel with Images</title>
   <script src="https://cdn.jsdelivr.net/npm/exceljs/dist/exceljs.min.js"></script>
 </head>
+
 <body>
   <input type="file" id="fileInput">
   <div id="output"></div>
 
   <script>
-    document.getElementById('fileInput').addEventListener('change', async function(event) {
+    document.getElementById('fileInput').addEventListener('change', async function (event) {
       const file = event.target.files[0];
       if (file) {
         const reader = new FileReader();
-        reader.onload = async function(e) {
+        reader.onload = async function (e) {
           const arrayBuffer = e.target.result;
           const workbook = new ExcelJS.Workbook();
           await workbook.xlsx.load(arrayBuffer);
 
           const worksheet = workbook.getWorksheet(1);
-          console.log(worksheet.getCell('C2'));
+          // console.log(worksheet);
+          const jsonData = [];
+
+          // 获取表头（第一行）
+          const headerRow = worksheet.getRow(1);
+          const headers = headerRow.values.slice(1); // 去掉第一个空值
+
+          // 遍历每一行（从第二行开始）
+          worksheet.eachRow((row, rowNumber) => {
+            if (rowNumber > 1) { // 跳过表头
+              const rowData = {};
+              row.eachCell((cell, colNumber) => {
+                // 将单元格的值与表头对应
+                rowData[headers[colNumber - 1]] = cell.value;
+              });
+              jsonData.push(rowData);
+            }
+          });
+          console.log(jsonData, 'jsonData');
+
           const images = worksheet.getImages(); // 获取所有图片
 
           const output = document.getElementById('output');
           images.forEach(image => {
+            console.log(image, 'image');
             const imageId = image.imageId;
             const imageData = workbook.model.media.find(media => media.index === imageId).buffer;
             const blob = new Blob([imageData], { type: 'image/png' });
@@ -40,4 +62,5 @@
     });
   </script>
 </body>
+
 </html>

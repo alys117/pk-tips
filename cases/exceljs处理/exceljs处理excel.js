@@ -5,14 +5,14 @@ const ExcelJS = require('exceljs');
   await workbook.xlsx.readFile('c:/users/drunk/desktop/1.xlsx');
   // await workbook.xlsx.load(file);
   const worksheet = workbook.getWorksheet(1);
-  console.log(worksheet.getCell('C2'));
+  console.log(worksheet.getCell('C2').value); // 图片是 #VALUE!
   console.log('=========');
-  // const images = worksheet.getImages();
+  const images = worksheet.getImages();
   // console.log(images);
 
-  // for (const image of images) {
-  //   console.log(image.imageId);
-  //   const img = workbook.getImage(+image.imageId);
-  //   console.log(img);
-  // }
+  for (const image of images) {
+    console.log(image.imageId);
+    const img = workbook.getImage(+image.imageId);
+    console.log(img);
+  }
 })()
