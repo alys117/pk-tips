@@ -7,6 +7,9 @@
   document.getElementById('excelFileInput').addEventListener('change', function (e) {
     const file = e.target.files[0];
     if (!file) return;
+    // 遍历单元格，查找包含图片的单元格
+    const output = document.getElementById('output');
+    output.innerHTML = '';
 
     const reader = new FileReader();
     reader.onload = function (e) {
@@ -17,11 +20,11 @@
   });
 
   async function processExcel(data) {
-    // 使用 JSZip 解压 Excel 文件
+    // 1、使用 JSZip 解压 Excel 文件
     JSZip.loadAsync(data).then(async function (zip) {
-      // 获取图片文件
+      // 1.1 获取图片文件
       const imageFiles = [];
-      zip.forEach(async (relativePath, file) => {
+      zip.forEach((relativePath, file) => {
         if (relativePath.startsWith('xl/media/')) {
           imageFiles.push(file);
           imageFiles.at(-1).async('blob').then(function (blob) {
@@ -33,49 +36,43 @@
           });
         }
         else if (relativePath.startsWith('xl/worksheets/sheet1.xml')) {
-          // 获取工作表数据
-          const sheetXml = await zip.file("xl/worksheets/sheet1.xml").async("text");
-          const parser = new DOMParser();
-          const xmlDoc = parser.parseFromString(sheetXml, "text/xml");
-          console.log(xmlDoc, 'xmlDoc');
-
-          // 3. 解析单元格数据
-          const rows = xmlDoc.getElementsByTagName("row");
-          const data = [];
-          for (let row of rows) {
-            const rowData = {};
-            const cells = row.getElementsByTagName("c");
-            for (let cell of cells) {
-              const address = cell.getAttribute("r"); // 如 "A1"
-              const type = cell.getAttribute("t");    // 如 "s", "n"
-              const vm = cell.getAttribute("vm");    // 如 "1"
-              const valueNode = cell.getElementsByTagName("v")[0];
-              let value = valueNode ? valueNode.textContent : "";
-
-              rowData[address] = {v: value, t: type, vm: vm, r: address};
-
-            }
-            data.push(rowData);
-          }
-          console.log(data, 'data');
+          file.async('string').then(function (str) {
+            console.log(str, 'string');
+          })
         }
       });
+      // 1.2 获取工作表数据
+      const sheetXml = await zip.file("xl/worksheets/sheet1.xml").async("text");
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(sheetXml, "text/xml");
+      console.log(xmlDoc, 'xmlDoc');
 
-      // 解析 Excel 数据
+      // 3. 解析单元格数据
+      const rows = xmlDoc.getElementsByTagName("row");
+      const data = [];
+      for (let row of rows) {
+        const rowData = {};
+        const cells = row.getElementsByTagName("c");
+        for (let cell of cells) {
+          const address = cell.getAttribute("r"); // 如 "A1"
+          const type = cell.getAttribute("t");    // 如 "s", "n"
+          const vm = cell.getAttribute("vm");    // 如 "1"
+          const valueNode = cell.getElementsByTagName("v")[0];
+          let value = valueNode ? valueNode.textContent : "";
+
+          rowData[address] = { v: value, t: type, vm: vm, r: address };
+
+        }
+        data.push(rowData);
+      }
+      console.log(data, 'data');
+
+      // 2、 sheetjs解析 Excel 数据
       const workbook = XLSX.read(data, { type: 'array' });
       const sheet = workbook.Sheets[workbook.SheetNames[0]];
 
-      // 遍历单元格，查找包含图片的单元格
-      const output = document.getElementById('output');
-      output.innerHTML = '';
-
       for (let cellAddress in sheet) {
-        console.log(cellAddress, sheet[cellAddress]);
-        // 下面有问题。。。
-        if (sheet[cellAddress].t === 'e') {
-          // 假设图片的关联信息在单元格中
-          console.log('图片', cellAddress);
-        }
+        console.log(cellAddress, sheet[cellAddress], sheet[cellAddress].t === 'e' ? '有图片的单元格' : '');
       }
     });
   }
