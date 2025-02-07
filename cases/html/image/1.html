@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <img src="2.png" onload="aaa(this, event)" onclick="aaa(this, event)" alt="">
+    <script>
+        async function convertImageUrlToBlob(url) {
+            try {
+                // 发起fetch请求
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`请求失败，状态码：${response.status}`);
+                }
+                // 将响应转换为Blob
+                const blob = await response.blob();
+                console.log('转换成功，Blob类型：', blob.type);
+                return blob;
+            } catch (error) {
+                console.error('转换过程中发生错误：', error.message);
+                throw error; // 抛出错误以便进一步处理
+            }
+        }
+        async function aaa(img, event) {
+            console.dir(img);
+            console.log(event);
+            console.log('图片加载完成');
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+
+            canvas.toBlob((blob) => {
+                // 这里你可以使用blob数据
+                console.log(blob);
+            }, 'image/png'); // 指定图片格式
+            const blob = await convertImageUrlToBlob('2.png');
+            console.log(blob, '666');
+        }
+    </script>
+    </script>
+</body>
+
+</html>

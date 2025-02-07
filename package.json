@@ -35,8 +35,6 @@
     "node-expat": "^2.4.0",
     "node-fetch": "^3.3.2",
     "node-jsencrypt": "^1.0.0",
-    "node-oracledb": "^1.0.2",
-    "oracledb": "^5.3.0",
     "pdfobject": "^2.2.7",
     "pg": "^8.7.3",
     "pinyin": "^3.0.0-alpha.4",
