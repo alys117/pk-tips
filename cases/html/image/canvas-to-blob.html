@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <img id="img1" src="../../../static/img/html_logo.png" alt="" onload="func(this, event)">
+  <img id="img2" src="./小猫听音乐.gif" alt="">
+  <br>
+
+  <script>
+    function func(img, event) {
+      console.log('img', img)
+      console.log('event', event)
+    }
+
+    function imgToBlob(img, type = 'image/png', quality = 1) {
+      return new Promise((resolve, reject) => {
+        // 处理图片加载状态
+        if (!img.complete || img.naturalWidth === 0) {
+          img.addEventListener('load', function onLoad() {
+            img.removeEventListener('load', onLoad);
+            convert();
+          });
+          img.addEventListener('error', function onError(e) {
+            img.removeEventListener('error', onError);
+            reject(new Error('图片加载失败'));
+          });
+        } else {
+          convert();
+        }
+
+        function convert() {
+          try {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            // 设置 Canvas 尺寸与图片原始尺寸一致
+            canvas.width = img.naturalWidth;
+            canvas.height = img.naturalHeight;
+            // 绘制图像
+            ctx.drawImage(img, 0, 0);
+            // 转换为 Blob
+            canvas.toBlob(
+              (blob) => blob ? resolve(blob) : reject(new Error('转换失败')),
+              type,
+              quality
+            );
+          } catch (error) {
+            reject(error);
+          }
+        }
+      });
+    }
+    const img = document.querySelector('#img1');
+    imgToBlob(img, 'image/gif')
+      .then(blob => {
+        console.log('canvas Blob:', blob);
+        // 此处可上传或处理 Blob
+        const img = new Image();
+        img.src = URL.createObjectURL(blob);
+        document.body.appendChild(img);
+      })
+      .catch(error => console.error('错误:', error));
+
+
+    async function blobByUrl(url) {
+      const blob = await fetch(url)
+        .then(res => res.blob())
+        .catch(err => console.error(err));
+      console.log('fetch Blob:', blob);
+      return blob;
+      // 此处可上传或处理 Blob
+    }
+    (async () => {
+      const img = document.querySelector('#img1');
+      const blob = await blobByUrl(img.src)
+      const img2 = new Image();
+      img2.src = URL.createObjectURL(blob);
+      document.body.appendChild(img2);
+    })()
+  </script>
+</body>
+
+</html>
