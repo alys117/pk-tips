@@ -24,12 +24,13 @@ app.use(allowCrossDomain); // 可代替 cors 模块
 app.all('*', (req, res) => {
   console.log('start...');
   res.setHeader('Cache-Control', 'no-cache');
-  res.setHeader('Content-Type', 'text/event-stream');
+  // res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Content-Type', 'text/plain; charset=utf-8');
   res.setHeader('Connection', 'keep-alive');
   res.flushHeaders();
 
   let allData = '##### 项目硬件需求\n' +
-  '| 配置 | 数量 | 用途 |\n' +
+  '| 配置 | 数量 | 用途 |\n' +  
   '| --- | --- | --- |\n' +
   '| 4核16G\\|100G | 1 | 负载均衡服务器：nginx分发 |\n' +
   '| 4核16G\\|100G | 1 | 缓存服务器：内存服务redis |\n'+
@@ -56,7 +57,7 @@ app.all('*', (req, res) => {
       clearInterval(interval);
       res.end();
     }
-  }, 10);
+  }, 20);
  
   // 当客户端断开连接时清理资源
   req.on('close', () => {

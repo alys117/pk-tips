@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <button onclick="start()">start</button>
+  <script>
+    function start() {
+      // 客户端
+      const es = new EventSource('http://localhost:3000/sse-stream');
+      es.addEventListener('message', e => {
+        const data = JSON.parse(e.data);
+        console.log('收到:', data.value);
+        const span = document.createElement('span')
+        span.innerText = data.value;
+        document.body.appendChild(span)
+      });
+      es.addEventListener('end', () => {
+        console.log('【服务端结束】');
+        es.close();
+      });
+    }
+  </script>
+</body>
+
+</html>

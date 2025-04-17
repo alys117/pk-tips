@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bookstore>
+  <book category="fiction">
+    <title lang="en">The Great Gatsby</title>
+    <author>F. Scott Fitzgerald</author>
+    <price>12.99</price>
+  </book>
+  <book category="tech">
+    <title lang="zh">Node.js Design Patterns</title>
+    <author>Mario Casciaro</author>
+    <price>29.95</price>
+  </book>
+  <book category="fiction">
+    <title lang="en">1984</title>
+    <author>George Orwell</author>
+    <price>10.50</price>
+    <discount>0.8</discount>
+  </book>
+</bookstore>

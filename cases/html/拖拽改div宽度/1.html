@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resizable Div</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+            height: 100vh;
+        }
+
+        .resizable {
+            width: 200px;
+            height: 100%;
+            background-color: lightblue;
+            position: relative;
+        }
+        #handle::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: 0;
+            width: 10px;
+            height: 30px;
+            background-color: red;
+            cursor: ew-resize;
+            transform: translateY(-50%) translateX(50%);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="resizable" id="resizable"></div>
+    </div>
+
+    <script>
+        const resizable = document.getElementById('resizable');
+        const handle = document.createElement('div');
+        handle.id = 'handle';
+        handle.style.position = 'absolute';
+        handle.style.top = '0';
+        handle.style.right = '0';
+        handle.style.width = '0';
+        handle.style.height = '100%';
+        handle.style.backgroundColor = 'gray';
+        handle.style.cursor = 'ew-resize';
+
+        resizable.appendChild(handle);
+
+        let isResizing = false;
+
+        handle.addEventListener('mousedown', (e) => {
+            isResizing = true;
+        });
+
+        document.addEventListener('mousemove', (e) => {
+          if (!isResizing) return;
+            const container = resizable.parentNode;
+            const containerWidth = container.offsetWidth;
+            const mouseX = e.clientX;
+            const newWidth = mouseX - container.offsetLeft;
+            resizable.style.width = `${newWidth}px`;
+        });
+
+        document.addEventListener('mouseup', () => {
+            isResizing = false;
+        });
+    </script>
+</body>
+</html>

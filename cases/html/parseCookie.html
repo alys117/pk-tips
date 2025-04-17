@@ -6,11 +6,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <script type="text/javascript" src="http://localhost:8075/webroot/decision/view/report?op=emb&resource=finereport.js"></script>
+  <script src="https://cdn.bootcdn.net/axios/0.21.1/axios.min.js"></script>
 </head>
 
 <body>
+  <iframe id="virtualIfm" style="border: none;width: 100%;height: 600px" src="http://localhost:8075/webroot/decision/view/report?viewlet=templates%252Ftools%252Fdownload.cpt" frameborder="0"></iframe>
   <input type='file' onchange="aa(event)" />
   <script>
+    const f = new FormData()
+    f.append('aa', 'a123')
+    f.append('bb', 'b123')
+    axios({
+      url:'http://localhost:8080/jk/get.jsp',
+      method:'post',
+      data: f,
+      headers:{
+        'Content-Type':'multipart/form-data'
+      }
+    }).then(res=>{
+      console.log(res.data)
+    });
     function aa(ev) {
 
           // @ts-ignore

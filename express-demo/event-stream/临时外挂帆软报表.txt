@@ -1,0 +1,10 @@
+临时外挂帆软报表：
+1、获取token:
+发送get请求到http://192.195.19.3:8800/AC/authc/sdbass获取token
+返回为json格式数据
+{
+	"authCode": "1001",
+	"authMessage": "Auth Success",
+	"token": "ooRSJuGqQEQIUR2Ujpe9lA"
+}
+2、使用https://app.sd.chinamobile.com/WebReport/ReportServer?reportlet=bass/cuiyangang/dwa_ent_100battle_2017_dm.cpt&token=ooRSJuGqQEQIUR2Ujpe9lA 挂载到外系统
