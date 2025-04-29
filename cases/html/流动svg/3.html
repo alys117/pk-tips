@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG 电流效果</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #000;
+        }
+    </style>
+</head>
+<body>
+    <svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <!-- 流动光效渐变 -->
+            <linearGradient id="flowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#4FC3F7" stop-opacity="0"/>
+                <stop offset="40%" stop-color="#4FC3F7"/>
+                <stop offset="60%" stop-color="#4FC3F7"/>
+                <stop offset="100%" stop-color="#4FC3F7" stop-opacity="0"/>
+            </linearGradient>
+    
+            <!-- 光晕滤镜 -->
+            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="4" result="blur"/>
+                <feMerge>
+                    <feMergeNode in="blur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+            </filter>
+        </defs>
+    
+        <!-- 折线路径 -->
+        <polyline points="50,250 150,50 250,150 350,250" 
+                 fill="none" 
+                 stroke="url(#flowGradient)"
+                 stroke-width="4"
+                 filter="url(#glow)">
+            <!-- 流动动画 -->
+            <animate attributeName="stroke-dashoffset" 
+                    from="400" 
+                    to="0" 
+                    dur="3s" 
+                    repeatCount="indefinite"/>
+        </polyline>
+    
+        <!-- 流动光点 -->
+        <circle r="3" fill="#4FC3F7" filter="url(#moonShadow)">
+            <animateMotion dur="3s" repeatCount="indefinite">
+                <mpath xlink:href="#flowPath"/>
+            </animateMotion>
+        </circle>
+    </svg>
+      
+</body>
+</html>

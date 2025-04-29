@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>月光朦胧阴影效果小球</title>
+    <style>
+        body {
+            background-color: #000; /* 设置背景为黑色，突出月光效果 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <svg width="20" height="20" viewBox="0 0 200 200">
+        <!-- 定义月光朦胧阴影滤镜 -->
+        <defs>
+            <filter id="moonShadow" x="-50%" y="-50%" width="200%" height="200%">
+                <!-- 扩展图形以增大阴影范围，进一步增大 radius 值 -->
+                <feMorphology in="SourceAlpha" operator="dilate" radius="12" result="dilated" />
+                <!-- 提取小球的透明度通道，进一步增大模糊程度 -->
+                <feGaussianBlur in="dilated" stdDeviation="25" result="blur" />
+                <!-- 使用淡蓝色填充模糊后的区域 -->
+                <feFlood flood-color="rgba(173, 216, 230, 0.7)" result="flood" />
+                <!-- 将填充颜色和模糊效果合成 -->
+                <feComposite in2="blur" operator="in" result="coloredBlur" />
+                <!-- 合并阴影和原始图形 -->
+                <feMerge>
+                    <feMergeNode in="coloredBlur" />
+                    <feMergeNode in="SourceGraphic" />
+                </feMerge>
+            </filter>
+        </defs>
+        <!-- 绘制小球并应用滤镜，进一步增大圆点半径 -->
+        <circle cx="100" cy="100" r="50" fill="rgba(255, 255, 255, 0.9)" filter="url(#moonShadow)" />
+    </svg>
+</body>
+</html>
