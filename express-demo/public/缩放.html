@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: black;
+    }
+
+    .container {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    #iframe-wrapper {
+      width: 3840px;
+      height: 1080px;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      /* 初始 transform 值会被 JavaScript 覆盖 */
+      transform: translate(-50%, -50%) scale(1);
+      transform-origin: center center;
+      /* 关键：确保缩放基于中心点 */
+    }
+
+    #my-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div id="iframe-wrapper">
+      <iframe id="my-iframe"
+        src="http://localhost:8075/webroot/decision/view/duchamp?viewlet=bass/screen/自有.fvs"></iframe>
+    </div>
+  </div>
+
+  <script>
+    let flag = true; // 用于控制是否执行缩放
+    const wrapper = document.getElementById('iframe-wrapper');
+    const container = document.querySelector('.container');
+    const originalRatio = 3840 / 1080;
+
+    function updateScale() {
+      const cw = container.clientWidth;
+      const ch = container.clientHeight;
+      const currentRatio = cw / ch;
+
+      // 计算最佳缩放比例
+      const scale = currentRatio > originalRatio
+        ? ch / 1080   // 竖屏模式：按高度撑满
+        : cw / 3840;  // 横屏模式：按宽度撑满
+
+      // 同时应用位移和缩放（注意顺序：先位移后缩放）
+      wrapper.style.transform = `translate(-50%, -50%) scale(${scale})`;
+    }
+
+    // 现代浏览器推荐使用 ResizeObserver
+    const resizeObserver = new ResizeObserver(() => {
+      if (flag) {
+        requestAnimationFrame(updateScale);
+      }
+    });
+
+    resizeObserver.observe(container);
+    flag && updateScale(); // 初始化
+
+    // 可选：处理iframe加载状态
+    document.getElementById('my-iframe').addEventListener('load', () => {
+      console.log('内容加载完成');
+    });
+  </script>
+</body>
+
+</html>
