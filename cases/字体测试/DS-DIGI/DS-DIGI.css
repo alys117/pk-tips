@@ -1,0 +1,14 @@
+@font-face {
+    font-family: "DS-DIGI";
+    src: url("DS-DIGI.eot"); /* IE9 */
+    src: url("DS-DIGI.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+    
+    url("DS-DIGI.woff") format("woff"), /* chrome、firefox */
+    url("DS-DIGI.ttf") format("truetype"), /* chrome、firefox、opera、Safari, Android, iOS 4.2+ */
+    
+    url("DS-DIGI.svg#DS-DIGI") format("svg"); /* iOS 4.1- */
+    font-style: normal;
+    font-weight: normal;
+}
+
+

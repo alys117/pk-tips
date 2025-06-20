@@ -5,10 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SVG 两端带箭头且有移动圆点的线</title>
+    <style>
+        body {
+            background-color: #0d1834;
+            background-color: transparent;
+            padding: 0;
+            margin: 0;
+        }
+    </style>
 </head>
 
-<body style="background-color: #1212ff;">
-    <svg width="400" height="200" viewBox="0 0 400 200">
+<body>
+    <svg width="100" height="50" viewBox="0 0 100 50">
         <!-- 定义箭头标记 -->
         <defs>
             <marker id="arrow" markerWidth="10" markerHeight="10" refX="10" refY="3" orient="auto" markerUnits="strokeWidth">
@@ -31,12 +39,12 @@
             </filter>
         </defs>
         <!-- 修改为折线，去掉箭头标记，调整折线形状 -->
-        <polyline points="50,50 300,50 350,150" stroke="green" stroke-width="2" fill="none" />
+        <polyline points="0,10 100,10" stroke="#a1a1a1" stroke-width="2" fill="none" />
         <!-- 绘制移动的圆点，修改路径为新的折线，设置颜色和太阳效果滤镜 -->
-        <circle cx="0" cy="0" r="4" fill="yellow" >
+        <circle cx="0" cy="0" r="4" fill="yellowgreen" >
             <animateMotion
-                path="M50,50 L300,50 L350,150"
-                dur="5s"
+                path="M0,10 L100,10"
+                dur="3s"
                 repeatCount="indefinite"
             />
         </circle>

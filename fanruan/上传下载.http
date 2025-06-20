@@ -1,0 +1,29 @@
+POST /WebReport/jk/widgets/jsp/upload/upload.jsp HTTP/1.1
+Host: 223.99.141.15:8080
+token: 0ZGwqEJZ_Xm4j97jFpY9ow
+Content-Type: multipart/form-data; boundary=xiaohuozichuishaoshao
+User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 13_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/137.0.0.0 Mobile/15E148 Safari/604.1
+
+--xiaohuozichuishaoshao
+Content-Disposition: form-data; name="keep"
+Content-Type: text/plain
+
+1234
+--xiaohuozichuishaoshao
+Content-Disposition: form-data; filename="scl.zip"; name="233333"
+Content-Type: application/octet-stream
+
+< C:/users/drunk/desktop/scl.zip
+--xiaohuozichuishaoshao--
+
+### 下载
+GET /WebReport/jk/widgets/jsp/upload/download.jsp?file=全产品表产品分模型拆解.xlsx HTTP/1.1
+Host: 223.99.141.15:8080
+token: SHj8JJZalHQ9tixhh-Rl7w
+User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 13_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/137.0.0.0 Mobile/15E148 Safari/604.1
+
+### 本地测试下载
+GET /jk/widgets/jsp/tools/download.jsp?file=1w.txt HTTP/1.1
+Host: localhost:8080
+token: CsLatgg4p2n5jsxyJrjOcw
+User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 13_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/137.0.0.0 Mobile/15E148 Safari/604.1

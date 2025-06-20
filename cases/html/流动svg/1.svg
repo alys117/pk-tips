@@ -1,0 +1,33 @@
+<svg width="400" height="200" viewBox="0 0 400 200">
+    <!-- 定义箭头标记 -->
+    <defs>
+        <marker id="arrow" markerWidth="10" markerHeight="10" refX="10" refY="3" orient="auto" markerUnits="strokeWidth">
+            <path d="M0,0 L0,6 L9,3 z" fill="#000" />
+        </marker>
+        <filter id="moonShadow" x="-50%" y="-50%" width="200%" height="200%">
+            <!-- 扩展图形以增大阴影范围，增大 radius 值 -->
+            <feMorphology in="SourceAlpha" operator="dilate" radius="5" result="dilated" />
+            <!-- 提取小球的透明度通道，增大模糊程度，增大 stdDeviation 值 -->
+            <feGaussianBlur in="dilated" stdDeviation="15" result="blur" />
+            <!-- 使用淡蓝色填充模糊后的区域 -->
+            <feFlood flood-color="rgba(173, 216, 230, 0.7)" result="flood" />
+            <!-- 将填充颜色和模糊效果合成 -->
+            <feComposite in2="blur" operator="in" result="coloredBlur" />
+            <!-- 合并阴影和原始图形 -->
+            <feMerge>
+                <feMergeNode in="coloredBlur" />
+                <feMergeNode in="SourceGraphic" />
+            </feMerge>
+        </filter>
+    </defs>
+    <!-- 修改为折线，去掉箭头标记，调整折线形状 -->
+    <polyline points="50,50 300,50 350,150" stroke="#fafafa" stroke-width="2" fill="none" />
+    <!-- 绘制移动的圆点，修改路径为新的折线，设置颜色和太阳效果滤镜 -->
+    <circle cx="0" cy="0" r="4" fill="yellow" >
+        <animateMotion
+            path="M50,50 L300,50 L350,150"
+            dur="5s"
+            repeatCount="indefinite"
+        />
+    </circle>
+</svg>

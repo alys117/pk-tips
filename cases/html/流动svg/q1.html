@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG 两端带箭头且有移动圆点的线</title>
+    <style>
+        body {
+            background-color: #0d1834;
+            background-color: transparent;
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div style="display: flex; flex-direction: column;">
+        <svg width="100" height="50">
+            <circle cx="0" cy="0" r="6" fill="yellowgreen">
+                <animateMotion path="M0,10 L70,10 L90,45" dur="3s" repeatCount="indefinite" />
+            </circle>
+        </svg>
+    </div>
+
+</body>
+
+</html>

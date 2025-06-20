@@ -5,20 +5,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <style type="text/css">
+    @font-face {
+      font-family: 'DDD';
+      src: url(./DS-DIGI/DS-DIGI.TTF)
+    }
+  </style>
   <style>
     .aaa {
       width: 360px;
-      font-family: 'DIN Condensed'; /* font-family: DINCondensed */
-      font-weight: 700;
-      font-size: 24px;
-      color: #FFFFFF;
-      background: #000000;
-      border: red solid 1px;
-      line-height: 48px;
-    }
-    .bbb{
-      width: 360px;
-      font-family: 'pingfang sc'; /* font-family: DINCondensed */
+      font-family: 'DIN Condensed';
+      /* font-family: DINCondensed */
       font-weight: 700;
       font-size: 24px;
       color: #FFFFFF;
@@ -27,7 +24,19 @@
       line-height: 48px;
     }
 
-    .ccc{
+    .bbb {
+      width: 360px;
+      font-family: 'pingfang sc';
+      /* font-family: DINCondensed */
+      font-weight: 700;
+      font-size: 24px;
+      color: #FFFFFF;
+      background: #000000;
+      border: red solid 1px;
+      line-height: 48px;
+    }
+
+    .ccc {
       width: 360px;
       font-family: 'hack nerd font';
       font-size: 14px;
@@ -36,15 +45,58 @@
       border: red solid 1px;
       line-height: 20px;
     }
+
+    .ddd {
+      width: 360px;
+      font-family: 'DS-DIGITAL';
+      font-size: 18px;
+      color: #FFFFFF;
+      background: #000000;
+      border: red solid 1px;
+      line-height: 36px;
+    }
   </style>
 </head>
 
 <body>
-<div class="">
-  <p class="aaa">你好,我是DIN Condensed 字体，95%           </p> 
-  <p class="bbb">你好，我是pingfang sc字体95% </p>
-  <p class="ccc">你好，我是 hack nerd font 字体，95%           </p>
-</div>
+  <div class="">
+    <p class="aaa">你好,我是DIN Condensed 字体，95%           </p>
+    <p class="bbb">你好，我是pingfang sc字体95% </p>
+    <p class="ccc">你好，我是 hack nerd font 字体，95%           </p>
+    <p class="ddd">你好,我是Ds-digital 2025-05-05 15:12:21</p>
+
+
+
+
+        <P style="font-family: DDD; font-size: 28px;">123456</P>
+        <P style="font-family: DDDD; font-size: 28px;"> 789456</P>
+        <P style="font-family: AAA; font-size: 28px;"> 优设标题黑 旗舰厅迪士尼</P>
+        <P style="font-family: CBC; font-size: 28px;"> 优设标题黑 旗舰厅迪士尼</P>
+        <P style="font-family: YOUSHEBIAOTIHEI; font-size: 28px;"> 优设标题黑 旗舰厅迪士尼</P>
+        <P style="font-family: 优设标题黑; font-size: 28px;"> 优设标题黑 旗舰厅</P>
+  </div>
+  <script>
+    const style = document.createElement('style');
+    style.type = 'text/css';
+    style.innerHTML = `
+        @font-face {
+          font-family: 'DIN Condensed';
+          src: url(${location.origin}/cases/字体测试/DIN-Condensed-Bold-2/DIN-Condensed-Bold-2.ttf)
+        }
+        @font-face {
+          font-family: 'DDDD';
+          src: url(http://127.0.0.1:5502/cases/字体测试/DS-DIGI/DS-DIGI.TTF)
+        }        
+        @font-face {
+          font-family: 'AAA';
+          src: url(http://127.0.0.1:5502/cases/字体测试/YouSheBiaoTiHei-2/YouSheBiaoTiHei-2.ttf)
+        }
+        @font-face {
+          font-family: 'CBC';
+          src: url(http://127.0.0.1:5502/cases/字体测试/YouSheBiaoTiHei-2/YouSheBiaoTiHei-2.ttf)
+        }`;
+    document.head.appendChild(style);
+  </script>
 </body>
 
 </html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <input type="radio" name="test" value="商机" onchange="change(this.value)">商机
+  <input type="radio" name="test" value="泛全" onchange="change(this.value)"> 泛全
+  <input type="radio" name="test" value="社会" onchange="change(this.value)"> 社会
+  <input type="radio" name="test" value="自有" onchange="change(this.value)"> 自有
+  <iframe src="" frameborder="0" style="width: 3840px; height: 1080px;"></iframe>
+  <script>
+    function change(value) {
+      const iframe = document.querySelector('iframe');
+      switch (value) {
+        case '商机':
+          iframe.src = 'http://localhost:8075/webroot/decision/view/duchamp?viewlet=bass/screen/2025/商机.fvs';
+          break;
+        case '泛全':
+          iframe.src = 'http://localhost:8075/webroot/decision/view/duchamp?viewlet=bass/screen/2025/泛全.fvs';
+          break;
+        case '社会':
+          iframe.src = 'http://localhost:8075/webroot/decision/view/duchamp?viewlet=bass/screen/2025/社会.fvs';
+          break;
+        case '自有':
+          iframe.src = 'http://localhost:8075/webroot/decision/view/duchamp?viewlet=bass/screen/2025/自有.fvs';
+          break;
+      }
+    }
+  </script>
+</body>
+</html>
