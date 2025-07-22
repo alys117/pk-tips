@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    /**
+ * 将二进制数据保存为文件
+ * @param {ArrayBuffer|Blob} binaryData - 二进制数据
+ * @param {string} fileName - 保存的文件名（带扩展名）
+ * @param {string} [mimeType] - 文件MIME类型（可选）
+ */
+    function saveBinaryDataAsFile(binaryData, fileName, mimeType) {
+      try {
+        // 1. 创建 Blob 对象
+        let blob;
+        if (binaryData instanceof Blob) {
+          blob = binaryData;
+        } else {
+          blob = new Blob([binaryData], { type: mimeType });
+        }
+
+        // 2. 创建临时链接
+        const url = URL.createObjectURL(blob);
+
+        // 3. 创建虚拟a标签
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = fileName;
+
+        // 4. 添加到DOM并触发点击
+        document.body.appendChild(a);
+        a.click();
+
+        // 5. 清理资源
+        setTimeout(() => {
+          URL.revokeObjectURL(url);
+          document.body.removeChild(a);
+        }, 100);
+
+      } catch (error) {
+        console.error('文件保存失败:', error);
+        throw new Error('文件保存操作失败');
+      }
+    }
+
+    // 使用示例 -----------------------------------
+
+    // 示例1：直接保存现有数据
+    const byteArray = new Uint8Array([0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]); // PNG文件头示例
+    saveBinaryDataAsFile(byteArray, 'example.png', 'image/png');
+  </script>
+</body>
+
+</html>

@@ -1,12 +1,14 @@
-### token获取
-GET /WebReport/jk/ask/token HTTP/1.1
-Host: 223.99.141.15:8080
+### 本地测试下载
+GET /jk/widgets/jsp/tools/download.jsp?file=1w.txt HTTP/1.1
+Host: localhost:8080
+token: CsLatgg4p2n5jsxyJrjOcw
 User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 13_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/137.0.0.0 Mobile/15E148 Safari/604.1
+
 
 ### 上传
 POST /WebReport/jk/widgets/jsp/upload/upload.jsp HTTP/1.1
 Host: 223.99.141.15:8080
-token: 2tWgGpyMbP8weV9AS5ragA
+token: 1JjQV629r3loKEk8OgDkTQ
 Content-Type: multipart/form-data; boundary=xiaohuozichuishaoshao
 User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 13_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/137.0.0.0 Mobile/15E148 Safari/604.1
 
@@ -14,23 +16,22 @@ User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 13_2 like Mac OS X) AppleWebKit/6
 Content-Disposition: form-data; name="keep"
 Content-Type: text/plain
 
-1234
+改下面的路径 filename 和 < 开头的路径
 --xiaohuozichuishaoshao
-Content-Disposition: form-data; filename="qiqi.zip"; name="233333"
+Content-Disposition: form-data; filename="1.zip"; name="233333"
 Content-Type: application/octet-stream
 
-< C:/users/drunk/desktop/qiqi.zip
+< C:/users/drunk/desktop/1.zip
 --xiaohuozichuishaoshao--
 
-### 下载
-GET /WebReport/jk/widgets/jsp/upload/download.jsp?file=chaochao.zip HTTP/1.1
+### token获取
+GET /WebReport/jk/ask/token HTTP/1.1
 Host: 223.99.141.15:8080
-token: KyUEr4ewUAxHngBi49-qRQ
 User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 13_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/137.0.0.0 Mobile/15E148 Safari/604.1
 
-### 本地测试下载
-GET /jk/widgets/jsp/tools/download.jsp?file=1w.txt HTTP/1.1
-Host: localhost:8080
-token: CsLatgg4p2n5jsxyJrjOcw
+### 下载
+GET /WebReport/jk/widgets/jsp/upload/download.jsp?file=quiz.fvs HTTP/1.1
+Host: 223.99.141.15:8080
+token: ClgzkyA2FZus4DNYXEtNfQ
 User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 13_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/137.0.0.0 Mobile/15E148 Safari/604.1
 

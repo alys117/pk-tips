@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/8.0.20/jsrsasign-all-min.js"></script>
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    function genToken() {
+      // 设置头部信息
+      const header = { alg: "HS256", typ: "JWT" };
+
+      // 设置JWT有效载荷
+      const payload = {
+        sub: "Alice",
+        exp: Math.floor(Date.now() / 1000) + 600, // 过期时间（当前时间戳加10分钟）
+      };
+      const secret = "FineReport2018"
+      // let token = jsrsasign.jws.JWS.sign(
+      //   "HS256",
+      //   JSON.stringify(header),
+      //   JSON.stringify(payload),
+      //   secret
+      // );
+      // 生成 JWT
+      const token = KJUR.jws.JWS.sign('', header, payload, secret);
+      console.log('Generated JWT:', token);
+      return token;
+    }
+  </script>
+</body>
+
+</html>

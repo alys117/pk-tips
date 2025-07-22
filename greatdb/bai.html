@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+<!-- HTML 部分 -->
+<button onclick="downloadWhiteImage()">下载白色图片</button>
+
+<script>
+function downloadWhiteImage() {
+  // 创建 Canvas
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  const size = 50; // 图片尺寸
+  
+  // 设置画布尺寸
+  canvas.width = size;
+  canvas.height = size;
+
+  // 填充白色
+  ctx.fillStyle = '#FFFF00';
+  ctx.fillRect(0, 0, size, size);
+
+  // 生成下载链接
+  const link = document.createElement('a');
+  link.download = 'white-image.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+}
+</script>
+
+</body>
+</html>

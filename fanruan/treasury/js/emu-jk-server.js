@@ -78,11 +78,19 @@ app4.post(
       res.end(resBody)
     }else {
       console.log(6, 'no match');
-      formatXml(req.body)
+      // formatXml(req.body)
       res.end('no match')
     }
   }
 )
+
+app4.post('/post123', function (req, res) {
+  console.log('req.url', req.url)
+  console.log('req.body', req.body)
+  res.setHeader('Content-Type', 'application/json')
+  res.setHeader('Myth', 'legend')
+  res.end(`{"a":1}`)
+})
 function formatXml(text){
   let body = text.replaceAll(/&lt;/g, '<').replaceAll(/&gt;/g, '>').replaceAll(/&quot;/g, '"')
   parser.parseString(body, (err, result) => {
