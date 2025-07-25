@@ -11,17 +11,13 @@ async function getData(){
   const prom = new Promise((resolve, reject) => {
     connection.connect();
     // pic字段是blob字段
-    connection.query('SELECT pic from a_blob where pic is not null and col2 =7', function (error, results, fields) {
+    connection.query('SELECT pic from a_blob where pic is not null and col2 =3', function (error, results, fields) {
       if (error) throw error;
       console.log(results[0].pic);
       const bin = results[0].pic
-      console.log(typeof bin, bin instanceof Buffer);
-      const str = bin.toString('latin1')
-      // console.log(str);
       // 如何把str 再转回 二进制数据
-      console.log(JSON.stringify({result: bin}));
       connection.end();
-      resolve(Buffer.from(str, 'latin1'));
+      resolve(bin);
     });
   })
   const data = await prom;

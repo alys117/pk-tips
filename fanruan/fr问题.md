@@ -77,5 +77,8 @@ https://github.com/redisson/redisson/tree/master/redisson-tomcat
 ### 6、帆软服务更新license
 
 
+### ip限制
+https://help.fanruan.com/finereport/doc-view-5287.html#
+
 
 

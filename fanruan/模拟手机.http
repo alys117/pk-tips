@@ -8,7 +8,7 @@ User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 13_2 like Mac OS X) AppleWebKit/6
 ### 上传
 POST /WebReport/jk/widgets/jsp/upload/upload.jsp HTTP/1.1
 Host: 223.99.141.15:8080
-token: 1JjQV629r3loKEk8OgDkTQ
+token: IEzMXqntWMLEIBrGZuJ9uA
 Content-Type: multipart/form-data; boundary=xiaohuozichuishaoshao
 User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 13_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/137.0.0.0 Mobile/15E148 Safari/604.1
 
@@ -18,10 +18,10 @@ Content-Type: text/plain
 
 改下面的路径 filename 和 < 开头的路径
 --xiaohuozichuishaoshao
-Content-Disposition: form-data; filename="1.zip"; name="233333"
+Content-Disposition: form-data; filename="zhangduole.rar"; name="233333"
 Content-Type: application/octet-stream
 
-< C:/users/drunk/desktop/1.zip
+< C:/users/drunk/desktop/zhangduole.rar
 --xiaohuozichuishaoshao--
 
 ### token获取
@@ -30,8 +30,8 @@ Host: 223.99.141.15:8080
 User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 13_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/137.0.0.0 Mobile/15E148 Safari/604.1
 
 ### 下载
-GET /WebReport/jk/widgets/jsp/upload/download.jsp?file=quiz.fvs HTTP/1.1
+GET /WebReport/jk/widgets/jsp/upload/download.jsp?file=333.xlsx HTTP/1.1
 Host: 223.99.141.15:8080
-token: ClgzkyA2FZus4DNYXEtNfQ
+token: -FINXDAy9hASF0u55119Ug
 User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 13_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/137.0.0.0 Mobile/15E148 Safari/604.1
 
