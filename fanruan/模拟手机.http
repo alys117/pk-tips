@@ -5,10 +5,11 @@ token: CsLatgg4p2n5jsxyJrjOcw
 User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 13_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/137.0.0.0 Mobile/15E148 Safari/604.1
 
 
-### 上传
+######################################################
+## 上传
 POST /WebReport/jk/widgets/jsp/upload/upload.jsp HTTP/1.1
 Host: 223.99.141.15:8080
-token: IEzMXqntWMLEIBrGZuJ9uA
+token: gr1jc-GSxPK1p4KQq_CGpg 
 Content-Type: multipart/form-data; boundary=xiaohuozichuishaoshao
 User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 13_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/137.0.0.0 Mobile/15E148 Safari/604.1
 
@@ -18,20 +19,22 @@ Content-Type: text/plain
 
 改下面的路径 filename 和 < 开头的路径
 --xiaohuozichuishaoshao
-Content-Disposition: form-data; filename="zhangduole.rar"; name="233333"
+Content-Disposition: form-data; filename="1.txt"; name="233333"
 Content-Type: application/octet-stream
 
-< C:/users/drunk/desktop/zhangduole.rar
+< C:/users/drunk/desktop/1.txt
 --xiaohuozichuishaoshao--
 
-### token获取
+###################################################### 
+## token获取
 GET /WebReport/jk/ask/token HTTP/1.1
 Host: 223.99.141.15:8080
 User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 13_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/137.0.0.0 Mobile/15E148 Safari/604.1
 
+###################################################### 
 ### 下载
-GET /WebReport/jk/widgets/jsp/upload/download.jsp?file=333.xlsx HTTP/1.1
+GET /WebReport/jk/widgets/jsp/upload/download.jsp?file=2.7z HTTP/1.1
 Host: 223.99.141.15:8080
-token: -FINXDAy9hASF0u55119Ug
+token: 3D8wzx1UV1fQWJ1ZWgC3yw
 User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 13_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/137.0.0.0 Mobile/15E148 Safari/604.1
 
