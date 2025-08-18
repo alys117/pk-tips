@@ -1,0 +1,44 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3"></script>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/element-plus/dist/index.css"
+    />
+    <script src="https://unpkg.com/element-plus"></script>
+    <title>Element Plus demo</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      #app {
+        background-color: antiquewhite;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div style="height: 100vh;">
+        <el-splitter>
+          <el-splitter-panel size="99%"> {{ message }} </el-splitter-panel>
+          <el-splitter-panel size="1%"> 会抖 </el-splitter-panel>
+        </el-splitter>
+      </div>
+    </div>
+    <script>
+      const App = {
+        data() {
+          return {
+            message: "Element Plus",
+          };
+        },
+      };
+      const app = Vue.createApp(App);
+      app.use(ElementPlus);
+      app.mount("#app");
+    </script>
+  </body>
+</html>
