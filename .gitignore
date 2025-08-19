@@ -119,3 +119,4 @@ yarn.lock
 *.mp3
 *.wav
 *.flac
+*.http

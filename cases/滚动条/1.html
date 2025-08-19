@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    .out {
+      height: 100vh;
+      width: 100vw;
+      background-color: #f0f0f0;
+      overflow-x: auto;
+    }
+
+    .inner {
+      height: 94vh;
+      width: 355.5vh;
+      background-color: antiquewhite;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="out" id="out">
+    <div class="inner">
+      <input type="radio" name="gender" id="gender_1" value="男" /><label for="gender_1">男</label>
+      <input type="radio" name="gender" id="gender_2" value="女" /><label for="gender_2">女</label>
+    </div>
+    <div style="position: absolute; bottom: 25px; left: 45vw;">abc</div>
+  </div>
+
+  <script>
+    // 监听滚轮事件
+    const out = document.getElementById('out');
+    console.log(out);
+    out.addEventListener('wheel', (e) => {
+      // 阻止默认的垂直滚动
+      e.preventDefault();
+
+      // 获取滚动方向（deltaY 垂直滚动量，deltaX 水平滚动量）
+      const delta = Math.sign(e.deltaY); // 获取滚动方向（1 向下，-1 向上）
+
+      // 控制滚动速度（可根据需要调整）
+      const scrollSpeed = 50;
+
+      // 水平滚动（scrollLeft 控制横向滚动位置）
+      out.scrollLeft += delta * scrollSpeed;
+    });
+  </script>
+</body>
+
+</html>

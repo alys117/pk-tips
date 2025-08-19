@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>标题自动横向滚动播放</title>
+  <style>
+  </style>
+</head>
+
+<body>
+  <style>
+    .marquee-box {
+      overflow: hidden;
+      position: relative;
+      background: rgba(0, 0, 0, 0.4);
+    }
+
+    .marquee {
+      display: inline-block;
+      white-space: nowrap;
+      animation: marquee-scroll 10s linear infinite;
+    }
+
+    .marquee:hover {
+      animation-play-state: paused;
+    }
+
+    .marquee-content {
+      color: #fff;
+    }
+
+    /* 滚动动画 */
+    @keyframes marquee-scroll {
+      0% {
+        transform: translateX(300px);
+      }
+
+      100% {
+        transform: translateX(-100%);
+
+      }
+    }
+  </style>
+  <div style="width: 300px;">
+    <div class="marquee-box">
+      <div class="marquee">
+        <span class="marquee-content">
+          🚀 重要公告：CSS3动画实现的无缝滚动效果，无需JavaScript！适用于新闻标题、广告横幅等场景。悬停可暂停滚动，用户体验更佳！ 🚀
+        </span>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

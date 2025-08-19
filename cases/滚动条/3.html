@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>标题自动横向滚动播放</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1000px;
+      padding: 40px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      text-align: center;
+    }
+
+    h1 {
+      color: white;
+      margin-bottom: 40px;
+      font-size: 2.8rem;
+      text-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .scroll-system {
+      width: 100%;
+      height: 120px;
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      margin-bottom: 40px;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.25),
+        0 8px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .track {
+      position: absolute;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      animation: marquee-scroll 20s linear infinite;
+      animation-play-state: running;
+      left: 0;
+      will-change: transform;
+      min-width: 200%;
+      white-space: nowrap;
+    }
+
+    .scroll-system:hover .track {
+      animation-play-state: paused;
+      transform: translateX(0) !important;
+      -webkit-transform: translateX(0) !important;
+      transition: transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+
+    .title-content {
+      font-size: 2.4rem;
+      font-weight: bold;
+      color: white;
+      white-space: nowrap;
+      padding: 0 50px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      height: 100%;
+    }
+
+    .title-content::before {
+      content: "🚀";
+      margin-right: 20px;
+      font-size: 1.8rem;
+    }
+
+    .title-content::after {
+      content: "🌟";
+      margin-left: 20px;
+      font-size: 1.8rem;
+    }
+
+    @keyframes marquee-scroll {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      margin-top: 40px;
+    }
+
+    .feature {
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 25px;
+      text-align: center;
+      transition: all 0.4s ease;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .feature:hover {
+      transform: translateY(-8px);
+      background: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25);
+    }
+
+    .feature h3 {
+      color: #ffd166;
+      margin-bottom: 15px;
+      font-size: 1.6rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .feature h3::before {
+      content: "✓";
+      font-size: 1.4rem;
+    }
+
+    .feature p {
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.6;
+      font-size: 1.1rem;
+    }
+
+    .explanation {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 16px;
+      padding: 30px;
+      margin-top: 40px;
+      text-align: left;
+    }
+
+    .explanation h2 {
+      color: #7ee8fa;
+      margin-bottom: 20px;
+      text-align: center;
+      font-size: 1.8rem;
+    }
+
+    .explanation ul {
+      padding-left: 30px;
+    }
+
+    .explanation li {
+      color: white;
+      margin: 18px 0;
+      line-height: 1.7;
+      font-size: 1.1rem;
+      position: relative;
+      padding-left: 25px;
+    }
+
+    .explanation li::before {
+      content: "•";
+      color: #ff9e64;
+      font-size: 1.5rem;
+      position: absolute;
+      left: 0;
+      top: -5px;
+    }
+
+    .note {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 1.2rem;
+      margin-top: 40px;
+      padding: 25px;
+      border-radius: 16px;
+      background: rgba(0, 0, 0, 0.25);
+      border-left: 5px solid #7ee8fa;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.2rem;
+      }
+
+      .title-content {
+        font-size: 1.8rem;
+      }
+
+      .container {
+        padding: 30px 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>标题自动横向滚动播放</h1>
+
+    <div class="scroll-system">
+      <div class="track">
+        <div class="title-content">
+          纯CSS实现的标题自动滚动效果 - 鼠标悬浮时平滑回到开头并暂停 - 解决行为不一致问题 - 适用于新闻、广告和公告展示 - 无需JavaScript！
+        </div>
+      </div>
+    </div>
+
+    <div class="note">
+      请将鼠标悬浮在滚动区域上方，标题将平滑回到起始位置并暂停。移开鼠标后，滚动会从当前位置继续。
+    </div>
+
+    <div class="features">
+      <div class="feature">
+        <h3>行为一致性</h3>
+        <p>通过双重容器和精确的动画控制，确保每次悬浮时标题都会平滑回到开头并暂停，解决了行为不一致问题。</p>
+      </div>
+
+      <div class="feature">
+        <h3>流畅体验</h3>
+        <p>使用cubic-bezier缓动函数实现平滑过渡，悬浮时有0.6秒的回到开头的动画效果，提升用户体验。</p>
+      </div>
+
+      <div class="feature">
+        <h3>无缝循环</h3>
+        <p>精心设计的动画确保滚动效果无缝衔接，不会出现跳动或闪烁，提供流畅的视觉体验。</p>
+      </div>
+    </div>
+
+    <div class="explanation">
+      <h2>实现原理与问题解决</h2>
+      <ul>
+        <li><strong>双重容器设计</strong>：使用外层容器(.scroll-system)处理布局，内层容器(.track)处理动画，分离关注点</li>
+        <li><strong>精确的动画控制</strong>：使用animation-play-state控制播放/暂停，避免动画重置问题</li>
+        <li><strong>transform覆盖</strong>：悬浮时应用transform: translateX(0)覆盖当前动画位置</li>
+        <li><strong>平滑过渡</strong>：transition属性确保位置变化有平滑动画效果</li>
+        <li><strong>will-change优化</strong>：使用will-change: transform提升动画性能</li>
+        <li><strong>动画状态独立</strong>：动画进度独立于transform属性，确保移开鼠标后从当前位置继续</li>
+      </ul>
+    </div>
+  </div>
+</body>
+
+</html>
