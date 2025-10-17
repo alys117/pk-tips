@@ -1,16 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+    :root {
+      --width: 3840px;
+      --height: 1080px;
+    }
+    .inner {
+      width: var(--width);
+      height: var(--height);
+      background-color: rgba(0, 0, 0, 0.5)
+    }
+
+
+
+  </style>
 </head>
+
 <body>
+  <label for="slider">选择一个值：</label>
+  <input type="range" id="slider" name="slider" min="0" max="100" value="100" oninput="changeSize(this.value)">
+
   <input type="radio" name="test" value="商机" onchange="change(this.value)">商机
   <input type="radio" name="test" value="泛全" onchange="change(this.value)"> 泛全
   <input type="radio" name="test" value="社会" onchange="change(this.value)"> 社会
   <input type="radio" name="test" value="自有" onchange="change(this.value)"> 自有
-  <iframe src="" frameborder="0" style="width: 3840px; height: 1080px;"></iframe>
+  <br>
+  <iframe src="" frameborder="0" class="inner"></iframe>
   <script>
     function change(value) {
       const iframe = document.querySelector('iframe');
@@ -29,6 +53,12 @@
           break;
       }
     }
+    function changeSize(a){
+      let per = a/100;
+      document.documentElement.style.setProperty('--width', 3840*per + 'px');
+      document.documentElement.style.setProperty('--height', 1080*per + 'px');
+    }
   </script>
 </body>
+
 </html>

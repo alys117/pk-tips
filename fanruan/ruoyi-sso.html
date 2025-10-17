@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; " charset="UTF-8">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/8.0.20/jsrsasign-all-min.js"></script>
+    <!-- 通过 jsDelivr 使用打包后的浏览器版本 -->
+    <script type="text/javascript">
+        function Login(Thirdtoken) {
+            var url = "http://localhost/dep-api/sso";
+            console.log('thirdtoken', Thirdtoken);
+            $.ajax({
+                url: url,
+                dataType: "jsonp",
+                data: { third_token: Thirdtoken },
+                success: function (res) {
+                    console.log(res);
+                    if (res.errorCode) {
+                        window.alert(res.errorMsg);
+                    } else {
+                        $('#iframe2').attr("src", "http://localhost/assistant");
+                    }
+                },
+                error: function (err) {
+                    alert(err);// 登录失败（超时或服务器其他错误）
+                }
+            });
+        }
+
+        function genToken(name) {
+            // 设置头部信息
+            const header = { alg: "HS256", typ: "JWT" };
+
+            // 设置JWT有效载荷
+            const payload = {
+                sub: name,
+                exp: Math.floor(Date.now() / 1000) + 600, // 过期时间（当前时间戳加10分钟）
+            };
+            const secret = "FineReport2018"
+            const token = KJUR.jws.JWS.sign('', header, payload, secret);
+            console.log('Generated JWT:', token);
+            if (document.getElementById('token').value) {
+                alert(document.getElementById('token').value)
+                return document.getElementById('token').value
+            }
+            return token;
+        }
+        function sso() {
+            //  getThirdToken();
+            Login(genToken('admin'));
+        }
+        function deleteCookie(name) {
+            document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/';
+        }
+
+        $(document).ready(function () {
+            $('#iframe1').attr("src", "http://localhost/assistant");
+        });
+    </script>
+</head>
+
+<body style="margin: 0;padding: 0;">
+    <div>直接访问</div>
+    <iframe id="iframe1" width="100%" height="400" frameborder="no" border="0" marginwidth="0"
+        marginheight="0"></iframe>
+    <div>单点登陆访问</div>
+    <button onclick="sso()">login</button>
+    <input id="token" value="" style="width: 300px" />
+    <button onclick="deleteCookie('fine_auth_token')">logout</button>
+    <iframe id="iframe2" width="100%" height="400" frameborder="no" border="0" marginwidth="0"
+        marginheight="0"></iframe>
+
+</body>
+
+</html>

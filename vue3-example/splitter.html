@@ -1,44 +1,64 @@
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <script src="https://unpkg.com/vue@3"></script>
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/element-plus/dist/index.css"
-    />
-    <script src="https://unpkg.com/element-plus"></script>
-    <title>Element Plus demo</title>
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-      }
-      #app {
-        background-color: antiquewhite;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="app">
-      <div style="height: 100vh;">
-        <el-splitter>
-          <el-splitter-panel size="99%"> {{ message }} </el-splitter-panel>
-          <el-splitter-panel size="1%"> 会抖 </el-splitter-panel>
-        </el-splitter>
-      </div>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <script src="https://unpkg.com/vue@3"></script>
+  <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css" />
+  <script src="https://unpkg.com/element-plus"></script>
+  <title>Element Plus demo</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+    #app {
+      font-size: 1.5rem;
+    }
+    .out {
+      height: 100vh; 
+      background-color: antiquewhite;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <div class="out">
+      <el-splitter>
+        <el-splitter-panel>
+          <p>疑似bug：splitter外层div是height: 100vh的时候，更改右侧panel的宽度，当小于某个数值的时候出现抖动
+          </p>
+          <div>
+            <el-button @click="width++">宽度+1 </el-button>
+            <el-button @click="width=width+10">宽度+10 </el-button>
+            <el-button @click="width--">宽度-1 </el-button>
+            <el-button @click="width=width-10">宽度-10 </el-button>
+            <br>
+            宽度 width：{{ width}}
+          </div>
+        </el-splitter-panel>
+        <el-splitter-panel :size="width+'px'">宽度变小会抖</el-splitter-panel>
+      </el-splitter>
     </div>
-    <script>
-      const App = {
-        data() {
-          return {
-            message: "Element Plus",
-          };
-        },
-      };
-      const app = Vue.createApp(App);
-      app.use(ElementPlus);
-      app.mount("#app");
-    </script>
-  </body>
+  </div>
+  <script>
+    const App = {
+      data() {
+        return {
+          width: 6
+        };
+      },
+      methods: {
+        changeWidth() {
+          this.width = 0;
+        }
+      }
+    };
+    const app = Vue.createApp(App);
+    app.use(ElementPlus);
+    app.mount("#app");
+  </script>
+</body>
+
 </html>

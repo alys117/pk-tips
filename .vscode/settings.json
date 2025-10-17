@@ -34,6 +34,7 @@
         "authProtocol": "default",
         "enableSsl": "Disabled"
       },
+      "ssh": "Disabled",
       "previewLimit": 50,
       "server": "192.168.10.110",
       "port": 3306,
@@ -42,7 +43,7 @@
       "group": "group1",
       "database": "sdbass",
       "username": "root",
-      "password": "ibmdb2"
+      "password": "123.abc"
     }
   ],
   "Codegeex.RepoIndex": true

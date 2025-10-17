@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 const payload = {
-  sub: 'Alice', // 对应 Java 的 setSubject
+  sub: 'admin', // 对应 Java 的 setSubject
   exp: Math.floor((new Date().getTime() + 6000000) / 1000) // 100分钟后的秒级时间戳
 };
 

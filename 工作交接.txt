@@ -1,0 +1,44 @@
+
+【阿里智能外呼接口调用】     潘柯
+代码：/home/aibass/bin/java_tools/aiCallOut/
+部署：（经分内网201）/home/aibass/mailServer/bin/aiCallOut.sh
+
+
+【邮件任务及帆软导出合并】      潘柯
+代码：(经分内网git)/javaTool/emailTask.git
+部署：
+    前台项目：
+        项目：(经分内网150)/opt/apache-tomcat-10.0.23/webapps/bassMMS/
+        数据库： omop
+    
+        数据：(经分内网150)/webData/bassMMS/
+    后台调用：（经分内网201）/home/aibass/mailServer/bin/emailTask.sh
+    项目主要工作：从数据库读取邮件配置，下载帆软报表，合并excel，打包zip，ftp到邮件服务器，插入邮件任务表，维护管理平台会扫描这个表发邮件
+    项目技术点：报表参数可能有自定义的（必传），但没传，下载失败，导致后续poi关于excel的操作失败，一般为读取ooxml头部不完整损坏等
+
+
+【1+N迁移：血缘分析】          潘柯
+(经分内网git)/handover/jingchangjiang_20250920.git/1+N迁移/
+java代码：(经分内网git)/javaTool/tableCarding.git
+web依赖解析小工具
+    代码：(经分内网git)/javaTool/tools.git
+    部署：(经分内网150)/opt/apache-tomcat-10.0.23/webapps/tools/    js 解析     和知识库用户体系一致  只有一个页面  后台bdx50读取 现阶段已废弃 只能手动粘贴解析
+脚本部署:
+    (经分内网201)/home/aibass/mailServer/tableCarding/         java 解析
+    (经分内网150)/home/aspire/tableCarding/
+项目主要工作：把dacp的任务的步骤信息导入到万里开源，
+
+
+【指标行表生成纵表数据加载文件的脚本】    经分   有说明文档   潘柯
+(经分内网git)/handover/jingchangjiang_20250920.git/指标行专列脚本/
+
+
+【tcl转SQL、tcl/SQL转dacp导入xml小工具】    没用到     潘柯
+代码：(经分内网git)/javaTool/tcl2xml.git
+
+
+
+【漏洞修复操作记录参考】     一起和潘柯
+(经分内网git)/handover/jingchangjiang_20250920.git/漏洞修复/
+(卓望OA内网git)/handover/jingchangjiang_20250920.git/MySQL升级整理_20250313.txt           149 用户可以ssh 150    150也可以ssh 149  root
+
